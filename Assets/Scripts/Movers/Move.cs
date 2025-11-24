@@ -10,20 +10,20 @@ public class Move : MonoBehaviour
     [SerializeField] float speed = 5f;
     [SerializeField] Vector3 direction;
     [SerializeField] Animator animator;
-    [SerializeField] InputAction moveRight = new InputAction(type: InputActionType.Button); // Right arrow key
+    [SerializeField] InputAction startMove = new InputAction(type: InputActionType.Button); // Enter arrow key
     private bool isPressed = false;
 
     // Subscribe and unsubscribe to input action events
     void OnEnable()
     {
-        moveRight.Enable();
-        moveRight.performed += OnWalkPressed;
+        startMove.Enable();
+        startMove.performed += OnWalkPressed;
     }
 
     void OnDisable()
     {
-        moveRight.performed -= OnWalkPressed;
-        moveRight.Disable();
+        startMove.performed -= OnWalkPressed;
+        startMove.Disable();
     }
 
     private void OnWalkPressed(InputAction.CallbackContext ctx)

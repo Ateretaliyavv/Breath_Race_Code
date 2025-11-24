@@ -8,6 +8,8 @@ TagManager:
   - BridgeEnd
   - Ground
   - FailureIndication
+  - JumpStart
+  - JumpEnd
   layers:
   - Default
   - TransparentFX
