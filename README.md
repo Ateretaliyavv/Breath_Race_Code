@@ -11,4 +11,4 @@
 Your goal is to pass all gaps and obstacles in order to win.
 In the final version of the game, bridge-building and obstacle-jumping will be controlled using real breath-based techniques.
 
-## eitch.io link - https://ateretaliya.itch.io/ex3
+## eitch.io link - [https://ateretaliya.itch.io/ex3](https://ateretaliya.itch.io/ex4-breath-race)
