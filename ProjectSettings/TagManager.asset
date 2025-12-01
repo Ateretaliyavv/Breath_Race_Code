@@ -10,6 +10,7 @@ TagManager:
   - FailureIndication
   - JumpStart
   - JumpEnd
+  - Star
   layers:
   - Default
   - TransparentFX
