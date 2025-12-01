@@ -14,13 +14,13 @@ public class CollectObjects : MonoBehaviour
         if (!other.CompareTag(triggeringTag))
             return;
 
-            // Get the NumberFieldUI component on the UI text
-            NumberFieldUI uiCounter = StarsCounterText.GetComponent<NumberFieldUI>();
+        // Get the NumberFieldUI component on the UI text
+        NumberFieldUI uiCounter = StarsCounterText.GetComponent<NumberFieldUI>();
 
-            if (uiCounter != null)
-            {
-                uiCounter.AddNumberUI(1);
-            }
+        if (uiCounter != null)
+        {
+            uiCounter.AddNumberUI(1);
+        }
 
         // Remove the collected star from the scene
         Destroy(other.gameObject);
