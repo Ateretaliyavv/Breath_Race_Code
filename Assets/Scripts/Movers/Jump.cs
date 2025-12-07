@@ -67,7 +67,7 @@ public class Jump : MonoBehaviour
 
     private void OnJumpPressed(InputAction.CallbackContext ctx)
     {
-        // נאפשר קפיצה רק אם השחקן באיזור המותר
+        // Enable jumping only if inside a jump zone
         if (IsInsideJumpZone())
         {
             isHeld = true;
@@ -89,7 +89,7 @@ public class Jump : MonoBehaviour
     {
         Vector2 v = rigidBody.linearVelocity;
 
-        // נוודא שגם בזמן ההחזקה אנחנו עדיין באזור קפיצה
+        // Be sure to check both conditions
         if (isHeld && IsInsideJumpZone())
         {
             // While the key is held and we're in a jump zone, move the player up
@@ -105,10 +105,9 @@ public class Jump : MonoBehaviour
         rigidBody.linearVelocity = v;
     }
 
-    /// <summary>
-    /// Returns true if the player is between a JumpStart behind them
-    /// and the closest JumpEnd in front of them (same "segment" logic as the bridge).
-    /// </summary>
+
+    // Returns true if the player is between a JumpStart behind them
+    // and the closest JumpEnd in front of them (same "segment" logic as the bridge).
     private bool IsInsideJumpZone()
     {
         if (jumpStarts == null || jumpStarts.Length == 0 ||
