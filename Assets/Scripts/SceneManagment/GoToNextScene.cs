@@ -20,6 +20,7 @@ public class GotoNextScene : MonoBehaviour
         isLoading = true;
         isNextLevel = true;   // Informing the entire game that the stage is over
 
-        SceneManager.LoadScene(sceneName);
+        // Use central navigator mark as "next level"
+        SceneNavigator.LoadScene(sceneName, markAsNextLevel: isNextLevel);
     }
 }

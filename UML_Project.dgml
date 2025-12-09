@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="" Group="Expanded" Label="" Category="CodeSchema_Namespace" />
+    <Node Id="BridgeBuilder" Label="BridgeBuilder" Category="CodeSchema_Class" />
+    <Node Id="CollectObjects" Label="CollectObjects" Category="CodeSchema_Class" />
+    <Node Id="CameraFollow2D" Label="CameraFollow2D" Category="CodeSchema_Class" />
+    <Node Id="GameOverStars" Label="GameOverStars" Category="CodeSchema_Class" />
+    <Node Id="GotoNextScene" Label="GotoNextScene" Category="CodeSchema_Class" />
+    <Node Id="NumberFieldUI" Label="NumberFieldUI" Category="CodeSchema_Class" />
+    <Node Id="StarsNumberKeeper" Label="StarsNumberKeeper" Category="CodeSchema_Class" />
+    <Node Id="Jump" Label="Jump" Category="CodeSchema_Class" />
+    <Node Id="Move" Label="Move" Category="CodeSchema_Class" />
+    <Node Id="SimpleMove" Label="SimpleMove" Category="CodeSchema_Class" />
+    <Node Id="GoToSceneByClick" Label="GoToSceneByClick" Category="CodeSchema_Class" />
+    <Node Id="TutorialCameraFollow" Label="TutorialCameraFollow" Category="CodeSchema_Class" />
+    <Node Id="TutorialManager" Label="TutorialManager" Category="CodeSchema_Class" />
+    <Node Id="TutorialTrigger" Label="TutorialTrigger" Category="CodeSchema_Class" />
+    <Node Id="Readme" Label="Readme" Category="CodeSchema_Class" />
+    <Node Id="Readme" Group="Expanded" Label="Readme" Category="CodeSchema_Namespace" />
+    <Node Id="Readme.Section" Label="Section" Category="CodeSchema_Class" Group="Readme" />
+  </Nodes>
+  <Links>
+    <Link Source="" Target="BridgeBuilder" Category="Contains" />
+    <Link Source="" Target="CollectObjects" Category="Contains" />
+    <Link Source="" Target="CameraFollow2D" Category="Contains" />
+    <Link Source="" Target="GameOverStars" Category="Contains" />
+    <Link Source="" Target="GotoNextScene" Category="Contains" />
+    <Link Source="" Target="NumberFieldUI" Category="Contains" />
+    <Link Source="" Target="StarsNumberKeeper" Category="Contains" />
+    <Link Source="" Target="Jump" Category="Contains" />
+    <Link Source="" Target="Move" Category="Contains" />
+    <Link Source="" Target="SimpleMove" Category="Contains" />
+    <Link Source="" Target="GoToSceneByClick" Category="Contains" />
+    <Link Source="" Target="TutorialCameraFollow" Category="Contains" />
+    <Link Source="" Target="TutorialManager" Category="Contains" />
+    <Link Source="" Target="TutorialTrigger" Category="Contains" />
+    <Link Source="" Target="Readme" Category="Contains" />
+    <Link Source="" Target="Readme" Category="Contains" />
+    <Link Source="Readme" Target="Readme.Section" Category="Contains" />
+    <Link Source="CollectObjects" Target="NumberFieldUI" Category="Uses" />
+    <Link Source="TutorialManager" Target="Move" Category="Composes" />
+    <Link Source="TutorialManager" Target="Jump" Category="Composes" />
+    <Link Source="TutorialManager" Target="BridgeBuilder" Category="Composes" />
+    <Link Source="TutorialTrigger" Target="TutorialManager" Category="Composes" />
+  </Links>
+  <Categories>
+    <Category Id="Contains" />
+    <Category Id="Inheritance" Background="#FF00FF00" />
+    <Category Id="Implementation" Background="#FFFFFF00" />
+    <Category Id="Composes" Background="#FF008000" />
+    <Category Id="Aggregates" Background="#FFFFA500" />
+    <Category Id="Uses" Background="#FF000000" />
+  </Categories>
+  <Styles>
+    <Style TargetType="Link" GroupLabel="Inherits" ValueLabel="True">
+      <Condition Expression="HasCategory('Inherits')" />
+      <Setter Property="Stroke" Value="#FF000000" />
+      <Setter Property="StrokeThickness" Value="2" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Implements" ValueLabel="True">
+      <Condition Expression="HasCategory('Implements')" />
+      <Setter Property="Stroke" Value="#FF000000" />
+      <Setter Property="StrokeThickness" Value="2" />
+      <Setter Property="StrokeDashArray" Value="4,2" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Composes" ValueLabel="True">
+      <Condition Expression="HasCategory('Composes')" />
+      <Setter Property="Stroke" Value="#FFFFA500" />
+      <Setter Property="StrokeThickness" Value="1" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Aggregates" ValueLabel="True">
+      <Condition Expression="HasCategory('Aggregates')" />
+      <Setter Property="Stroke" Value="#FFFFA500" />
+      <Setter Property="StrokeThickness" Value="1" />
+      <Setter Property="StrokeDashArray" Value="2,4" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Uses" ValueLabel="True">
+      <Condition Expression="HasCategory('Uses')" />
+      <Setter Property="Stroke" Value="#FF000000" />
+      <Setter Property="StrokeThickness" Value="1" />
+      <Setter Property="StrokeDashArray" Value="1,2" />
+    </Style>
+  </Styles>
+</DirectedGraph>

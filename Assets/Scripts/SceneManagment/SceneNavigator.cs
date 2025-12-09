@@ -1,0 +1,38 @@
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+/*
+ * This is a static utility class.
+ * All scene changes in the project go through this class.
+ */
+public static class SceneNavigator
+{
+    // Global flag indicates whether the transition was to the next level
+    public static bool IsNextLevel { get; private set; }
+
+    // Loads a scene by name
+    // If markAsNextLevel is true, this transition is saved as "next level"
+    public static void LoadScene(string sceneName, bool markAsNextLevel)
+    {
+        if (string.IsNullOrEmpty(sceneName))
+        {
+            Debug.LogError("SceneNavigator: sceneName is empty!");
+            return;
+        }
+
+        // Mark the transition as a next-level transition if needed
+        if (markAsNextLevel)
+        {
+            IsNextLevel = true;
+        }
+
+        // Load the scene
+        SceneManager.LoadScene(sceneName);
+    }
+
+    // Resets the next-level flag
+    public static void ResetNextLevelFlag()
+    {
+        IsNextLevel = false;
+    }
+}

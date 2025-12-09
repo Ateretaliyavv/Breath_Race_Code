@@ -1,33 +1,25 @@
-using UnityEngine;
-using UnityEngine.SceneManagement;
-
-/**
- * 2D Camera:
- * - Moves forward on X at a constant speed, but only while the player is walking (IsWalking in Animator).
- * - Follows the player's Y smoothly when moving.
- * - If the player stays out of camera view for some time it is Game Over.
- */
+﻿using UnityEngine;
 
 [RequireComponent(typeof(Camera))]
-public class TutorialCameraFollow : MonoBehaviour
+public class CameraFollow2D : MonoBehaviour
 {
     [Header("Follow Target")]
-    [SerializeField] Transform target;      // Player to follow
-    [SerializeField] Vector3 offset;        // Offset mainly for Y
+    [SerializeField] private Transform target;      // Player to follow
+    [SerializeField] private Vector3 offset;        // Mainly for Y
 
     [Header("Vertical Follow")]
-    [SerializeField] float verticalSmoothTime = 0.2f;
+    [SerializeField] private float verticalSmoothTime = 0.2f;
 
     [Header("Horizontal Scroll")]
-    [SerializeField] float cameraSpeedX = 5f;     // Put the same value as Move.speed
-
-    [Header("Game Over")]
-    [SerializeField] string gameOverSceneName = "GameOverScene";
-    [SerializeField] float outOfViewThreshold = 0.5f;
+    [SerializeField] private float cameraSpeedX = 5f;
 
     [Header("Player Animation")]
-    [SerializeField] Animator playerAnimator;          // Animator that has "IsWalking"
-    [SerializeField] string isWalkingParam = "isWalking";
+    [SerializeField] private Animator playerAnimator;     // Animator with Idle state
+    [SerializeField] private string idleStateName = "Idle";
+
+    [Header("Game Over")]
+    [SerializeField] private string gameOverSceneName = "GameOver";
+    [SerializeField] private float outOfViewThreshold = 0.5f;
 
     private float verticalVelocity;
     private Camera cam;
@@ -41,14 +33,12 @@ public class TutorialCameraFollow : MonoBehaviour
 
     private void Start()
     {
-        // Auto-find Animator if not assigned in Inspector
+        // Try to auto-find the animator on the player
         if (playerAnimator == null && target != null)
         {
             playerAnimator = target.GetComponent<Animator>();
             if (playerAnimator == null)
-            {
                 playerAnimator = target.GetComponentInChildren<Animator>();
-            }
         }
     }
 
@@ -57,20 +47,17 @@ public class TutorialCameraFollow : MonoBehaviour
         if (!target || gameOverTriggered)
             return;
 
-        bool isWalking = false;
-        if (playerAnimator != null && !string.IsNullOrEmpty(isWalkingParam))
-        {
-            isWalking = playerAnimator.GetBool(isWalkingParam);
-        }
+        bool isIdle = IsPlayerIdle();
 
-        // Move camera only while player is walking
-        if (isWalking)
+        // Move the camera only when the player is NOT idle
+        if (!isIdle)
         {
-            // Move the camera forward on X at a constant speed
             Vector3 pos = transform.position;
+
+            // Constant forward movement on X
             pos.x += cameraSpeedX * Time.deltaTime;
 
-            // Smoothly follow the player's Y
+            // Smooth follow on Y
             float targetY = target.position.y + offset.y;
             pos.y = Mathf.SmoothDamp(
                 pos.y,
@@ -83,7 +70,23 @@ public class TutorialCameraFollow : MonoBehaviour
             transform.position = pos;
         }
 
-        // Check if the player is still inside the camera view
+        // Game Over check
+        CheckOutOfViewAndHandleGameOver();
+    }
+
+    // Returns true if the player is currently in the Idle animation state
+    private bool IsPlayerIdle()
+    {
+        if (playerAnimator == null)
+            return false;
+
+        AnimatorStateInfo stateInfo = playerAnimator.GetCurrentAnimatorStateInfo(0);
+        return stateInfo.IsName(idleStateName);
+    }
+
+    // Checks if the player left the camera view and triggers Game Over
+    private void CheckOutOfViewAndHandleGameOver()
+    {
         Vector3 viewPos = cam.WorldToViewportPoint(target.position);
 
         bool isOutOfView =
@@ -98,7 +101,9 @@ public class TutorialCameraFollow : MonoBehaviour
             if (outOfViewTimer >= outOfViewThreshold)
             {
                 gameOverTriggered = true;
-                SceneManager.LoadScene(gameOverSceneName);
+
+                //Centralized scene loading
+                SceneNavigator.LoadScene(gameOverSceneName, markAsNextLevel: false);
             }
         }
         else

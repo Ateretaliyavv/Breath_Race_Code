@@ -6,22 +6,22 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/MainScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
-    path: Assets/Scenes/WinScene.unity
-    guid: ff4f6560833fdba4aa174de0a27f06b5
-  - enabled: 1
-    path: Assets/Scenes/GameOverScene.unity
-    guid: bfe36c88a674e554ba59f3cb22bbc881
-  - enabled: 1
-    path: Assets/Scenes/TutorialWinScene.unity
-    guid: 7529d92f8edc0be4891c35d454e1f390
-  - enabled: 1
-    path: Assets/Scenes/Tutorial.unity
+    path: Assets/Scenes/TutorialLevelScenes/Tutorial.unity
     guid: d8c62fa2df898754fa7b80d4e8dd5add
   - enabled: 1
-    path: Assets/Scenes/TutorialGameOver.unity
+    path: Assets/Scenes/MainLevelScenes/MainScene.unity
+    guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/TutorialLevelScenes/TutorialWinScene.unity
+    guid: 7529d92f8edc0be4891c35d454e1f390
+  - enabled: 1
+    path: Assets/Scenes/MainLevelScenes/WinScene.unity
+    guid: ff4f6560833fdba4aa174de0a27f06b5
+  - enabled: 1
+    path: Assets/Scenes/MainLevelScenes/GameOverScene.unity
+    guid: bfe36c88a674e554ba59f3cb22bbc881
+  - enabled: 1
+    path: Assets/Scenes/TutorialLevelScenes/TutorialGameOver.unity
     guid: 32e1595d92cf9744880bdd9b15d83909
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

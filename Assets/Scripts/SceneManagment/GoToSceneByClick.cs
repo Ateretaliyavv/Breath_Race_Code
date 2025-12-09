@@ -10,13 +10,7 @@ public class GoToSceneByClick : MonoBehaviour
 
     public void LoadGameScene()
     {
-        if (!string.IsNullOrEmpty(sceneToLoad))
-        {
-            SceneManager.LoadScene(sceneToLoad);
-        }
-        else
-        {
-            Debug.LogError("No scene name assigned in the Inspector!");
-        }
+        // For menu buttons we usually do NOT mark "next level"
+        SceneNavigator.LoadScene(sceneToLoad, markAsNextLevel: false);
     }
 }

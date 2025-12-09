@@ -1896,6 +1896,8 @@ MonoBehaviour:
   offset: {x: 8, y: 0.8, z: 0}
   verticalSmoothTime: 0.2
   cameraSpeedX: 4.8
+  playerAnimator: {fileID: 1325430616}
+  idleStateName: Idle
   gameOverSceneName: GameOverScene
   outOfViewThreshold: 0.5
 --- !u!1 &343599559
@@ -7122,6 +7124,7 @@ MonoBehaviour:
       m_Action: Start Move
       m_Flags: 0
     m_Flags: 0
+  isPressedUI: 0
 --- !u!50 &1325430620
 Rigidbody2D:
   serializedVersion: 5
