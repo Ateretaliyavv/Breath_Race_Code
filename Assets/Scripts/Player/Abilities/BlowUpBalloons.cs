@@ -67,12 +67,6 @@ public class BlowUpBalloons : MonoBehaviour
         BlowUpButton.performed -= OnBlowPressed;
         BlowUpButton.Disable();
 
-        //foreach (SimpleMove s in simpleMove)
-        //{
-        //    if (simpleMove != null)
-        //        s.enabled = false;
-        //}
-
     }
 
     private void OnBlowPressed(InputAction.CallbackContext ctx)
