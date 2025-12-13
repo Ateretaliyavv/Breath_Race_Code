@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GameOverStars : MonoBehaviour
 {
-    [SerializeField] private TextMeshPro starsText;
+    [SerializeField] private TextMeshProUGUI starsText;
 
     private void Start()
     {

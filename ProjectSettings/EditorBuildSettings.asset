@@ -23,6 +23,39 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TutorialLevelScenes/TutorialGameOver.unity
     guid: 32e1595d92cf9744880bdd9b15d83909
+  - enabled: 1
+    path: Assets/Scenes/OpenScene/OpenScene.unity
+    guid: 74bf2e87fe6b47b4c96f8b0ad53acb21
+  - enabled: 1
+    path: Assets/Scenes/Level_1/MainSceneLevel1.unity
+    guid: 0f843b12fbc616444a216a43989d3335
+  - enabled: 1
+    path: Assets/Scenes/Level_2/MainSceneLevel2.unity
+    guid: 977196c7ee5dc454196d58915039424a
+  - enabled: 1
+    path: Assets/Scenes/Level_3/MainSceneLevel3.unity
+    guid: 820d1c93c8547e74cb7d26ef77e2649c
+  - enabled: 1
+    path: Assets/Scenes/Balloons.unity
+    guid: 1ea61f0843a916441a9271f6db65ea40
+  - enabled: 1
+    path: Assets/Scenes/Level_1/GameOver1.unity
+    guid: a7c02501c0252c74d8ca41c1f0049486
+  - enabled: 1
+    path: Assets/Scenes/Level_1/WinLevel 1.unity
+    guid: 647a54b7ae048924cb0307ad3200a3aa
+  - enabled: 1
+    path: Assets/Scenes/Level_2/GameOver2.unity
+    guid: 8cfd9cb21ec0dff4a867541e580a9e7c
+  - enabled: 1
+    path: Assets/Scenes/Level_3/WinLevel3.unity
+    guid: fbf86aea83fb43d4788bd403c26c0542
+  - enabled: 1
+    path: Assets/Scenes/Level_3/GameOver3.unity
+    guid: 6cfa9b8496fe29341b2f21b308eb50b2
+  - enabled: 1
+    path: Assets/Scenes/Level_2/WinLevel2.unity
+    guid: ac60a3e8cdb33554da460a6c2e97c3a6
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

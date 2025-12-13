@@ -1416,7 +1416,7 @@ MonoBehaviour:
   cameraSpeedX: 4.9
   playerAnimator: {fileID: 1379212108}
   idleStateName: Idle
-  gameOverSceneName: TutorialGameOver
+  gameOverSceneName: GameOver2
   outOfViewThreshold: 0.5
 --- !u!1 &197757146
 GameObject:
@@ -112613,7 +112613,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GotoNextScene
   triggeringTag: Finish
-  sceneName: TutorialWinScene
+  sceneName: WinLevel2
 --- !u!114 &1379212103
 MonoBehaviour:
   m_ObjectHideFlags: 0
