@@ -528,7 +528,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 481279993f555ac4c85198a11aa07b18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GoToSceneByClick
-  sceneToLoad: MainSceneLevel1
+  sceneToLoad: MainSceneLevel2
 --- !u!1 &315170082
 GameObject:
   m_ObjectHideFlags: 0
