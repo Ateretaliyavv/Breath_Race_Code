@@ -13,7 +13,7 @@ public class BlowUpBalloons : MonoBehaviour
     [SerializeField] private string blowStartTag = "BlowStart";
 
     [Header("Blow Distance")]
-    [SerializeField] private float maxBlowDistanceX = 20f;
+    [SerializeField] private float maxBlowDistanceX = 10f;
 
     // All BlowStart objects in the scene
     private Transform[] blowStarts;
