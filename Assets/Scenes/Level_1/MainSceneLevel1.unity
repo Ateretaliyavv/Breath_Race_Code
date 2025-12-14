@@ -10766,25 +10766,17 @@ MonoBehaviour:
   - {fileID: 1602059210}
   - {fileID: 567698622}
   - {fileID: 420672601}
-  BlowUpButton:
+  blowUpButton:
     m_Name: Blow Up Button
     m_Type: 1
     m_ExpectedControlType: 
-    m_Id: 7accc180-619b-4c4f-aabd-75cb78d2eb57
+    m_Id: f5e18a79-7e7b-44db-8881-9634a9ad53e7
     m_Processors: 
     m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: f4e36316-ef47-43bf-95bc-3da9c2f17bf5
-      m_Path: <Keyboard>/space
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Blow Up Button
-      m_Flags: 0
+    m_SingletonActionBindings: []
     m_Flags: 0
   blowStartTag: BlowStart
-  blowEndTag: BlowEnd
+  maxBlowDistanceX: 20
 --- !u!1 &922515723
 GameObject:
   m_ObjectHideFlags: 0
@@ -10814,7 +10806,8 @@ Transform:
   m_LocalPosition: {x: 318, y: -0.35443002, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1383679166}
   m_Father: {fileID: 1313407814}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &922515726
@@ -11977,7 +11970,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 922515724}
-  - {fileID: 1383679166}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1383679165
@@ -12005,11 +11997,11 @@ Transform:
   m_GameObject: {fileID: 1383679165}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 335, y: -0.35443002, z: 0}
+  m_LocalPosition: {x: 17, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1313407814}
+  m_Father: {fileID: 922515724}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1392790662
 GameObject:

@@ -9,57 +9,48 @@ public class BlowUpBalloons : MonoBehaviour
     [Header("Blow Up Button")]
     [SerializeField] private InputAction blowUpButton = new InputAction(type: InputActionType.Button);
 
-    [Header("Blow Up Zone Tags")]
+    [Header("Blow Zone Tags")]
     [SerializeField] private string blowStartTag = "BlowStart";
-    [SerializeField] private string blowEndTag = "BlowEnd";
 
     [Header("Blow Distance")]
     [SerializeField] private float maxBlowDistanceX = 20f;
 
+    // All BlowStart objects in the scene
     private Transform[] blowStarts;
-    private Transform[] blowEnds;
 
-    // True only while key is pressed and we are inside a valid blow zone
-    private bool isHeld = false;
+    // For each balloon: should it blow in the current zone after a valid press
+    private bool[] balloonShouldBlow;
 
-    // These are used internally by IsInsideBlowZone
-    private float currentZoneStartX = float.NegativeInfinity;
-    private float currentZoneEndX = float.PositiveInfinity;
+    // True if the player has pressed the blow button at least once
+    // while inside a valid blow zone and with at least one balloon in front
+    private bool blowTriggered = false;
 
     private void Awake()
     {
-        if (simpleMove == null)
+        if (simpleMove != null && simpleMove.Length > 0)
         {
-            Debug.LogError("BlowUpBalloons: simpleMove array is not assigned on " + gameObject.name);
-        }
-        else
-        {
-            // Disable all movement scripts at start
+            balloonShouldBlow = new bool[simpleMove.Length];
+
             foreach (SimpleMove s in simpleMove)
             {
                 if (s != null)
                     s.enabled = false;
             }
         }
+        else
+        {
+            Debug.LogWarning("BlowUpBalloons: simpleMove array is empty or null on " + gameObject.name);
+        }
 
-        // Find all BlowStart and BlowEnd markers in the scene
+        // Find all BlowStart markers in the scene
         GameObject[] startObjs = GameObject.FindGameObjectsWithTag(blowStartTag);
-        GameObject[] endObjs = GameObject.FindGameObjectsWithTag(blowEndTag);
-
         blowStarts = new Transform[startObjs.Length];
-        blowEnds = new Transform[endObjs.Length];
 
         for (int i = 0; i < startObjs.Length; i++)
             blowStarts[i] = startObjs[i].transform;
 
-        for (int i = 0; i < endObjs.Length; i++)
-            blowEnds[i] = endObjs[i].transform;
-
         if (blowStarts.Length == 0)
-            Debug.LogWarning("BlowUpBalloons: No objects found with tag " + blowStartTag);
-
-        if (blowEnds.Length == 0)
-            Debug.LogWarning("BlowUpBalloons: No objects found with tag " + blowEndTag);
+            Debug.LogWarning("BlowUpBalloons: No BlowStart objects found.");
     }
 
     private void OnEnable()
@@ -72,112 +63,150 @@ public class BlowUpBalloons : MonoBehaviour
     {
         blowUpButton.performed -= OnBlowPressed;
         blowUpButton.Disable();
+
+        blowTriggered = false;
+        ResetBalloons();
     }
 
     private void OnBlowPressed(InputAction.CallbackContext ctx)
     {
-        // Allow blowing only if inside a valid blow zone when the key is pressed
-        if (IsInsideBlowZone())
+        // A single press is only valid if:
+        // 1) The player is inside a blow zone
+        // 2) There is at least one balloon in front of the player within maxBlowDistanceX
+        if (!IsInsideBlowZone())
         {
-            isHeld = true;
-            Debug.Log("BlowUpBalloons: blow started inside blow zone");
+            Debug.Log("BlowUpBalloons: blow pressed outside blow zone (ignored)");
+            return;
+        }
+
+        if (simpleMove == null || simpleMove.Length == 0)
+            return;
+
+        float playerX = transform.position.x;
+        bool anyBalloonInFront = false;
+
+        // Reset previous selection
+        for (int i = 0; i < balloonShouldBlow.Length; i++)
+            balloonShouldBlow[i] = false;
+
+        // Check only at press time which balloons are in front and within distance
+        for (int i = 0; i < simpleMove.Length; i++)
+        {
+            SimpleMove s = simpleMove[i];
+            if (s == null)
+                continue;
+
+            float balloonX = s.transform.position.x;
+            float distanceX = balloonX - playerX;
+
+            if (distanceX > 0 && distanceX <= maxBlowDistanceX)
+            {
+                balloonShouldBlow[i] = true;
+                anyBalloonInFront = true;
+            }
+        }
+
+        if (anyBalloonInFront)
+        {
+            blowTriggered = true;
+            Debug.Log("BlowUpBalloons: blow triggered with balloons in front");
         }
         else
         {
-            isHeld = false;
-            Debug.Log("BlowUpBalloons: blow started outside blow zone");
+            blowTriggered = false;
+            Debug.Log("BlowUpBalloons: no balloons in front within distance, blow ignored");
         }
     }
 
     private void Update()
     {
-        if (simpleMove == null)
+        if (simpleMove == null || simpleMove.Length == 0)
             return;
 
-        // If key is not held, disable all balloons
-        if (!isHeld)
-        {
-            foreach (SimpleMove s in simpleMove)
-            {
-                if (s != null)
-                    s.enabled = false;
-            }
-            return;
-        }
-
-        // Check if player is still inside a valid blow zone
         bool insideZone = IsInsideBlowZone();
+
+        // If player leaves the zone, stop blowing and reset trigger and selection
         if (!insideZone)
         {
-            foreach (SimpleMove s in simpleMove)
-            {
-                if (s != null)
-                    s.enabled = false;
-            }
+            blowTriggered = false;
+            ResetBalloons();
             return;
         }
 
-        // Enable movement only for balloons close enough on the X axis
-        float playerX = transform.position.x;
-
-        foreach (SimpleMove s in simpleMove)
+        // Player is inside a zone, but blow was not triggered here
+        if (!blowTriggered)
         {
+            ResetBalloons();
+            return;
+        }
+
+        // Player is inside a zone and blow was triggered in this zone:
+        // keep balloons moving according to the selection made at press time,
+        // even if the player moved past them.
+        for (int i = 0; i < simpleMove.Length; i++)
+        {
+            SimpleMove s = simpleMove[i];
             if (s == null)
                 continue;
 
-            float balloonX = s.transform.position.x;
-            float distanceX = Mathf.Abs(balloonX - playerX);
-
-            bool shouldBlow = distanceX <= maxBlowDistanceX;
-            s.enabled = shouldBlow;
+            s.enabled = balloonShouldBlow[i];
         }
     }
 
-    // Returns true if the player is between a BlowStart behind it
-    // and the closest BlowEnd in front of it
+    private void ResetBalloons()
+    {
+        if (simpleMove == null)
+            return;
+
+        foreach (SimpleMove s in simpleMove)
+        {
+            if (s != null)
+                s.enabled = false;
+        }
+
+        if (balloonShouldBlow != null)
+        {
+            for (int i = 0; i < balloonShouldBlow.Length; i++)
+                balloonShouldBlow[i] = false;
+        }
+    }
+
+    // Each BlowStart has its own BlowEnd as a child.
+    // Player must be between parent.x and child.x.
     private bool IsInsideBlowZone()
     {
-        if (blowStarts == null || blowStarts.Length == 0 ||
-            blowEnds == null || blowEnds.Length == 0)
+        if (blowStarts == null || blowStarts.Length == 0)
             return false;
 
         float playerX = transform.position.x;
 
-        // Find the last BlowStart behind or at the player
-        float lastStartX = float.NegativeInfinity;
-        foreach (Transform s in blowStarts)
+        foreach (Transform start in blowStarts)
         {
-            if (s == null) continue;
-            if (s.position.x <= playerX && s.position.x > lastStartX)
-                lastStartX = s.position.x;
+            if (start == null)
+                continue;
+
+            Transform end = null;
+
+            if (start.childCount > 0)
+            {
+                end = start.GetChild(0);
+            }
+            else
+            {
+                Debug.LogWarning("BlowStart " + start.name + " has no BlowEnd child.");
+                continue;
+            }
+
+            float x1 = start.position.x;
+            float x2 = end.position.x;
+
+            float minX = Mathf.Min(x1, x2);
+            float maxX = Mathf.Max(x1, x2);
+
+            if (playerX >= minX && playerX <= maxX)
+                return true;
         }
 
-        if (lastStartX == float.NegativeInfinity)
-        {
-            currentZoneStartX = float.NegativeInfinity;
-            currentZoneEndX = float.PositiveInfinity;
-            return false;
-        }
-
-        // Find the closest BlowEnd ahead of or at the player
-        float nextEndX = float.PositiveInfinity;
-        foreach (Transform e in blowEnds)
-        {
-            if (e == null) continue;
-            if (e.position.x >= playerX && e.position.x < nextEndX)
-                nextEndX = e.position.x;
-        }
-
-        if (nextEndX == float.PositiveInfinity)
-        {
-            currentZoneStartX = float.NegativeInfinity;
-            currentZoneEndX = float.PositiveInfinity;
-            return false;
-        }
-
-        currentZoneStartX = lastStartX;
-        currentZoneEndX = nextEndX;
-
-        return playerX >= lastStartX && playerX <= nextEndX;
+        return false;
     }
 }

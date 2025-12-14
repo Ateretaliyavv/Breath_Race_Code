@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 /*
  * Makes the player rise while the jump key is held,
  * BUT ONLY when the player is inside a "jump zone"
- * between objects tagged JumpStart and JumpEnd.
+ * defined between a JumpStart and its child JumpEnd.
  */
 public class Jump : MonoBehaviour
 {
@@ -20,35 +20,25 @@ public class Jump : MonoBehaviour
 
     [Header("Jump Zone Tags")]
     [SerializeField] private string jumpStartTag = "JumpStart";
-    [SerializeField] private string jumpEndTag = "JumpEnd";
+    [SerializeField] private string jumpEndTag = "JumpEnd"; // optional, used to find the child
 
-    // arrays of all JumpStart / JumpEnd markers in the scene
+    // All JumpStart transforms in the scene
     private Transform[] jumpStarts;
-    private Transform[] jumpEnds;
 
-    // true only while key is held *and* we are in a valid jump zone
+    // true only while key is held and we are in a valid jump zone
     private bool isHeld = false;
 
     private void Awake()
     {
-        // Find all JumpStart and JumpEnd objects by tag
+        // Find all JumpStart objects by tag
         GameObject[] startObjs = GameObject.FindGameObjectsWithTag(jumpStartTag);
-        GameObject[] endObjs = GameObject.FindGameObjectsWithTag(jumpEndTag);
-
         jumpStarts = new Transform[startObjs.Length];
-        jumpEnds = new Transform[endObjs.Length];
 
         for (int i = 0; i < startObjs.Length; i++)
             jumpStarts[i] = startObjs[i].transform;
 
-        for (int i = 0; i < endObjs.Length; i++)
-            jumpEnds[i] = endObjs[i].transform;
-
         if (jumpStarts.Length == 0)
             Debug.LogWarning("Jump: No objects found with tag " + jumpStartTag);
-
-        if (jumpEnds.Length == 0)
-            Debug.LogWarning("Jump: No objects found with tag " + jumpEndTag);
     }
 
     void OnEnable()
@@ -67,7 +57,6 @@ public class Jump : MonoBehaviour
 
     private void OnJumpPressed(InputAction.CallbackContext ctx)
     {
-        // Enable jumping only if inside a jump zone
         if (IsInsideJumpZone())
         {
             isHeld = true;
@@ -89,60 +78,68 @@ public class Jump : MonoBehaviour
     {
         Vector2 v = rigidBody.linearVelocity;
 
-        // Be sure to check both conditions
         if (isHeld && IsInsideJumpZone())
         {
-            // While the key is held and we're in a jump zone, move the player up
             v.y = riseSpeed;
             animator.SetBool("isJumping", true);
         }
         else
         {
-            // When key not held or not in zone – let gravity act
             animator.SetBool("isJumping", false);
         }
 
         rigidBody.linearVelocity = v;
     }
 
-
-    // Returns true if the player is between a JumpStart behind them
-    // and the closest JumpEnd in front of them (same "segment" logic as the bridge).
+    // Returns true if the player is inside any jump zone.
+    // Each jump zone is defined by a JumpStart and its child JumpEnd.
     private bool IsInsideJumpZone()
     {
-        if (jumpStarts == null || jumpStarts.Length == 0 ||
-            jumpEnds == null || jumpEnds.Length == 0)
+        if (jumpStarts == null || jumpStarts.Length == 0)
             return false;
 
         float playerX = transform.position.x;
 
-        // Find the last JumpStart behind (<= playerX)
-        float lastStartX = float.NegativeInfinity;
-        foreach (Transform s in jumpStarts)
+        foreach (Transform start in jumpStarts)
         {
-            if (s == null) continue;
-            if (s.position.x <= playerX && s.position.x > lastStartX)
-                lastStartX = s.position.x;
+            if (start == null)
+                continue;
+
+            // Find the corresponding JumpEnd: either the first child,
+            // or specifically the child with the jumpEndTag.
+            Transform end = null;
+
+            // Option A: first child is the end point
+            if (start.childCount > 0)
+                end = start.GetChild(0);
+
+            // Option B (safer): look for a child with tag jumpEndTag
+            for (int i = 0; i < start.childCount; i++)
+            {
+                Transform child = start.GetChild(i);
+                if (child.CompareTag(jumpEndTag))
+                {
+                    end = child;
+                    break;
+                }
+            }
+
+            if (end == null)
+            {
+                Debug.LogWarning("Jump: JumpStart " + start.name + " has no JumpEnd child");
+                continue;
+            }
+
+            float x1 = start.position.x;
+            float x2 = end.position.x;
+
+            float minX = Mathf.Min(x1, x2);
+            float maxX = Mathf.Max(x1, x2);
+
+            if (playerX >= minX && playerX <= maxX)
+                return true;
         }
 
-        // If we didn't pass any JumpStart yet – not allowed
-        if (lastStartX == float.NegativeInfinity)
-            return false;
-
-        // Find the closest JumpEnd *ahead or at* playerX
-        float nextEndX = float.PositiveInfinity;
-        foreach (Transform e in jumpEnds)
-        {
-            if (e == null) continue;
-            if (e.position.x >= playerX && e.position.x < nextEndX)
-                nextEndX = e.position.x;
-        }
-
-        // If there's no JumpEnd ahead – not allowed
-        if (nextEndX == float.PositiveInfinity)
-            return false;
-
-        // We are between JumpStart and JumpEnd
-        return playerX >= lastStartX && playerX <= nextEndX;
+        return false;
     }
 }
