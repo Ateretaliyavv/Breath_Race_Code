@@ -10774,15 +10774,7 @@ MonoBehaviour:
     m_Id: f5e18a79-7e7b-44db-8881-9634a9ad53e7
     m_Processors: 
     m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: dbac053a-a64f-4c9c-a42d-fc15eb5ed70b
-      m_Path: <Keyboard>/space
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Blow Up Button
-      m_Flags: 0
+    m_SingletonActionBindings: []
     m_Flags: 0
   blowStartTag: BlowStart
   maxBlowDistanceX: 20
