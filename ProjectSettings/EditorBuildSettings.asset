@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/OpenScene/OpenScene.unity
+    path: Assets/Scenes/StartScene/OpenScene.unity
     guid: 74bf2e87fe6b47b4c96f8b0ad53acb21
   - enabled: 1
     path: Assets/Scenes/TutorialLevelScenes/Tutorial.unity
@@ -14,16 +14,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainLevelScenes/MainScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/TutorialLevelScenes/TutorialWinScene.unity
     guid: 7529d92f8edc0be4891c35d454e1f390
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/MainLevelScenes/WinScene.unity
     guid: ff4f6560833fdba4aa174de0a27f06b5
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/MainLevelScenes/GameOverScene.unity
     guid: bfe36c88a674e554ba59f3cb22bbc881
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/TutorialLevelScenes/TutorialGameOver.unity
     guid: 32e1595d92cf9744880bdd9b15d83909
   - enabled: 1

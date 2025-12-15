@@ -5,44 +5,46 @@ using UnityEngine.UI;
 public class GetSuprise : MonoBehaviour
 {
     [Header("Collision Settings")]
-    [SerializeField] private GameObject targetObject;   // The other object to detect
+    [SerializeField] private GameObject targetObject;   // Object we monitor moving on X
 
     [Header("UI References")]
-    [SerializeField] private GameObject messagePanel;   // Panel that holds text + button
+    [SerializeField] private GameObject messagePanel;
     [SerializeField] private TextMeshProUGUI messageText;
     [SerializeField] private Button actionButton;
 
     [Header("Messages")]
     [TextArea]
-    [SerializeField] private string[] messages;         // List of possible messages
+    [SerializeField] private string[] messages;
 
     private bool hasTriggered = false;
 
     private void Start()
     {
-        // Hide the panel at the beginning
         if (messagePanel != null)
             messagePanel.SetActive(false);
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void Update()
     {
-        // Check that the trigger is with the specific target object
-        if (other.gameObject != targetObject)
-            return;
-
         if (hasTriggered)
             return;
 
-        hasTriggered = true;
-        ShowRandomMessage();
+        if (targetObject == null)
+            return;
+
+        // Check if target passed the X position of this object
+        if (targetObject.transform.position.x >= transform.position.x)
+        {
+            hasTriggered = true;
+            ShowRandomMessage();
+        }
     }
 
     private void ShowRandomMessage()
     {
         if (messages == null || messages.Length == 0)
         {
-            Debug.LogWarning("CollisionMessageUI: No messages defined.");
+            Debug.LogWarning("GetSuprise: No messages defined.");
             return;
         }
 
