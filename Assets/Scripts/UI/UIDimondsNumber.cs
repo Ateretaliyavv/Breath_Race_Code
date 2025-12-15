@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-public class GameOverStars : MonoBehaviour
+public class UIDimondsNumber : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI starsText;
 
@@ -11,6 +11,7 @@ public class GameOverStars : MonoBehaviour
         int stars = StarsNumberKeeper.StarsCollected;
 
         // Update the text to show the number of stars collected
-        starsText.text = stars.ToString();
+        if (starsText != null)
+            starsText.text = stars.ToString();
     }
 }
