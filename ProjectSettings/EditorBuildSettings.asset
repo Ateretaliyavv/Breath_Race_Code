@@ -53,6 +53,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SurpriseScene/Surprise.unity
     guid: 9aee639cb478b6a43a7c44ee89b03cc9
+  - enabled: 1
+    path: Assets/Scenes/SurpriseScene/ExpandBalloon.unity
+    guid: 05a892fe8c44b804fa6fd1d5dacb53dc
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

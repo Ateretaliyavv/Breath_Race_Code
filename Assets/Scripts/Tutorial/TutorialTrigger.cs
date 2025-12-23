@@ -1,10 +1,9 @@
 using UnityEngine;
 
 /*
- * TutorialTrigger:
- * - Attached to trigger zones in the game world.
- * - When the player enters the trigger, it calls the TutorialManager to display instructions.
- * - Configurable via Inspector for different tutorial types and messages.
+ * Attached to trigger zones in the game world.
+ * When the player enters the trigger, it calls the TutorialManager to display instructions.
+ * Configurable via Inspector for different tutorial types and messages.
  */
 
 public class TutorialTrigger : MonoBehaviour

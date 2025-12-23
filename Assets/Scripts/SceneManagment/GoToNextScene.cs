@@ -13,6 +13,8 @@ public class GotoNextScene : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (string.IsNullOrEmpty(sceneName))
+            return;
         if (isLoading) return;
         if (!other.CompareTag(triggeringTag)) return;
 

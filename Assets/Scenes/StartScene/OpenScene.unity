@@ -467,7 +467,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 481279993f555ac4c85198a11aa07b18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GoToSceneByClick
+  useRandomScene: 0
   sceneToLoad: MainSceneLevel1
+  randomSceneNames: []
 --- !u!1 &270487202
 GameObject:
   m_ObjectHideFlags: 0
@@ -869,7 +871,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 481279993f555ac4c85198a11aa07b18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GoToSceneByClick
+  useRandomScene: 0
   sceneToLoad: Tutorial
+  randomSceneNames: []
 --- !u!1 &601459995
 GameObject:
   m_ObjectHideFlags: 0
@@ -997,7 +1001,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 481279993f555ac4c85198a11aa07b18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GoToSceneByClick
+  useRandomScene: 1
   sceneToLoad: Balloons
+  randomSceneNames:
+  - Balloons
+  - ExpandBalloon
 --- !u!114 &799486593
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1350,7 +1358,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 481279993f555ac4c85198a11aa07b18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GoToSceneByClick
+  useRandomScene: 0
   sceneToLoad: MainSceneLevel3
+  randomSceneNames: []
 --- !u!1 &1166428720
 GameObject:
   m_ObjectHideFlags: 0
@@ -2329,7 +2339,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 481279993f555ac4c85198a11aa07b18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GoToSceneByClick
+  useRandomScene: 0
   sceneToLoad: MainSceneLevel2
+  randomSceneNames: []
 --- !u!1 &1625683454
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,6 +1,9 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+/*
+ * Script that chose random massage from list and show it on panel
+ */
 
 public class SurpriseMessageUI : MonoBehaviour
 {
@@ -21,6 +24,7 @@ public class SurpriseMessageUI : MonoBehaviour
         ShowRandomMessage();
     }
 
+    // Chose random massage and show it on the panel
     private void ShowRandomMessage()
     {
         if (messages == null || messages.Length == 0)

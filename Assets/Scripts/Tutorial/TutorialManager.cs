@@ -3,10 +3,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /*
- * TutorialManager:
- * - Manages tutorial popups that pause the game and show instructions.
- * - Disables player controls during the tutorial.
- * - Re-enables specific abilities after the tutorial is confirmed.
+ * Manages tutorial popups that pause the game and show instructions.
+ * Disables player controls during the tutorial.
+ * Re-enables specific abilities after the tutorial is confirmed.
  */
 public class TutorialManager : MonoBehaviour
 {

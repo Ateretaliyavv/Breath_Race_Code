@@ -1,4 +1,7 @@
 ﻿using UnityEngine;
+/*
+ * Script that manage the camera folloing after game object
+ */
 
 [RequireComponent(typeof(Camera))]
 public class CameraFollow2D : MonoBehaviour
