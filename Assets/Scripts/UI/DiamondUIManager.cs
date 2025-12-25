@@ -1,6 +1,5 @@
-using UnityEngine;
-using UnityEngine.UI; // Required for controlling UI Images
 using TMPro;          // Required for reading the text
+using UnityEngine;
 
 public class DiamondUIManager : MonoBehaviour
 {

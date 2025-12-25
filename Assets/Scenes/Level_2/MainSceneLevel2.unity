@@ -54705,6 +54705,54 @@ SpriteShapeRenderer:
     m_Center: {x: -0.030081749, y: -0.30024266, z: 0}
     m_Extent: {x: 2.352872, y: 3.2580638, z: 0}
   m_SpriteSortPoint: 0
+--- !u!1 &311845350
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 311845351}
+  - component: {fileID: 311845352}
+  m_Layer: 0
+  m_Name: LevelEndManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &311845351
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 311845350}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 735.94293, y: 1.9507599, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1578162908}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &311845352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 311845350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54a511338919ec847847ea8ab9bd6ab8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  levelId: 2
+  winSceneName: WinLevel2
+  loseSceneName: GameOver2
+  starsCounter: {fileID: 2027018488}
 --- !u!1 &333755017
 GameObject:
   m_ObjectHideFlags: 0
@@ -111861,7 +111909,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 481279993f555ac4c85198a11aa07b18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GoToSceneByClick
+  useRandomScene: 0
   sceneToLoad: OpenScene
+  randomSceneNames: []
 --- !u!114 &1213917409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115230,6 +115280,7 @@ Transform:
   - {fileID: 1621035277}
   - {fileID: 1191107072}
   - {fileID: 1577517772}
+  - {fileID: 311845351}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1583477001

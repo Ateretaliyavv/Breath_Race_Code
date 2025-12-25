@@ -20,8 +20,21 @@ public class GotoNextScene : MonoBehaviour
 
         isLoading = true;
         isNextLevel = true;   // Informing the entire game that the stage is over
-
-        // Use central navigator mark as "next level"
-        SceneNavigator.LoadScene(sceneName, markAsNextLevel: isNextLevel);
+        if (sceneName == "WinLevel1" || sceneName == "WinLevel2" || sceneName == "WinLevel3")
+        {
+            if (LevelEndManager.Instance != null)
+            {
+                LevelEndManager.Instance.PlayerWon();
+            }
+            else
+            {
+                Debug.LogError("LevelEndManager.Instance is null!");
+            }
+        }
+        else
+        {
+            // Use central navigator mark as "next level"
+            SceneNavigator.LoadScene(sceneName, markAsNextLevel: isNextLevel);
+        }
     }
 }

@@ -106,7 +106,14 @@ public class CameraFollow2D : MonoBehaviour
                 gameOverTriggered = true;
 
                 //Centralized scene loading
-                SceneNavigator.LoadScene(gameOverSceneName, markAsNextLevel: false);
+                if (LevelEndManager.Instance != null)
+                {
+                    LevelEndManager.Instance.PlayerLost();
+                }
+                else
+                {
+                    Debug.LogError("LevelEndManager.Instance is null!");
+                }
             }
         }
         else
