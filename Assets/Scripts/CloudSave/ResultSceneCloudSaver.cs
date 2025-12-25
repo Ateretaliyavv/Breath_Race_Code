@@ -7,11 +7,11 @@ using Unity.Services.CloudSave;
 using Unity.Services.Core;
 using UnityEngine;
 
-/// <summary>
-/// Runs in Win / GameOver scenes.
-/// Reads LevelProgressData (last level + stars),
-/// and updates the BEST stars for that level in Cloud Save.
-/// </summary>
+/*
+* Runs in Win / GameOver scenes.
+* Reads LevelProgressData (last level + stars),
+* and updates the BEST stars for that level in Cloud Save.
+*/
 public class ResultSceneCloudSaver : MonoBehaviour
 {
     [Header("Optional UI to show status")]
@@ -45,7 +45,7 @@ public class ResultSceneCloudSaver : MonoBehaviour
             }
         }
 
-        // Player must be signed in (from your login scene)
+        // Player must be signed in (from login scene)
         if (!AuthenticationService.Instance.IsSignedIn)
         {
             Debug.LogWarning("ResultSceneCloudSaver: player not signed in, cannot save to cloud.");

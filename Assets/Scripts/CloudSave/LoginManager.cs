@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using TMPro;
 using Unity.Services.Authentication;
 using Unity.Services.CloudSave;
-// Unity Gaming Services
+
 using Unity.Services.Core;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -12,8 +12,6 @@ using UnityEngine.SceneManagement;
 /*
 * Handles user registration & login using Unity Authentication
 * and then loads the main game scene.
-* Optionally, demonstrates how to save/load simple data with Cloud Save.
-* Attach this script to a GameObject in your Login scene.
 */
 
 public class LoginManager : MonoBehaviour
@@ -28,12 +26,10 @@ public class LoginManager : MonoBehaviour
 
     private bool servicesInitialized = false;
 
-    // -------------------------------------------------------------
     // Initialization
-    // -------------------------------------------------------------
     private async void Awake()
     {
-        // Initialize Unity Services (Authentication, Cloud Save, etc.)
+        // Initialize Unity Services
         try
         {
             await UnityServices.InitializeAsync();
@@ -51,9 +47,8 @@ public class LoginManager : MonoBehaviour
         }
     }
 
-    // -------------------------------------------------------------
+
     // Called by the "Register" button
-    // -------------------------------------------------------------
     public async void OnRegisterClicked()
     {
         if (!servicesInitialized)
@@ -93,9 +88,7 @@ public class LoginManager : MonoBehaviour
         }
     }
 
-    // -------------------------------------------------------------
     // Called by the "Login" button
-    // -------------------------------------------------------------
     public async void OnLoginClicked()
     {
         if (!servicesInitialized)
@@ -135,9 +128,7 @@ public class LoginManager : MonoBehaviour
         }
     }
 
-    // -------------------------------------------------------------
     // What happens AFTER successful login / registration
-    // -------------------------------------------------------------
     private async Task AfterLoginAsync()
     {
         // Optional: load player data from Cloud Save before entering the game
@@ -154,10 +145,7 @@ public class LoginManager : MonoBehaviour
         }
     }
 
-    // -------------------------------------------------------------
-    // EXAMPLE: Save a simple value (like high score) to Cloud Save
-    // You can call this from another script (e.g., GameManager) after login.
-    // -------------------------------------------------------------
+    // Save a simple value to Cloud Save after login.
     public async Task SavePlayerScoreAsync(int score)
     {
         try
@@ -176,9 +164,7 @@ public class LoginManager : MonoBehaviour
         }
     }
 
-    // -------------------------------------------------------------
-    // EXAMPLE: Load data from Cloud Save on login
-    // -------------------------------------------------------------
+    // Load data from Cloud Save on login
     private async Task LoadPlayerDataAsync()
     {
         try
@@ -193,7 +179,6 @@ public class LoginManager : MonoBehaviour
 
                 if (statusText != null)
                     statusText.text = "Loaded high score: " + highScore;
-                // Here you can pass this value to your GameManager, UI, etc.
             }
             else
             {

@@ -1,13 +1,14 @@
 using UnityEngine;
 
-/// <summary>
-/// Handles end-of-level logic: collects stars amount,
-/// remembers which level was played, and uses SceneNavigator
-/// to go to Win / GameOver scenes.
-/// </summary>
+/*
+* Handles end-of-level logic: collects stars amount,
+* remembers which level was played, and uses SceneNavigator
+* to go to Win / GameOver scenes.
+*/
+
 public class LevelEndManager : MonoBehaviour
 {
-    // Global access from other scripts (camera, triggers, etc.)
+    // Global access from other scripts
     public static LevelEndManager Instance { get; private set; }
 
     [Header("Level identification")]
