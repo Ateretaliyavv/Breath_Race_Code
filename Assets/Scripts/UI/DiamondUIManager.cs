@@ -1,4 +1,4 @@
-using TMPro;          // Required for reading the text
+using TMPro;
 using UnityEngine;
 
 public class DiamondUIManager : MonoBehaviour
@@ -11,7 +11,7 @@ public class DiamondUIManager : MonoBehaviour
     }
 
     [Header("References")]
-    [Tooltip("Drag the score text here")]
+    [Tooltip("Drag the score text here (optional, only for display)")]
     public TextMeshProUGUI scoreText;
 
     [Tooltip("List of diamond pairs")]
@@ -21,24 +21,31 @@ public class DiamondUIManager : MonoBehaviour
 
     void Start()
     {
-        // Initial setup - reset the display
-        UpdateDiamondsVisibility(0);
+        // Use the saved stars from the current run
+        int initialScore = StarsNumberKeeper.StarsCollected;
+
+        // Optional: sync the text with the saved value
+        if (scoreText != null)
+            scoreText.text = initialScore.ToString();
+
+        lastKnownScore = initialScore;
+        UpdateDiamondsVisibility(initialScore);
     }
 
     void Update()
     {
-        if (scoreText == null) return;
+        // Get current score from the keeper
+        int currentScore = StarsNumberKeeper.StarsCollected;
 
-        int currentScore = 0;
-        // Read the score from the text
-        if (int.TryParse(scoreText.text, out currentScore))
+
+        if (currentScore != lastKnownScore)
         {
-            // Update only if the number has changed
-            if (currentScore != lastKnownScore)
-            {
-                lastKnownScore = currentScore;
-                UpdateDiamondsVisibility(currentScore);
-            }
+            lastKnownScore = currentScore;
+            UpdateDiamondsVisibility(currentScore);
+
+            // Optional: update the text each time
+            if (scoreText != null)
+                scoreText.text = currentScore.ToString();
         }
     }
 
@@ -46,7 +53,7 @@ public class DiamondUIManager : MonoBehaviour
     {
         for (int i = 0; i < diamonds.Length; i++)
         {
-            // If the index is lower than the score, this diamond is collected
+            //If the index is lower than the score, this diamond is collected
             if (i < score)
             {
                 // Enable purple, disable grey
@@ -56,6 +63,7 @@ public class DiamondUIManager : MonoBehaviour
             else
             {
                 // Enable grey, disable purple (default state)
+
                 if (diamonds[i].purpleObject) diamonds[i].purpleObject.SetActive(false);
                 if (diamonds[i].greyObject) diamonds[i].greyObject.SetActive(true);
             }

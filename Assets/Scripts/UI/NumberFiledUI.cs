@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-/**
+/*
  * This component should be attached to a TextMeshPro object.
  * It allows to feed an integer number to the text field.
  */
@@ -9,6 +9,21 @@ using UnityEngine;
 public class NumberFieldUI : MonoBehaviour
 {
     [SerializeField] private int number;
+    private TextMeshProUGUI text;
+
+    private void Awake()
+    {
+        text = GetComponent<TextMeshProUGUI>();
+    }
+
+    private void Start()
+    {
+        // Initialize number from the global keeper (so respawn from checkpoint keeps the value)
+        number = StarsNumberKeeper.StarsCollected;
+
+        if (text != null)
+            text.text = number.ToString();
+    }
 
     public int GetNumberUI()
     {
@@ -18,7 +33,11 @@ public class NumberFieldUI : MonoBehaviour
     public void SetNumberUI(int newNumber)
     {
         this.number = newNumber;
-        GetComponent<TextMeshProUGUI>().text = newNumber.ToString();
+
+        if (text != null)
+            text.text = newNumber.ToString();
+
+        // Keep the global value in sync
         StarsNumberKeeper.StarsCollected = this.number;
     }
 

@@ -6,8 +6,7 @@ using UnityEngine;
 public static class CheckpointManagment
 {
     // Key = level name (scene name), Value = position of last checkpoint
-    private static Dictionary<string, Vector3> checkpoints =
-        new Dictionary<string, Vector3>();
+    private static Dictionary<string, Vector3> checkpoints = new Dictionary<string, Vector3>();
 
     // Save / update the checkpoint position for a given level
     public static void SetCheckpoint(string levelName, Vector3 position)

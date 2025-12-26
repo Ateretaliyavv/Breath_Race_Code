@@ -31,7 +31,18 @@ public class CollectObjects : MonoBehaviour
 
             if (uiCounter != null)
             {
+                // Increase counter in the UI
                 uiCounter.AddNumberUI(1);
+
+                // Update the global keeper based on the UI counter current value
+                StarsNumberKeeper.StarsCollected = uiCounter.GetNumberUI();
+            }
+
+            // Mark this diamond as collected for this run
+            DiamondPersistent persistent = other.GetComponent<DiamondPersistent>();
+            if (persistent != null)
+            {
+                persistent.MarkCollected();
             }
 
             // Remove the collected diamond from the scene
