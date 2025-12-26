@@ -121,4 +121,22 @@ public class CameraFollow2D : MonoBehaviour
             outOfViewTimer = 0f;
         }
     }
+
+    // Call this after respawn: move the camera immediately to the target (player)
+    public void SnapToTargetImmediately()
+    {
+        if (target == null)
+            return;
+
+        Vector3 pos = transform.position;
+        pos.x = target.position.x + offset.x;
+        pos.y = target.position.y + offset.y;
+        pos.z = transform.position.z;
+        transform.position = pos;
+
+        // Reset game-over timers so we won't instantly trigger GameOver again
+        outOfViewTimer = 0f;
+        gameOverTriggered = false;
+    }
+
 }

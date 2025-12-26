@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /*
 * Handles end-of-level logic: collects stars amount,
@@ -51,6 +52,7 @@ public class LevelEndManager : MonoBehaviour
 
         // Remember what happened in this level
         LevelProgressData.LastLevelId = levelId;
+        LevelProgressData.LastLevelSceneName = SceneManager.GetActiveScene().name;
         LevelProgressData.LastLevelStars = starsThisRun;
 
         // Use YOUR navigation system

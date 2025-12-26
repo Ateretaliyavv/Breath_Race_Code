@@ -7,11 +7,9 @@ using UnityEngine.SceneManagement;
  */
 public static class SceneNavigator
 {
-    // Global flag indicates whether the transition was to the next level
+    // Global flag – true only when moving to the next level
     public static bool IsNextLevel { get; private set; }
 
-    // Loads a scene by name
-    // If markAsNextLevel is true, this transition is saved as "next level"
     public static void LoadScene(string sceneName, bool markAsNextLevel)
     {
         if (string.IsNullOrEmpty(sceneName))
@@ -20,17 +18,30 @@ public static class SceneNavigator
             return;
         }
 
-        // Mark the transition as a next-level transition if needed
+        // Mark that the transition was to the next level
         if (markAsNextLevel)
         {
             IsNextLevel = true;
         }
 
-        // Load the scene
+        // When going back to Home (OpenScene) we reset checkpoints
+        if (sceneName == "OpenScene")
+        {
+            // Clear checkpoint of the current open level
+            string currentScene = SceneManager.GetActiveScene().name;
+            CheckpointManagment.ClearCheckpoint(currentScene);
+
+            // Clear checkpoint of the last played level (in case we came from GameOver)
+            if (!string.IsNullOrEmpty(LevelProgressData.LastLevelSceneName))
+            {
+                CheckpointManagment.ClearCheckpoint(LevelProgressData.LastLevelSceneName);
+            }
+        }
+
+        // Load requested scene
         SceneManager.LoadScene(sceneName);
     }
 
-    // Resets the next-level flag
     public static void ResetNextLevelFlag()
     {
         IsNextLevel = false;
