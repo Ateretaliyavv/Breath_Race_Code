@@ -17,6 +17,9 @@ TagManager:
   - Balloon
   - DarkBridgeStart
   - DarkBridgeEnd
+  - PushBox
+  - PushStart
+  - PushEnd
   layers:
   - Default
   - TransparentFX
