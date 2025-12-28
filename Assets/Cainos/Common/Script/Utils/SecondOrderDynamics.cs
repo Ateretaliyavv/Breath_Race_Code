@@ -115,7 +115,7 @@ namespace Cainos.Common
 
         public Vector2 Update(Vector2 x, float t)
         {
-            return Update(new Vector3(x.x,x.y,0.0f), t);
+            return Update(new Vector3(x.x, x.y, 0.0f), t);
         }
 
         public float Update(float x, float t)

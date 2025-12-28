@@ -6,6 +6,11 @@ using UnityEngine.InputSystem;
  * Builds a bridge under the player while a specified input action is held,
  * provided the player has passed a BridgeStart marker but not yet a BridgeEnd marker.
  * Bridge pieces are instantiated at regular intervals to form the bridge.
+ *
+ * Optional:
+ *  - Between DarkBridgeStart and DarkBridgeEnd markers the bridge pieces
+ *    can use an alternative "dark" prefab, and outside of these zones
+ *    the regular prefab is used.
  */
 
 public class BridgeBuilder : MonoBehaviour
@@ -14,12 +19,22 @@ public class BridgeBuilder : MonoBehaviour
     [SerializeField]
     private InputAction buildBridgeAction = new InputAction(type: InputActionType.Button);
 
-    [Header("Tags")]
+    [Header("Tags (Build Zones)")]
     [SerializeField] private string bridgeStartTag = "BridgeStart";
     [SerializeField] private string bridgeEndTag = "BridgeEnd";
 
+    [Header("Bridge Piece Prefabs")]
+    [SerializeField] private GameObject bridgePiecePrefab;      // default prefab
+    [Tooltip("Optional: alternative prefab for dark bridge segments")]
+    [SerializeField] private GameObject darkBridgePiecePrefab;  // dark prefab (optional)
+
+    [Header("Tags (Dark Style Zones - Optional)")]
+    [Tooltip("Tag for the start of a dark bridge segment (optional)")]
+    [SerializeField] private string darkBridgeStartTag = "DarkBridgeStart";
+    [Tooltip("Tag for the end of a dark bridge segment (optional)")]
+    [SerializeField] private string darkBridgeEndTag = "DarkBridgeEnd";
+
     [Header("References")]
-    [SerializeField] private GameObject bridgePiecePrefab;
     [SerializeField] private Transform player;
 
     [Header("Bridge Settings")]
@@ -32,6 +47,9 @@ public class BridgeBuilder : MonoBehaviour
     private Transform[] bridgeStarts;
     private Transform[] bridgeEnds;
 
+    // Dark segments defined by DarkBridgeStart / DarkBridgeEnd pairs
+    private readonly List<Vector2> darkSegments = new List<Vector2>(); // (startX, endX)
+
     private bool isBuilding = false;
     private float currentLength = 0f;
     // Origin point of the player for building the bridge
@@ -41,10 +59,10 @@ public class BridgeBuilder : MonoBehaviour
 
     private readonly List<GameObject> pieces = new List<GameObject>();
 
-    // Find BridgeStart and BridgeEnd objects in the scene
+    // Find BridgeStart, BridgeEnd and DarkBridgeStart, DarkBridgeEnd objects in the scene
     private void Awake()
     {
-        // Find all BridgeStart and BridgeEnd objects by tag
+        // --- Build zone markers ---
         GameObject[] startObjs = GameObject.FindGameObjectsWithTag(bridgeStartTag);
         GameObject[] endObjs = GameObject.FindGameObjectsWithTag(bridgeEndTag);
 
@@ -58,10 +76,54 @@ public class BridgeBuilder : MonoBehaviour
             bridgeEnds[i] = endObjs[i].transform;
 
         if (bridgeStarts.Length == 0)
-            Debug.LogWarning("BrigeBuilder: No objects found with tag " + bridgeStartTag);
+            Debug.LogWarning("BridgeBuilder: No objects found with tag " + bridgeStartTag);
 
         if (bridgeEnds.Length == 0)
-            Debug.LogWarning("BrigeBuilder: No objects found with tag " + bridgeEndTag);
+            Debug.LogWarning("BridgeBuilder: No objects found with tag " + bridgeEndTag);
+
+        // --- Dark style segments (optional) ---
+        if (darkBridgePiecePrefab != null &&
+            !string.IsNullOrEmpty(darkBridgeStartTag) &&
+            !string.IsNullOrEmpty(darkBridgeEndTag))
+        {
+            GameObject[] darkStartObjs = GameObject.FindGameObjectsWithTag(darkBridgeStartTag);
+            GameObject[] darkEndObjs = GameObject.FindGameObjectsWithTag(darkBridgeEndTag);
+
+            List<Transform> darkStarts = new List<Transform>();
+            List<Transform> darkEnds = new List<Transform>();
+
+            foreach (var go in darkStartObjs)
+                if (go != null) darkStarts.Add(go.transform);
+
+            foreach (var go in darkEndObjs)
+                if (go != null) darkEnds.Add(go.transform);
+
+            // For each DarkBridgeStart find the nearest DarkBridgeEnd ahead on X
+            foreach (var s in darkStarts)
+            {
+                float startX = s.position.x;
+                float closestEndX = float.PositiveInfinity;
+
+                foreach (var e in darkEnds)
+                {
+                    float endX = e.position.x;
+                    if (endX > startX && endX < closestEndX)
+                        closestEndX = endX;
+                }
+
+                if (closestEndX < float.PositiveInfinity)
+                {
+                    darkSegments.Add(new Vector2(startX, closestEndX));
+                }
+                else
+                {
+                    Debug.LogWarning($"BridgeBuilder: DarkBridgeStart at x={startX} has no DarkBridgeEnd ahead of it.");
+                }
+            }
+
+            // Optional: sort segments by startX (nice for debugging)
+            darkSegments.Sort((a, b) => a.x.CompareTo(b.x));
+        }
     }
 
     // Subscribe and unsubscribe to input action events
@@ -84,7 +146,7 @@ public class BridgeBuilder : MonoBehaviour
     {
         if (player == null)
         {
-            Debug.LogWarning("BrigeBuilder: Player reference is not assigned");
+            Debug.LogWarning("BridgeBuilder: Player reference is not assigned");
             return;
         }
 
@@ -111,14 +173,14 @@ public class BridgeBuilder : MonoBehaviour
         // If no BridgeStart has been passed yet - cannot build
         if (lastStartX == float.NegativeInfinity)
         {
-            Debug.Log("BrigeBuilder: Player has not passed any BridgeStart yet");
+            Debug.Log("BridgeBuilder: Player has not passed any BridgeStart yet");
             return;
         }
 
         // If the most recent marker behind the player is a BridgeEnd - cannot build
         if (lastEndX >= lastStartX)
         {
-            Debug.Log("BrigeBuilder: Player already passed the last BridgeEnd — cannot build here");
+            Debug.Log("BridgeBuilder: Player already passed the last BridgeEnd — cannot build here");
             return;
         }
 
@@ -146,14 +208,14 @@ public class BridgeBuilder : MonoBehaviour
             maxLength = Mathf.Infinity; // no BridgeEnd ahead
 
         isBuilding = true;
-        Debug.Log("BrigeBuilder: Started building bridge for this gap");
+        Debug.Log("BridgeBuilder: Started building bridge for this gap");
     }
 
-    // Handle build bridge input action released1
+    // Handle build bridge input action released
     private void OnBuildReleased(InputAction.CallbackContext ctx)
     {
         isBuilding = false;
-        Debug.Log("BrigeBuilder: Stopped building bridge");
+        Debug.Log("BridgeBuilder: Stopped building bridge");
     }
 
     // Build bridge pieces while the build action is held
@@ -183,12 +245,35 @@ public class BridgeBuilder : MonoBehaviour
         }
     }
 
+    // Returns true if the given x is inside any dark segment
+    private bool IsInDarkSegment(float x)
+    {
+        // If no dark segments defined, always false
+        if (darkSegments.Count == 0)
+            return false;
+
+        foreach (var seg in darkSegments)
+        {
+            if (x >= seg.x && x < seg.y)
+                return true;
+        }
+        return false;
+    }
+
     // Instantiates a bridge piece at the specified position
     private void InstantiatePiece(Vector3 pos)
     {
-        GameObject piece = Instantiate(bridgePiecePrefab, pos, Quaternion.identity);
+        GameObject prefabToUse = bridgePiecePrefab;
+
+        // If we have a dark prefab and this x is within a dark segment - use it
+        if (darkBridgePiecePrefab != null && IsInDarkSegment(pos.x))
+        {
+            prefabToUse = darkBridgePiecePrefab;
+        }
+
+        GameObject piece = Instantiate(prefabToUse, pos, Quaternion.identity);
         pieces.Add(piece);
-        Debug.Log("BrigeBuilder: Bridge piece placed at " + pos);
+        Debug.Log("BridgeBuilder: Bridge piece placed at " + pos + " (dark=" + (prefabToUse == darkBridgePiecePrefab) + ")");
     }
 
     // Destroys all instantiated bridge pieces
