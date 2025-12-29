@@ -14,6 +14,7 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private Jump jumpScript;
     [SerializeField] private BlowUpBalloons blowUpScript;
     [SerializeField] private BridgeBuilder bridgeScript;
+    [SerializeField] private PushBox pushBox;
 
     [Header("UI References")]
     [SerializeField] private GameObject tutorialPanel; // The main UI panel background
@@ -42,6 +43,7 @@ public class TutorialManager : MonoBehaviour
         jumpScript.enabled = false;
         blowUpScript.enabled = false;
         bridgeScript.enabled = false;
+        pushBox.enabled = false;
 
         // Determine which ability to unlock based on the trigger type
         switch (type)
@@ -54,6 +56,9 @@ public class TutorialManager : MonoBehaviour
                 break;
             case TutorialType.BlowUp:
                 scriptToUnlock = blowUpScript;
+                break;
+            case TutorialType.PushBox:
+                scriptToUnlock = pushBox;
                 break;
 
         }
@@ -87,5 +92,6 @@ public enum TutorialType
 {
     Jump,
     Bridge,
-    BlowUp
+    BlowUp,
+    PushBox
 }
