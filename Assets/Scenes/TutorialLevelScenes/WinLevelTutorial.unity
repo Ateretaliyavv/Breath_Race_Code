@@ -280,7 +280,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 17, y: -57}
+  m_AnchoredPosition: {x: 18.372, y: -81}
   m_SizeDelta: {x: 568.8325, y: 101.6277}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &125431439
@@ -434,7 +434,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 481279993f555ac4c85198a11aa07b18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GoToSceneByClick
+  useRandomScene: 0
   sceneToLoad: OpenScene
+  randomSceneNames: []
+  resetRunData: 0
 --- !u!114 &198566085
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -675,7 +678,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 481279993f555ac4c85198a11aa07b18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GoToSceneByClick
+  useRandomScene: 0
   sceneToLoad: MainSceneLevel1
+  randomSceneNames: []
+  resetRunData: 0
 --- !u!1 &315170082
 GameObject:
   m_ObjectHideFlags: 0
@@ -711,7 +717,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.8862, y: 25}
+  m_AnchoredPosition: {x: 2.8862, y: 38.477}
   m_SizeDelta: {x: 669.5188, y: 101.6277}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &315170084
@@ -734,8 +740,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "You crossed 1 bridge - 2 sc\n       went over 1 wall - 4 power\n      
-    collect        diamonds\n"
+  m_text: "You crossed 1 bridge - 2 sc\n     pushed 1 cube - 2 sc\n      went over
+    1 wall - 4 power\n       collect        diamonds\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 859e6a6304886164a8035be7d3874ce6, type: 2}
   m_sharedMaterial: {fileID: -5023436480827124546, guid: 859e6a6304886164a8035be7d3874ce6, type: 2}

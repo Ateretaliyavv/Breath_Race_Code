@@ -303,9 +303,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "You crossed  18 bridge - 2 sc\n                                12 bridge
-    - 4 sc\n                                8 bridge - 5 sc\n                                  
-    8 bridge - 1.5 sc\n  went over 4 wall - 6 power\n                            
+  m_text: "You crossed  4 bridge and pushed 4 cubes - 2 sc\n                10 bridge
+    and 2 cubes - 4 sc\n               6 bridge and 2 cubes - 5 sc\n              
+    7 bridge and 1 cube - 1.5 sc\n  went over 4 wall - 6 power\n                            
     4 wall - 8 power\n                             2 wall - 4 power\n\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 859e6a6304886164a8035be7d3874ce6, type: 2}

@@ -545,6 +545,7 @@ MonoBehaviour:
   useRandomScene: 0
   sceneToLoad: MainSceneLevel2
   randomSceneNames: []
+  resetRunData: 0
 --- !u!1 &301908706
 GameObject:
   m_ObjectHideFlags: 0
@@ -678,7 +679,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.8847, y: 51.1674}
+  m_AnchoredPosition: {x: 2.8847, y: 56}
   m_SizeDelta: {x: 568.83, y: 62.0501}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &310790543
@@ -790,7 +791,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 8, y: -37.90701}
+  m_AnchoredPosition: {x: 8, y: -26}
   m_SizeDelta: {x: 669.5188, y: 75.814}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &315170084
@@ -813,7 +814,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "You crossed 10 bridge - 2 sc\n       went over 1 wall - 6 power\n\n"
+  m_text: "You crossed 8 bridge - 2 sc\n      pushed 2 cubes - 2 sc\n                      
+    went over 1 wall - 6 power\n\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 859e6a6304886164a8035be7d3874ce6, type: 2}
   m_sharedMaterial: {fileID: -5023436480827124546, guid: 859e6a6304886164a8035be7d3874ce6, type: 2}
@@ -1179,6 +1181,7 @@ MonoBehaviour:
   useRandomScene: 0
   sceneToLoad: OpenScene
   randomSceneNames: []
+  resetRunData: 0
 --- !u!1 &744355199
 GameObject:
   m_ObjectHideFlags: 0
