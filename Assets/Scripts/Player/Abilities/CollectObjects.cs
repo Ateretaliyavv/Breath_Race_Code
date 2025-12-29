@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using System.Collections;
 
 /*
  * Collects objects with a specified tag when the player collides with them,
@@ -45,9 +46,40 @@ public class CollectObjects : MonoBehaviour
                 persistent.MarkCollected();
             }
 
-            // Remove the collected diamond from the scene
-            Destroy(other.gameObject);
+            // Play collect animation and then remove the diamond
+            StartCoroutine(PlayCollectAnimationAndDestroy(other));
         }
+    }
+
+    // Coroutine: plays collect animation then destroys the diamond when animation ends
+    private IEnumerator PlayCollectAnimationAndDestroy(Collider2D diamond)
+    {
+        Animator anim = diamond.GetComponent<Animator>();
+        float duration = 0f;
+
+        if (anim != null)
+        {
+            // Activate the "Collect" animation using trigger
+            anim.SetTrigger("Collect");
+
+            // Get the real animation duration dynamically
+            AnimationClip[] clips = anim.runtimeAnimatorController.animationClips;
+            foreach (var clip in clips)
+            {
+                // Searching for feedback animation clip by name
+                if (clip.name.Contains("feedback") || clip.name.Contains("feed"))
+                {
+                    duration = clip.length;
+                    break;
+                }
+            }
+        }
+
+        // Wait until the animation clip actually finishes
+        yield return new WaitForSeconds(duration);
+
+        // Remove the collected diamond from the scene
+        Destroy(diamond.gameObject);
     }
 
     // Checks if there is ANY cover object at the same XY as the given diamond position
