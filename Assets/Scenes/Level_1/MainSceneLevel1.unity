@@ -11292,6 +11292,7 @@ MonoBehaviour:
   useRandomScene: 0
   sceneToLoad: OpenScene
   randomSceneNames: []
+  resetRunData: 1
 --- !u!114 &801809602
 MonoBehaviour:
   m_ObjectHideFlags: 0

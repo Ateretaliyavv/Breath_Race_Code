@@ -395,6 +395,7 @@ MonoBehaviour:
   useRandomScene: 0
   sceneToLoad: MainSceneLevel2
   randomSceneNames: []
+  resetRunData: 0
 --- !u!1 &415768693
 GameObject:
   m_ObjectHideFlags: 0
@@ -816,6 +817,7 @@ MonoBehaviour:
   useRandomScene: 0
   sceneToLoad: OpenScene
   randomSceneNames: []
+  resetRunData: 1
 --- !u!1 &882461573
 GameObject:
   m_ObjectHideFlags: 0

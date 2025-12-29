@@ -36,9 +36,6 @@ public static class SceneNavigator
             {
                 CheckpointManagment.ClearCheckpoint(LevelProgressData.LastLevelSceneName);
             }
-            // reset stars for a new run
-            StarsNumberKeeper.StarsCollected = 0;
-            DiamondRunKeeper.ClearAll();   // clear collected diamonds for new run
         }
 
         // Load requested scene

@@ -18,12 +18,23 @@ public class GoToSceneByClick : MonoBehaviour
     [Tooltip("Possible scenes to load when useRandomScene is enabled.")]
     [SerializeField] private string[] randomSceneNames;
 
+    [Header("Run Reset Options")]
+    [Tooltip("If true, stars and collected diamonds will be reset before loading the scene.")]
+    [SerializeField] private bool resetRunData = false;
+
     public void LoadGameScene()
     {
         // Decide which scene to load based on the selected mode
         string selectedScene = GetSceneToLoad();
         if (string.IsNullOrEmpty(selectedScene))
             return;
+
+        // Optional reset for diamonds (used for Next Level, Home, Back buttons)
+        if (resetRunData)
+        {
+            StarsNumberKeeper.StarsCollected = 0;
+            DiamondRunKeeper.ClearAll();
+        }
 
         // For menu buttons we usually do NOT mark "next level"
         SceneNavigator.LoadScene(selectedScene, markAsNextLevel: false);
