@@ -70,9 +70,7 @@ public class BlowUpBalloons : MonoBehaviour
 
     private void OnBlowPressed(InputAction.CallbackContext ctx)
     {
-        // A single press is only valid if:
-        // 1) The player is inside a blow zone
-        // 2) There is at least one balloon in front of the player within maxBlowDistanceX
+        // 1) בדיקה האם השחקן בתוך האזור
         if (!IsInsideBlowZone())
         {
             Debug.Log("BlowUpBalloons: blow pressed outside blow zone (ignored)");
@@ -83,11 +81,8 @@ public class BlowUpBalloons : MonoBehaviour
             return;
 
         float playerX = transform.position.x;
-        bool anyBalloonInFront = false;
+        bool anyNewBalloonFound = false;
 
-        // Reset previous selection
-        for (int i = 0; i < balloonShouldBlow.Length; i++)
-            balloonShouldBlow[i] = false;
 
         // Check only at press time which balloons are in front and within distance
         for (int i = 0; i < simpleMove.Length; i++)
@@ -96,24 +91,33 @@ public class BlowUpBalloons : MonoBehaviour
             if (s == null)
                 continue;
 
+            if (balloonShouldBlow[i])
+                continue;
+
             float balloonX = s.transform.position.x;
             float distanceX = balloonX - playerX;
 
             if (distanceX > 0 && distanceX <= maxBlowDistanceX)
             {
                 balloonShouldBlow[i] = true;
-                anyBalloonInFront = true;
+                anyNewBalloonFound = true;
             }
         }
 
-        if (anyBalloonInFront)
+        // --- שינוי: הלוגיקה של הטריגר ---
+        // אם מצאנו בלונים חדשים, או שהטריגר כבר היה פעיל, נשאיר אותו פעיל.
+        // לא נהפוך אותו ל-false אם הלחיצה הנוכחית לא תפסה כלום.
+        if (anyNewBalloonFound)
         {
             blowTriggered = true;
-            Debug.Log("BlowUpBalloons: blow triggered with balloons in front");
+            Debug.Log("BlowUpBalloons: New balloons added to flight");
+        }
+        else if (blowTriggered)
+        {
+            Debug.Log("BlowUpBalloons: Pressed again but no new balloons found (keeping old ones flying)");
         }
         else
         {
-            blowTriggered = false;
             Debug.Log("BlowUpBalloons: no balloons in front within distance, blow ignored");
         }
     }
@@ -141,8 +145,7 @@ public class BlowUpBalloons : MonoBehaviour
         }
 
         // Player is inside a zone and blow was triggered in this zone:
-        // keep balloons moving according to the selection made at press time,
-        // even if the player moved past them.
+        // keep balloons moving according to the selection made at press time
         for (int i = 0; i < simpleMove.Length; i++)
         {
             SimpleMove s = simpleMove[i];
