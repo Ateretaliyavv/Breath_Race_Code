@@ -1,6 +1,6 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
-using System.Collections;
 
 /*
  * Collects objects with a specified tag when the player collides with them,

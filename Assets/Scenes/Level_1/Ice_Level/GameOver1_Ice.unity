@@ -531,6 +531,7 @@ MonoBehaviour:
   useRandomScene: 0
   sceneToLoad: MainSceneLevel1_Ice
   randomSceneNames: []
+  resetRunData: 0
 --- !u!1 &418578792
 GameObject:
   m_ObjectHideFlags: 0
@@ -966,6 +967,7 @@ MonoBehaviour:
   useRandomScene: 0
   sceneToLoad: OpenScene
   randomSceneNames: []
+  resetRunData: 1
 --- !u!1 &718895622
 GameObject:
   m_ObjectHideFlags: 0
