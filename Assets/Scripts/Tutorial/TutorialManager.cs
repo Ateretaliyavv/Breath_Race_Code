@@ -1,12 +1,8 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem; // חובה להוסיף את השורה הזו בשביל המערכת החדשה
 
-/*
- * Manages tutorial popups that pause the game and show instructions.
- * Disables player controls during the tutorial.
- * Re-enables specific abilities after the tutorial is confirmed.
- */
 public class TutorialManager : MonoBehaviour
 {
     [Header("Player Scripts References")]
@@ -17,69 +13,100 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private PushBox pushBox;
 
     [Header("UI References")]
-    [SerializeField] private GameObject tutorialPanel; // The main UI panel background
-    [SerializeField] private TextMeshProUGUI tutorialText;        // The text element for instructions
-    [SerializeField] private Button confirmButton;     // The "Play" button
+    [SerializeField] private GameObject tutorialPanel;
+    [SerializeField] private TextMeshProUGUI tutorialText;
+    [SerializeField] private Button confirmButton;
+    [SerializeField] private TextMeshProUGUI promptText;
 
-    // Tracks which script should be unlocked after the tutorial popup is closed
+    [Header("Input Settings (New System)")]
+    // שים לב: שינינו את זה מ-KeyCode ל-Key
+    [SerializeField] private Key jumpKey = Key.UpArrow;
+    [SerializeField] private Key bridgeKey = Key.Space;
+    [SerializeField] private Key blowUpKey = Key.Space;
+    [SerializeField] private Key pushKey = Key.Space;
+
+    // משתנים פנימיים
     private MonoBehaviour scriptToUnlock;
+    private Key keyToWaitFor; // שומר איזה מקש מהמערכת החדשה אנחנו מחפשים
+    private bool isTutorialActive = false;
 
     private void Start()
     {
-        // Ensure the tutorial UI is hidden at game start
         if (tutorialPanel != null)
             tutorialPanel.SetActive(false);
 
-        // Setup the button listener
         if (confirmButton != null)
-            confirmButton.onClick.AddListener(OnConfirmClicked);
+            confirmButton.gameObject.SetActive(false);
     }
 
+    private void Update()
+    {
+        if (isTutorialActive)
+        {
+            // בדיקה האם המקלדת מחוברת (כדי למנוע שגיאות)
+            if (Keyboard.current == null) return;
+
+            // הפקודה החדשה: בדיקה האם המקש הספציפי נלחץ בפריים הזה
+            if (Keyboard.current[keyToWaitFor].wasPressedThisFrame)
+            {
+                CloseTutorial();
+            }
+        }
+    }
 
     public void TriggerTutorial(string message, TutorialType type)
     {
-        // Disable all player controls immediately
+        // 1. עצירת השחקן
         moveScript.enabled = false;
         jumpScript.enabled = false;
         blowUpScript.enabled = false;
         bridgeScript.enabled = false;
         pushBox.enabled = false;
 
-        // Determine which ability to unlock based on the trigger type
+        // 2. הגדרת המקש והסקריפט
         switch (type)
         {
             case TutorialType.Jump:
                 scriptToUnlock = jumpScript;
+                keyToWaitFor = jumpKey;
                 break;
             case TutorialType.Bridge:
                 scriptToUnlock = bridgeScript;
+                keyToWaitFor = bridgeKey;
                 break;
             case TutorialType.BlowUp:
                 scriptToUnlock = blowUpScript;
+                keyToWaitFor = blowUpKey;
                 break;
             case TutorialType.PushBox:
                 scriptToUnlock = pushBox;
+                keyToWaitFor = pushKey;
                 break;
-
         }
 
-        // Update and show the UI
+        // 3. עדכון ה-UI
         if (tutorialText != null)
             tutorialText.text = message;
 
+        if (promptText != null)
+            promptText.text = "Press " + keyToWaitFor.ToString() + " to continue";
+
         if (tutorialPanel != null)
             tutorialPanel.SetActive(true);
+
+        isTutorialActive = true;
     }
 
-    private void OnConfirmClicked()
+    private void CloseTutorial()
     {
+        isTutorialActive = false;
 
-        tutorialPanel.SetActive(false);
+        if (tutorialPanel != null)
+            tutorialPanel.SetActive(false);
 
         moveScript.isPressedUI = true;
         moveScript.enabled = true;
 
-        // Re-enable the specific learned skill
         if (scriptToUnlock != null)
         {
             scriptToUnlock.enabled = true;
