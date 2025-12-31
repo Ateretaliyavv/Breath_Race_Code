@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.InputSystem; // חובה להוסיף את השורה הזו בשביל המערכת החדשה
+using UnityEngine.InputSystem; // Required for the New Input System
 
 public class TutorialManager : MonoBehaviour
 {
@@ -19,15 +19,15 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI promptText;
 
     [Header("Input Settings (New System)")]
-    // שים לב: שינינו את זה מ-KeyCode ל-Key
+    // Note: Changed from KeyCode to Key for the New Input System
     [SerializeField] private Key jumpKey = Key.UpArrow;
     [SerializeField] private Key bridgeKey = Key.Space;
     [SerializeField] private Key blowUpKey = Key.Space;
     [SerializeField] private Key pushKey = Key.Space;
 
-    // משתנים פנימיים
+    // Internal state variables
     private MonoBehaviour scriptToUnlock;
-    private Key keyToWaitFor; // שומר איזה מקש מהמערכת החדשה אנחנו מחפשים
+    private Key keyToWaitFor; // Stores which key we are waiting for
     private bool isTutorialActive = false;
 
     private void Start()
@@ -43,10 +43,10 @@ public class TutorialManager : MonoBehaviour
     {
         if (isTutorialActive)
         {
-            // בדיקה האם המקלדת מחוברת (כדי למנוע שגיאות)
+            // Check if Keyboard is connected to prevent errors
             if (Keyboard.current == null) return;
 
-            // הפקודה החדשה: בדיקה האם המקש הספציפי נלחץ בפריים הזה
+            // Check if the specific key was pressed in this frame
             if (Keyboard.current[keyToWaitFor].wasPressedThisFrame)
             {
                 CloseTutorial();
@@ -56,14 +56,14 @@ public class TutorialManager : MonoBehaviour
 
     public void TriggerTutorial(string message, TutorialType type)
     {
-        // 1. עצירת השחקן
+        // 1. Disable player controls
         moveScript.enabled = false;
         jumpScript.enabled = false;
         blowUpScript.enabled = false;
         bridgeScript.enabled = false;
         pushBox.enabled = false;
 
-        // 2. הגדרת המקש והסקריפט
+        // 2. Configure the key to wait for and the script to unlock
         switch (type)
         {
             case TutorialType.Jump:
@@ -84,7 +84,7 @@ public class TutorialManager : MonoBehaviour
                 break;
         }
 
-        // 3. עדכון ה-UI
+        // 3. Update the UI
         if (tutorialText != null)
             tutorialText.text = message;
 
