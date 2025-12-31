@@ -1679,7 +1679,7 @@ MonoBehaviour:
   target: {fileID: 1379212110}
   offset: {x: 0, y: 1.2, z: 0}
   verticalSmoothTime: 0.2
-  cameraSpeedX: 4.7
+  cameraSpeedX: 4.82
   playerAnimator: {fileID: 1379212108}
   idleStateName: Idle
   gameOverSceneName: GameOver2
@@ -55319,6 +55319,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 569685569522273784, guid: a037c2536adcd4047bb46a8e2a37434a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 354233415}
+    - targetCorrespondingSourceObject: {fileID: 569685569522273784, guid: a037c2536adcd4047bb46a8e2a37434a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 354233416}
   m_SourcePrefab: {fileID: 100100000, guid: a037c2536adcd4047bb46a8e2a37434a, type: 3}
 --- !u!4 &354233413 stripped
 Transform:
@@ -55343,6 +55346,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   diamondId: D5
+--- !u!114 &354233416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 354233414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c162a4666c6a04643834ebe6e8cb35cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DiamondCollectible
+  starsCounterText: {fileID: 2027018489}
+  coverObjectTag: Balloon
 --- !u!1 &369926789
 GameObject:
   m_ObjectHideFlags: 0
@@ -111918,6 +111935,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 569685569522273784, guid: a037c2536adcd4047bb46a8e2a37434a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 820796350}
+    - targetCorrespondingSourceObject: {fileID: 569685569522273784, guid: a037c2536adcd4047bb46a8e2a37434a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 820796351}
   m_SourcePrefab: {fileID: 100100000, guid: a037c2536adcd4047bb46a8e2a37434a, type: 3}
 --- !u!4 &820796348 stripped
 Transform:
@@ -111942,6 +111962,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   diamondId: D3
+--- !u!114 &820796351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 820796349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c162a4666c6a04643834ebe6e8cb35cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DiamondCollectible
+  starsCounterText: {fileID: 2027018489}
+  coverObjectTag: Balloon
 --- !u!1 &825495594
 GameObject:
   m_ObjectHideFlags: 0
@@ -113269,6 +113303,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 569685569522273784, guid: a037c2536adcd4047bb46a8e2a37434a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 952887715}
+    - targetCorrespondingSourceObject: {fileID: 569685569522273784, guid: a037c2536adcd4047bb46a8e2a37434a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 952887716}
   m_SourcePrefab: {fileID: 100100000, guid: a037c2536adcd4047bb46a8e2a37434a, type: 3}
 --- !u!4 &952887713 stripped
 Transform:
@@ -113293,6 +113330,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   diamondId: D2
+--- !u!114 &952887716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 952887714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c162a4666c6a04643834ebe6e8cb35cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DiamondCollectible
+  starsCounterText: {fileID: 2027018489}
+  coverObjectTag: Balloon
 --- !u!1 &953148294
 GameObject:
   m_ObjectHideFlags: 0
@@ -113710,6 +113761,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 569685569522273784, guid: a037c2536adcd4047bb46a8e2a37434a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1009846661}
+    - targetCorrespondingSourceObject: {fileID: 569685569522273784, guid: a037c2536adcd4047bb46a8e2a37434a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1009846662}
   m_SourcePrefab: {fileID: 100100000, guid: a037c2536adcd4047bb46a8e2a37434a, type: 3}
 --- !u!4 &1009846659 stripped
 Transform:
@@ -113734,6 +113788,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   diamondId: D1
+--- !u!114 &1009846662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1009846660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c162a4666c6a04643834ebe6e8cb35cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DiamondCollectible
+  starsCounterText: {fileID: 2027018489}
+  coverObjectTag: Balloon
 --- !u!1 &1018681200
 GameObject:
   m_ObjectHideFlags: 0
@@ -116405,9 +116473,9 @@ GameObject:
   - component: {fileID: 1379212104}
   - component: {fileID: 1379212103}
   - component: {fileID: 1379212102}
-  - component: {fileID: 1379212101}
   - component: {fileID: 1379212100}
   - component: {fileID: 1379212111}
+  - component: {fileID: 1379212112}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -116453,21 +116521,6 @@ MonoBehaviour:
     m_Flags: 0
   blowStartTag: BlowStart
   maxBlowDistanceX: 10
---- !u!114 &1379212101
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1379212099}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3cd03954252c45489f7ed414c9aad5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CollectObjects
-  StarsCounterText: {fileID: 2027018489}
-  triggeringTag: Dimond
-  coverObjectTag: Balloon
 --- !u!114 &1379212102
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116799,6 +116852,19 @@ MonoBehaviour:
   pushEndTag: PushEnd
   pushBoxTag: PushBox
   maxBoxSpeedX: 10
+--- !u!114 &1379212112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1379212099}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b810b818e152f7d4d89948e1118c4582, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Collector
+  triggeringTag: Dimond
 --- !u!1 &1386765541
 GameObject:
   m_ObjectHideFlags: 0
@@ -117110,7 +117176,7 @@ Transform:
   m_GameObject: {fileID: 1419973079}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 492.04382, y: 2.3306599, z: 0}
+  m_LocalPosition: {x: 492.04382, y: 0.41, z: 0}
   m_LocalScale: {x: 5.507936, y: 5.807616, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -119349,6 +119415,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 569685569522273784, guid: a037c2536adcd4047bb46a8e2a37434a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1620183049}
+    - targetCorrespondingSourceObject: {fileID: 569685569522273784, guid: a037c2536adcd4047bb46a8e2a37434a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1620183050}
   m_SourcePrefab: {fileID: 100100000, guid: a037c2536adcd4047bb46a8e2a37434a, type: 3}
 --- !u!4 &1620183047 stripped
 Transform:
@@ -119373,6 +119442,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   diamondId: D4
+--- !u!114 &1620183050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1620183048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c162a4666c6a04643834ebe6e8cb35cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DiamondCollectible
+  starsCounterText: {fileID: 2027018489}
+  coverObjectTag: Balloon
 --- !u!1 &1621035276
 GameObject:
   m_ObjectHideFlags: 0

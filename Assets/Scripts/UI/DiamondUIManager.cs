@@ -22,7 +22,7 @@ public class DiamondUIManager : MonoBehaviour
     void Start()
     {
         // Use the saved stars from the current run
-        int initialScore = StarsNumberKeeper.StarsCollected;
+        int initialScore = DiamondRunKeeper.DimondsCollected;
 
         // Optional: sync the text with the saved value
         if (scoreText != null)
@@ -35,7 +35,7 @@ public class DiamondUIManager : MonoBehaviour
     void Update()
     {
         // Get current score from the keeper
-        int currentScore = StarsNumberKeeper.StarsCollected;
+        int currentScore = DiamondRunKeeper.DimondsCollected;
 
 
         if (currentScore != lastKnownScore)

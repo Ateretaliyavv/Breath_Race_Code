@@ -19,7 +19,7 @@ public class NumberFieldUI : MonoBehaviour
     private void Start()
     {
         // Initialize number from the global keeper (so respawn from checkpoint keeps the value)
-        number = StarsNumberKeeper.StarsCollected;
+        number = DiamondRunKeeper.DimondsCollected;
 
         if (text != null)
             text.text = number.ToString();
@@ -38,7 +38,7 @@ public class NumberFieldUI : MonoBehaviour
             text.text = newNumber.ToString();
 
         // Keep the global value in sync
-        StarsNumberKeeper.StarsCollected = this.number;
+        DiamondRunKeeper.DimondsCollected = this.number;
     }
 
     public void AddNumberUI(int toAdd)

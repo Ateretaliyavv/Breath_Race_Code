@@ -32,7 +32,6 @@ public class GoToSceneByClick : MonoBehaviour
         // Optional reset for diamonds (used for Next Level, Home, Back buttons)
         if (resetRunData)
         {
-            StarsNumberKeeper.StarsCollected = 0;
             DiamondRunKeeper.ClearAll();
         }
 
