@@ -2,62 +2,78 @@ using System.Collections;
 using UnityEngine;
 
 /*
- * Script that handel the balloon expolosion by animator and go to surprise scene
+ * Script that handles the balloon explosion via trigger collision.
+ * - Plays "Explode" sound.
+ * - Triggers Animator.
+ * - Transitions to surprise scene.
  */
 [RequireComponent(typeof(Animator))]
 public class BalloonExplod : MonoBehaviour
 {
-    // Reference to the object that is allowed to trigger the balloon explosion
-    [Header("Explosion Settings")]
+    [Header("Explosion Trigger Settings")]
+    [Tooltip("The specific object that causes the balloon to explode (e.g., Needle/Spike)")]
     [SerializeField] private GameObject explodingObject;
 
-    // Scale multiplier applied only when the balloon explodes to make the explosion visually larger
-    [Header("Explosion Scale Effect")]
+    [Header("Explosion Visuals")]
+    [Tooltip("Scale multiplier applied instantly when exploding")]
     [SerializeField] private float explosionScaleMultiplier = 1.5f;
 
-    [Header("Surprise scene")]
+    [Header("Scene Transition")]
     [SerializeField] private string sceneToLoad;
-
-    [Header("Scene Transition Delay")]
     [SerializeField] private float sceneLoadDelay = 0.5f;
+
+    [Header("Audio Settings")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip explodeSound; // Sound for "BOOM"
 
     private Animator animator;
     private bool hasExploded = false;
 
     private void Awake()
     {
-        // Initialize references and ensure the balloon starts unexploaded
         animator = GetComponent<Animator>();
         animator.SetBool("IsExploded", false);
+
+        // Auto-find AudioSource if missing
+        if (audioSource == null)
+            audioSource = GetComponent<AudioSource>();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // Ignore further collisions after the balloon has already exploded
-        if (hasExploded)
-            return;
+        if (hasExploded) return;
 
-        // React only to the specifically assigned exploding object
-        if (other.gameObject != explodingObject)
-            return;
-
-        Explode();
+        // Check if the collided object is the designated "Exploder"
+        if (other.gameObject == explodingObject)
+        {
+            Explode();
+        }
     }
 
     private void Explode()
     {
-        // Handles the full explosion sequence of the balloon
         hasExploded = true;
+
+        // 1. Play Explosion Sound
+        if (audioSource != null && explodeSound != null)
+        {
+            audioSource.pitch = 1f; // Reset pitch to normal for explosion
+            audioSource.PlayOneShot(explodeSound);
+        }
+
+        // 2. Visual Effects
         transform.localScale *= explosionScaleMultiplier;
         animator.SetBool("IsExploded", true);
-        // Start delayed actions
+
+        // 3. Start Scene Transition
         StartCoroutine(SceneTransitionAfterDelay());
     }
 
     private IEnumerator SceneTransitionAfterDelay()
     {
-        // Wait additional time before loading the next scene
         yield return new WaitForSeconds(sceneLoadDelay);
+
+        // Ensure SceneNavigator exists in your project, otherwise use SceneManager
         SceneNavigator.LoadScene(sceneToLoad, markAsNextLevel: false);
     }
 }
