@@ -8,7 +8,8 @@ using UnityEngine.InputSystem;
  * Now supports:
  * - Keyboard OR Breath control (selectable in Inspector)
  * - 3 breath jump strength levels (low / medium / high), each with configurable
- *   threshold (kPa) and vertical speed.
+ * threshold (kPa) and vertical speed.
+ * - AUDIO SUPPORT ADDED
  */
 
 public class Jump : MonoBehaviour
@@ -25,6 +26,11 @@ public class Jump : MonoBehaviour
     [Header("Components")]
     [SerializeField] Rigidbody2D rigidBody;
     [SerializeField] Animator animator;
+
+    [Header("Audio Settings")] // --- Audio Support ---
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip jumpSound;
+    private bool wasJumping = false; // Helper variable to prevent sound repetition
 
     [Header("Keyboard Input")]
     [SerializeField] InputAction jumpButton = new InputAction(type: InputActionType.Button);
@@ -123,11 +129,20 @@ public class Jump : MonoBehaviour
     {
         if (isHeld && IsInsideJumpZone())
         {
+            // --- Audio Support ---
+            // If this is the start of the jump (was not jumping in previous frame)
+            if (!wasJumping)
+            {
+                PlayJumpSound();
+                wasJumping = true;
+            }
+
             v.y = mediumJumpSpeed;  // default keyboard jump uses only medium
             animator.SetBool("isJumping", true);
         }
         else
         {
+            wasJumping = false; // Reset state when key is released
             animator.SetBool("isJumping", false);
         }
     }
@@ -138,12 +153,14 @@ public class Jump : MonoBehaviour
         if (pressureSource == null)
         {
             animator.SetBool("isJumping", false);
+            wasJumping = false;
             return;
         }
 
         if (!IsInsideJumpZone())
         {
             animator.SetBool("isJumping", false);
+            wasJumping = false;
             return;
         }
 
@@ -162,12 +179,30 @@ public class Jump : MonoBehaviour
 
         if (selectedSpeed > 0f)
         {
+            // --- Audio Support ---
+            // If this is the start of strong breath
+            if (!wasJumping)
+            {
+                PlayJumpSound();
+                wasJumping = true;
+            }
+
             v.y = selectedSpeed;
             animator.SetBool("isJumping", true);
         }
         else
         {
+            wasJumping = false; // Reset state when breath stops
             animator.SetBool("isJumping", false);
+        }
+    }
+
+    // --- New function to trigger the sound ---
+    private void PlayJumpSound()
+    {
+        if (audioSource != null && jumpSound != null)
+        {
+            audioSource.PlayOneShot(jumpSound);
         }
     }
 

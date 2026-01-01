@@ -2,14 +2,6 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 
-/*
- * Diamond collectible logic:
- * Checks cover object on top.
- * Updates UI.
- * Updates global run keeper.
- * Marks persistent.
- * Plays collect animation and destroys the diamond.
- */
 [RequireComponent(typeof(Collider2D))]
 public class DiamondCollectible : MonoBehaviour, ICollectible
 {
@@ -19,71 +11,77 @@ public class DiamondCollectible : MonoBehaviour, ICollectible
     private TextMeshProUGUI starsCounterText;
 
     [Header("Cover Settings")]
-    [SerializeField] private string coverObjectTag; // same as in your script
+    [SerializeField] private string coverObjectTag;
+
+    // --- Audio Settings ---
+    [Header("Audio Settings")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip collectSound;
 
     public void Collect()
     {
         Vector3 diamondPos = transform.position;
 
-        // If this diamond has a cover on it - do NOT collect
         if (HasCoverOnTop(diamondPos))
             return;
 
-        // Get the NumberFieldUI component on the UI text
         NumberFieldUI uiCounter = starsCounterText.GetComponent<NumberFieldUI>();
 
         if (uiCounter != null)
         {
-            // Increase counter in the UI
             uiCounter.AddNumberUI(1);
-
-            // Update the global keeper based on the UI counter current value
             DiamondRunKeeper.DimondsCollected = uiCounter.GetNumberUI();
         }
 
-        // Mark this diamond as collected for this run
         DiamondPersistent persistent = GetComponent<DiamondPersistent>();
         if (persistent != null)
         {
             persistent.MarkCollected();
         }
 
-        // Play collect animation and then remove the diamond
+        // --- Play Sound ---
+        if (audioSource != null && collectSound != null)
+        {
+            audioSource.PlayOneShot(collectSound);
+        }
+
         StartCoroutine(PlayCollectAnimationAndDestroy());
     }
 
-    // Coroutine: plays collect animation then destroys the diamond when animation ends
     private IEnumerator PlayCollectAnimationAndDestroy()
     {
         Animator anim = GetComponent<Animator>();
-        float duration = 0f;
+        float animDuration = 0f;
 
+        // Calculate animation duration
         if (anim != null)
         {
-            // Activate the "Collect" animation using trigger
             anim.SetTrigger("Collect");
-
-            // Get the real animation duration dynamically
             AnimationClip[] clips = anim.runtimeAnimatorController.animationClips;
             foreach (var clip in clips)
             {
-                // Searching for feedback animation clip by name
                 if (clip.name.Contains("feedback") || clip.name.Contains("feed"))
                 {
-                    duration = clip.length;
+                    animDuration = clip.length;
                     break;
                 }
             }
         }
 
-        // Wait until the animation clip actually finishes
-        yield return new WaitForSeconds(duration);
+        // --- Calculate total wait time ---
+        // We want to wait for either the animation or the sound to finish (whichever is longer)
+        // to prevent the object from being destroyed while the sound is playing
+        float soundDuration = (collectSound != null) ? collectSound.length : 0f;
 
-        // Remove the collected diamond from the scene
+        // Take the longer duration
+        float waitTime = Mathf.Max(animDuration, soundDuration);
+
+        // Wait
+        yield return new WaitForSeconds(waitTime);
+
         Destroy(gameObject);
     }
 
-    // Checks if there is ANY cover object at the same XY as the given diamond position
     private bool HasCoverOnTop(Vector3 diamondPos)
     {
         GameObject[] covers = GameObject.FindGameObjectsWithTag(coverObjectTag);
@@ -91,9 +89,7 @@ public class DiamondCollectible : MonoBehaviour, ICollectible
         foreach (GameObject cover in covers)
         {
             if (cover == null) continue;
-
             Vector3 coverPos = cover.transform.position;
-
             if (AreSameXY(coverPos, diamondPos))
             {
                 return true;
@@ -102,12 +98,10 @@ public class DiamondCollectible : MonoBehaviour, ICollectible
         return false;
     }
 
-    // Returns true if two positions share the same X and Y (within a small epsilon)
     public static bool AreSameXY(Vector3 a, Vector3 b, float epsilon = 0.35f)
     {
         bool sameX = Mathf.Abs(a.x - b.x) < epsilon;
         bool sameY = Mathf.Abs(a.y - b.y) < epsilon;
-
         return sameX && sameY;
     }
 }
