@@ -43,7 +43,7 @@ public class PushBox : MonoBehaviour
 
     [Header("Breath Control")]
     [Tooltip("Source of breath pressure values (kPa)")]
-    [SerializeField] private PressureReaderFromSerial pressureSource;
+    [SerializeField] private PressureWebSocketReceiver pressureSource;
 
     [Tooltip("Breath threshold in kPa to allow pushing")]
     [SerializeField] private float breathThresholdKPa = 1.0f;

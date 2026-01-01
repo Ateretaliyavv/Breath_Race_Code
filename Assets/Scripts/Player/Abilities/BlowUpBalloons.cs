@@ -5,9 +5,10 @@ using UnityEngine.InputSystem;
 /*
  * Allows balloons to start moving (SimpleMove) when the player triggers a blow
  * inside a BlowStart zone.
- * * UPDATES:
+ * UPDATES:
  * - Added Audio Support.
  * - Added Sound Duration Limit (cuts the sound if it's too long).
+ * - Supports two control modes: Keyboard OR Breath (from pressure sensor).
  */
 
 public class BlowUpBalloons : MonoBehaviour
@@ -28,7 +29,7 @@ public class BlowUpBalloons : MonoBehaviour
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip blowSound;
     [Tooltip("Stop the sound after this many seconds")]
-    [SerializeField] private float soundDurationLimit = 1.0f; // Limit of 1 second
+    [SerializeField] private float soundDurationLimit = 1.0f;
 
     [Header("Blow Up Button (Keyboard)")]
     [SerializeField] private InputAction blowUpButton = new InputAction(type: InputActionType.Button);
@@ -39,8 +40,8 @@ public class BlowUpBalloons : MonoBehaviour
     [Header("Blow Distance")]
     [SerializeField] private float maxBlowDistanceX = 10f;
 
-    [Header("Breath Control")]
-    [SerializeField] private PressureReaderFromSerial pressureSource;
+    [Header("Breath Control (WebSocket Pressure)")]
+    [SerializeField] private PressureWebSocketReceiver pressureSource;
     [SerializeField] private float breathThresholdKPa = 1.0f;
 
     // All BlowStart objects in the scene
@@ -51,6 +52,7 @@ public class BlowUpBalloons : MonoBehaviour
 
     private void Awake()
     {
+        // Initialize balloons and disable SimpleMove at start
         if (simpleMove != null && simpleMove.Length > 0)
         {
             balloonShouldBlow = new bool[simpleMove.Length];
@@ -66,6 +68,7 @@ public class BlowUpBalloons : MonoBehaviour
             Debug.LogWarning("BlowUpBalloons: simpleMove array is empty or null on " + gameObject.name);
         }
 
+        // Cache all BlowStart markers
         GameObject[] startObjs = GameObject.FindGameObjectsWithTag(blowStartTag);
         blowStarts = new Transform[startObjs.Length];
 
@@ -78,6 +81,7 @@ public class BlowUpBalloons : MonoBehaviour
 
     private void OnEnable()
     {
+        // Subscribe keyboard action only if using keyboard mode
         if (controlMode == BlowControlMode.Keyboard)
         {
             blowUpButton.Enable();
@@ -106,6 +110,7 @@ public class BlowUpBalloons : MonoBehaviour
         TriggerBlow();
     }
 
+    // Select balloons in front of the player and start them if inside zone
     private void TriggerBlow()
     {
         if (!IsInsideBlowZone())
@@ -141,12 +146,11 @@ public class BlowUpBalloons : MonoBehaviour
             blowTriggered = true;
             Debug.Log("BlowUpBalloons: New balloons added to flight");
 
-            // --- Play sound with time limit ---
+            // Play blow sound with duration limit
             if (audioSource != null && blowSound != null)
             {
                 audioSource.clip = blowSound;
                 audioSource.Play();
-                // Stop the sound after the defined duration
                 StartCoroutine(StopSoundAfterDelay(soundDurationLimit));
             }
         }
@@ -156,22 +160,19 @@ public class BlowUpBalloons : MonoBehaviour
         }
     }
 
-    // Coroutine to stop the sound
+    // Stop the blow sound after the given delay
     private IEnumerator StopSoundAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
 
-        if (audioSource != null && audioSource.isPlaying)
+        if (audioSource != null && audioSource.isPlaying &&
+            audioSource.clip == blowSound)
         {
-            // Check if the current clip is the one we want to stop
-            // (In case another sound started playing in the meantime)
-            if (audioSource.clip == blowSound)
-            {
-                audioSource.Stop();
-            }
+            audioSource.Stop();
         }
     }
 
+    // Handle breath-based triggering when in Breath mode
     private void UpdateBreathControl()
     {
         if (pressureSource == null) return;
@@ -179,6 +180,7 @@ public class BlowUpBalloons : MonoBehaviour
         float pressure = pressureSource.lastPressureKPa;
         bool breathStrong = pressure >= breathThresholdKPa;
 
+        // Trigger only on rising edge of strong breath
         if (breathStrong && !wasBreathStrong)
         {
             if (IsInsideBlowZone())
@@ -214,6 +216,7 @@ public class BlowUpBalloons : MonoBehaviour
             return;
         }
 
+        // Enable only the selected balloons while in zone
         for (int i = 0; i < simpleMove.Length; i++)
         {
             SimpleMove s = simpleMove[i];
@@ -223,6 +226,7 @@ public class BlowUpBalloons : MonoBehaviour
         }
     }
 
+    // Disable all SimpleMove and clear selection
     private void ResetBalloons()
     {
         if (simpleMove != null)
@@ -240,6 +244,7 @@ public class BlowUpBalloons : MonoBehaviour
         }
     }
 
+    // Check if player is between BlowStart and its child (BlowEnd)
     private bool IsInsideBlowZone()
     {
         if (blowStarts == null || blowStarts.Length == 0) return false;
@@ -251,8 +256,10 @@ public class BlowUpBalloons : MonoBehaviour
             if (start == null) continue;
 
             Transform end = null;
-            if (start.childCount > 0) end = start.GetChild(0);
-            else continue;
+            if (start.childCount > 0)
+                end = start.GetChild(0);
+            else
+                continue;
 
             float x1 = start.position.x;
             float x2 = end.position.x;
@@ -260,7 +267,8 @@ public class BlowUpBalloons : MonoBehaviour
             float minX = Mathf.Min(x1, x2);
             float maxX = Mathf.Max(x1, x2);
 
-            if (playerX >= minX && playerX <= maxX) return true;
+            if (playerX >= minX && playerX <= maxX)
+                return true;
         }
 
         return false;

@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
  * Now supports:
  * - Keyboard OR Breath control (selectable in Inspector)
  * - 3 breath jump strength levels (low / medium / high), each with configurable
- * threshold (kPa) and vertical speed.
+ *   threshold (kPa) and vertical speed.
  * - AUDIO SUPPORT ADDED
  */
 
@@ -27,16 +27,16 @@ public class Jump : MonoBehaviour
     [SerializeField] Rigidbody2D rigidBody;
     [SerializeField] Animator animator;
 
-    [Header("Audio Settings")] // --- Audio Support ---
+    [Header("Audio Settings")]
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip jumpSound;
-    private bool wasJumping = false; // Helper variable to prevent sound repetition
+    private bool wasJumping = false;
 
     [Header("Keyboard Input")]
     [SerializeField] InputAction jumpButton = new InputAction(type: InputActionType.Button);
 
     [Header("Breath Input (kPa)")]
-    [SerializeField] private PressureReaderFromSerial pressureSource;
+    [SerializeField] private PressureWebSocketReceiver pressureSource;
     [SerializeField] private float lowThresholdKPa = 1.0f;
     [SerializeField] private float mediumThresholdKPa = 2.0f;
     [SerializeField] private float highThresholdKPa = 3.5f;
@@ -55,7 +55,6 @@ public class Jump : MonoBehaviour
 
     private void Awake()
     {
-        // Find all JumpStart markers
         GameObject[] startObjs = GameObject.FindGameObjectsWithTag(jumpStartTag);
         jumpStarts = new Transform[startObjs.Length];
 
@@ -129,20 +128,18 @@ public class Jump : MonoBehaviour
     {
         if (isHeld && IsInsideJumpZone())
         {
-            // --- Audio Support ---
-            // If this is the start of the jump (was not jumping in previous frame)
             if (!wasJumping)
             {
                 PlayJumpSound();
                 wasJumping = true;
             }
 
-            v.y = mediumJumpSpeed;  // default keyboard jump uses only medium
+            v.y = mediumJumpSpeed;
             animator.SetBool("isJumping", true);
         }
         else
         {
-            wasJumping = false; // Reset state when key is released
+            wasJumping = false;
             animator.SetBool("isJumping", false);
         }
     }
@@ -167,7 +164,6 @@ public class Jump : MonoBehaviour
         float pressure = pressureSource.lastPressureKPa;
         float selectedSpeed = 0f;
 
-        // Determine jump strength based on breath level
         if (pressure >= highThresholdKPa)
             selectedSpeed = highJumpSpeed;
         else if (pressure >= mediumThresholdKPa)
@@ -179,8 +175,6 @@ public class Jump : MonoBehaviour
 
         if (selectedSpeed > 0f)
         {
-            // --- Audio Support ---
-            // If this is the start of strong breath
             if (!wasJumping)
             {
                 PlayJumpSound();
@@ -192,12 +186,11 @@ public class Jump : MonoBehaviour
         }
         else
         {
-            wasJumping = false; // Reset state when breath stops
+            wasJumping = false;
             animator.SetBool("isJumping", false);
         }
     }
 
-    // --- New function to trigger the sound ---
     private void PlayJumpSound()
     {
         if (audioSource != null && jumpSound != null)
@@ -221,7 +214,6 @@ public class Jump : MonoBehaviour
 
             Transform end = null;
 
-            // Find child with jumpEndTag
             for (int i = 0; i < start.childCount; i++)
             {
                 Transform child = start.GetChild(i);
@@ -234,7 +226,6 @@ public class Jump : MonoBehaviour
 
             if (end == null)
             {
-                // If no tagged child, fallback: use first child
                 if (start.childCount > 0)
                     end = start.GetChild(0);
                 else
