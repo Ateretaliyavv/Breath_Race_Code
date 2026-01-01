@@ -2178,6 +2178,7 @@ Transform:
   - {fileID: 1605548823}
   - {fileID: 665389771}
   - {fileID: 683740852}
+  - {fileID: 1351275615}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &499653570
@@ -3934,6 +3935,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b66bf5137ba7fee47bc3e33820ad39ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Jump
+  controlMode: 1
   rigidBody: {fileID: 906930553}
   animator: {fileID: 906930547}
   jumpButton:
@@ -3953,7 +3955,13 @@ MonoBehaviour:
       m_Action: Jump Button
       m_Flags: 0
     m_Flags: 0
-  riseSpeed: 6
+  pressureSource: {fileID: 1351275614}
+  lowThresholdKPa: 1
+  mediumThresholdKPa: 2
+  highThresholdKPa: 3.5
+  lowJumpSpeed: 2
+  mediumJumpSpeed: 4
+  highJumpSpeed: 7
   jumpStartTag: JumpStart
   jumpEndTag: JumpEnd
 --- !u!114 &906930551
@@ -4084,6 +4092,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2843a64b5526a3b4eaf7e3009d99bdea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BridgeBuilder
+  controlMode: 1
   buildBridgeAction:
     m_Name: Build Bridge
     m_Type: 1
@@ -4111,6 +4120,8 @@ MonoBehaviour:
   pieceWidth: 0.8
   buildSpeed: 6
   yOffsetBelowFeet: 1
+  pressureSource: {fileID: 1351275614}
+  breathThresholdKPa: 1
 --- !u!114 &906930555
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4137,6 +4148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ebcef0a5df14914fa9f1d0c60c868d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  controlMode: 1
   simpleMove:
   - {fileID: 1487912202}
   - {fileID: 1393757080}
@@ -4163,6 +4175,8 @@ MonoBehaviour:
     m_Flags: 0
   blowStartTag: BlowStart
   maxBlowDistanceX: 10
+  pressureSource: {fileID: 1351275614}
+  breathThresholdKPa: 1
 --- !u!114 &906930558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4175,6 +4189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 915eb808150c635408632c288c9c280c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PushBox
+  controlMode: 1
   pushAction:
     m_Name: Push
     m_Type: 1
@@ -4196,6 +4211,8 @@ MonoBehaviour:
   pushEndTag: PushEnd
   pushBoxTag: PushBox
   maxBoxSpeedX: 5
+  pressureSource: {fileID: 1351275614}
+  breathThresholdKPa: 1
 --- !u!114 &906930559
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5450,12 +5467,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1351275613}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.29726, y: 3.28445, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -438.32584, y: -200.65497, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 471670572}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1383679165
 GameObject:
@@ -13577,4 +13594,3 @@ SceneRoots:
   - {fileID: 1616218756}
   - {fileID: 1125202464}
   - {fileID: 471670572}
-  - {fileID: 1351275615}
