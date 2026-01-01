@@ -76,4 +76,11 @@ public class BalloonExplod : MonoBehaviour
         // Ensure SceneNavigator exists in your project, otherwise use SceneManager
         SceneNavigator.LoadScene(sceneToLoad, markAsNextLevel: false);
     }
+
+    // For compatibility with InputModeManager.
+    // Currently explosion logic is not input-based, so this does nothing.
+    public void SetControlMode(bool useBreath)
+    {
+        // No-op for now
+    }
 }

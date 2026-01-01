@@ -21,6 +21,9 @@ public class InputModeManager : MonoBehaviour
     [SerializeField] private PushBox pushBox;
     [SerializeField] private BlowUpBalloons blowUpBalloons;
     [SerializeField] private Jump jump;
+    [SerializeField] private InflatingBalloon inflatingBalloon;
+    [SerializeField] private BalloonExplod balloonExplod; // currently not input-based, but kept for future use
+
 
     private void Start()
     {
@@ -55,6 +58,12 @@ public class InputModeManager : MonoBehaviour
 
         if (jump != null)
             jump.SetControlMode(useBreath);
+
+        if (inflatingBalloon != null)
+            inflatingBalloon.SetControlMode(useBreath);
+
+        if (balloonExplod != null)
+            balloonExplod.SetControlMode(useBreath);
 
         Debug.Log("InputModeManager: Switched mode to " + currentMode);
     }
