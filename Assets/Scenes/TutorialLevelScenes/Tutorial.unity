@@ -1146,6 +1146,102 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 258708109}
   m_CullTransparentMesh: 1
+--- !u!1 &297829686
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 297829688}
+  - component: {fileID: 297829687}
+  m_Layer: 0
+  m_Name: WebSocketReceiver
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &297829687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 297829686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68488a8069a441b42b17cdf42558ebfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PressureWebSocketReceiver
+  wsUrl: ws://192.168.43.3:5005
+  debugText: {fileID: 0}
+  lastPressureKPa: 0
+--- !u!4 &297829688
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 297829686}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 511.39502, y: 217.50122, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &311488245
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 311488246}
+  - component: {fileID: 311488247}
+  m_Layer: 0
+  m_Name: InputModeManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &311488246
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 311488245}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 64.77191, y: 13.561798, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 471670572}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &311488247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 311488245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 277fd327a96f8984c95aeef5b47028de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputModeManager
+  currentMode: 1
+  bridgeBuilder: {fileID: 0}
+  pushBox: {fileID: 0}
+  blowUpBalloons: {fileID: 0}
+  jump: {fileID: 0}
 --- !u!1 &312690842
 GameObject:
   m_ObjectHideFlags: 0
@@ -2178,7 +2274,7 @@ Transform:
   - {fileID: 1605548823}
   - {fileID: 665389771}
   - {fileID: 683740852}
-  - {fileID: 1351275615}
+  - {fileID: 311488246}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &499653570
@@ -3343,6 +3439,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DiamondCollectible
   starsCounterText: {fileID: 1835056310}
   coverObjectTag: Balloon
+  audioSource: {fileID: 0}
+  collectSound: {fileID: 0}
 --- !u!1 &709628160
 GameObject:
   m_ObjectHideFlags: 0
@@ -3679,6 +3777,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DiamondCollectible
   starsCounterText: {fileID: 1835056310}
   coverObjectTag: Balloon
+  audioSource: {fileID: 0}
+  collectSound: {fileID: 0}
 --- !u!1 &819666732
 GameObject:
   m_ObjectHideFlags: 0
@@ -3938,6 +4038,8 @@ MonoBehaviour:
   controlMode: 1
   rigidBody: {fileID: 906930553}
   animator: {fileID: 906930547}
+  audioSource: {fileID: 0}
+  jumpSound: {fileID: 0}
   jumpButton:
     m_Name: Jump Button
     m_Type: 1
@@ -3955,7 +4057,7 @@ MonoBehaviour:
       m_Action: Jump Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1351275614}
+  pressureSource: {fileID: 297829687}
   lowThresholdKPa: 1
   mediumThresholdKPa: 2
   highThresholdKPa: 3.5
@@ -4120,7 +4222,7 @@ MonoBehaviour:
   pieceWidth: 0.8
   buildSpeed: 6
   yOffsetBelowFeet: 1
-  pressureSource: {fileID: 1351275614}
+  pressureSource: {fileID: 297829687}
   breathThresholdKPa: 1
 --- !u!114 &906930555
 MonoBehaviour:
@@ -4156,6 +4258,9 @@ MonoBehaviour:
   - {fileID: 1602059210}
   - {fileID: 567698622}
   - {fileID: 420672601}
+  audioSource: {fileID: 0}
+  blowSound: {fileID: 0}
+  soundDurationLimit: 1
   blowUpButton:
     m_Name: Blow Up Button
     m_Type: 1
@@ -4175,7 +4280,7 @@ MonoBehaviour:
     m_Flags: 0
   blowStartTag: BlowStart
   maxBlowDistanceX: 10
-  pressureSource: {fileID: 1351275614}
+  pressureSource: {fileID: 297829687}
   breathThresholdKPa: 1
 --- !u!114 &906930558
 MonoBehaviour:
@@ -4211,7 +4316,7 @@ MonoBehaviour:
   pushEndTag: PushEnd
   pushBoxTag: PushBox
   maxBoxSpeedX: 5
-  pressureSource: {fileID: 1351275614}
+  pressureSource: {fileID: 297829687}
   breathThresholdKPa: 1
 --- !u!114 &906930559
 MonoBehaviour:
@@ -5028,6 +5133,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DiamondCollectible
   starsCounterText: {fileID: 1835056310}
   coverObjectTag: Balloon
+  audioSource: {fileID: 0}
+  collectSound: {fileID: 0}
 --- !u!1 &1239270120
 GameObject:
   m_ObjectHideFlags: 0
@@ -5424,54 +5531,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 922515724}
-  m_Father: {fileID: 471670572}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1351275613
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1351275615}
-  - component: {fileID: 1351275614}
-  m_Layer: 0
-  m_Name: BreathMejure
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1351275614
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1351275613}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a1bd48e298538b4c8791f5f4d876ec8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PressureReaderFromSerial
-  portName: COM5
-  baudRate: 115200
-  debugText: {fileID: 119026698}
-  lastPressureKPa: 0
---- !u!4 &1351275615
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1351275613}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -438.32584, y: -200.65497, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
   m_Father: {fileID: 471670572}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1383679165
@@ -13466,6 +13525,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DiamondCollectible
   starsCounterText: {fileID: 1835056310}
   coverObjectTag: Balloon
+  audioSource: {fileID: 0}
+  collectSound: {fileID: 0}
 --- !u!1001 &3412364916392358756
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13582,6 +13643,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DiamondCollectible
   starsCounterText: {fileID: 1835056310}
   coverObjectTag: Balloon
+  audioSource: {fileID: 0}
+  collectSound: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -13594,3 +13657,4 @@ SceneRoots:
   - {fileID: 1616218756}
   - {fileID: 1125202464}
   - {fileID: 471670572}
+  - {fileID: 297829688}
