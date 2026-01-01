@@ -1,8 +1,8 @@
 using System;
-using System.IO.Ports;
 using System.Globalization;
-using UnityEngine;
+using System.IO.Ports;
 using TMPro;
+using UnityEngine;
 
 public class PressureReaderFromSerial : MonoBehaviour
 {
