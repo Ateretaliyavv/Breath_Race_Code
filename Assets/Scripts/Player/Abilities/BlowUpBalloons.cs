@@ -1,12 +1,32 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/*
+ * Allows balloons to start moving (SimpleMove) when the player triggers a blow
+ * inside a BlowStart zone, and only for balloons in front of the player
+ * within a certain X distance.
+ *
+ * - Attach this script to the PLAYER.
+ * - Each balloon uses a SimpleMove component (disabled at start).
+ * - BlowStart objects have this tag and each has one child as BlowEnd,
+ *   defining the zone in which blowing is allowed.
+ */
+
 public class BlowUpBalloons : MonoBehaviour
 {
+    public enum BlowControlMode
+    {
+        Keyboard,
+        Breath
+    }
+
+    [Header("Control Mode")]
+    [SerializeField] private BlowControlMode controlMode = BlowControlMode.Keyboard;
+
     [Header("Components")]
     [SerializeField] private SimpleMove[] simpleMove;
 
-    [Header("Blow Up Button")]
+    [Header("Blow Up Button (Keyboard)")]
     [SerializeField] private InputAction blowUpButton = new InputAction(type: InputActionType.Button);
 
     [Header("Blow Zone Tags")]
@@ -15,16 +35,23 @@ public class BlowUpBalloons : MonoBehaviour
     [Header("Blow Distance")]
     [SerializeField] private float maxBlowDistanceX = 10f;
 
+    [Header("Breath Control")]
+    [SerializeField] private PressureReaderFromSerial pressureSource;
+    [SerializeField] private float breathThresholdKPa = 1.0f;
+
     // All BlowStart objects in the scene
     private Transform[] blowStarts;
 
-    // For each balloon: should it blow in the current zone after a valid press
+    // For each balloon: true if it should move after a valid blow in this zone
     private bool[] balloonShouldBlow;
 
-    // True if the player has pressed the blow button at least once
-    // while inside a valid blow zone and with at least one balloon in front
+    // True if blow was successfully triggered inside a zone
     private bool blowTriggered = false;
 
+    // Track breath state to detect rising edge
+    private bool wasBreathStrong = false;
+
+    // Initialize balloons and find all BlowStart markers
     private void Awake()
     {
         if (simpleMove != null && simpleMove.Length > 0)
@@ -42,7 +69,6 @@ public class BlowUpBalloons : MonoBehaviour
             Debug.LogWarning("BlowUpBalloons: simpleMove array is empty or null on " + gameObject.name);
         }
 
-        // Find all BlowStart markers in the scene
         GameObject[] startObjs = GameObject.FindGameObjectsWithTag(blowStartTag);
         blowStarts = new Transform[startObjs.Length];
 
@@ -53,27 +79,45 @@ public class BlowUpBalloons : MonoBehaviour
             Debug.LogWarning("BlowUpBalloons: No BlowStart objects found.");
     }
 
+    // Enable keyboard input only when using keyboard mode
     private void OnEnable()
     {
-        blowUpButton.Enable();
-        blowUpButton.performed += OnBlowPressed;
+        if (controlMode == BlowControlMode.Keyboard)
+        {
+            blowUpButton.Enable();
+            blowUpButton.performed += OnBlowPressed;
+        }
     }
 
+    // Disable keyboard input and reset state on disable
     private void OnDisable()
     {
-        blowUpButton.performed -= OnBlowPressed;
-        blowUpButton.Disable();
+        if (controlMode == BlowControlMode.Keyboard)
+        {
+            blowUpButton.performed -= OnBlowPressed;
+            blowUpButton.Disable();
+        }
 
         blowTriggered = false;
         ResetBalloons();
+        wasBreathStrong = false;
     }
 
+    // Handle keyboard blow press
     private void OnBlowPressed(InputAction.CallbackContext ctx)
     {
-        // 1) בדיקה האם השחקן בתוך האזור
+        if (controlMode != BlowControlMode.Keyboard)
+            return;
+
+        TriggerBlow();
+    }
+
+    // Shared blow trigger logic for both keyboard and breath
+    private void TriggerBlow()
+    {
         if (!IsInsideBlowZone())
         {
-            Debug.Log("BlowUpBalloons: blow pressed outside blow zone (ignored)");
+            Debug.Log("BlowUpBalloons: blow triggered outside blow zone (ignored)");
             return;
         }
 
@@ -83,8 +127,7 @@ public class BlowUpBalloons : MonoBehaviour
         float playerX = transform.position.x;
         bool anyNewBalloonFound = false;
 
-
-        // Check only at press time which balloons are in front and within distance
+        // When blow is triggered, select balloons in front and within distance
         for (int i = 0; i < simpleMove.Length; i++)
         {
             SimpleMove s = simpleMove[i];
@@ -104,9 +147,6 @@ public class BlowUpBalloons : MonoBehaviour
             }
         }
 
-        // --- שינוי: הלוגיקה של הטריגר ---
-        // אם מצאנו בלונים חדשים, או שהטריגר כבר היה פעיל, נשאיר אותו פעיל.
-        // לא נהפוך אותו ל-false אם הלחיצה הנוכחית לא תפסה כלום.
         if (anyNewBalloonFound)
         {
             blowTriggered = true;
@@ -114,22 +154,50 @@ public class BlowUpBalloons : MonoBehaviour
         }
         else if (blowTriggered)
         {
-            Debug.Log("BlowUpBalloons: Pressed again but no new balloons found (keeping old ones flying)");
+            Debug.Log("BlowUpBalloons: Triggered again but no new balloons found (keeping old ones flying)");
         }
         else
         {
-            Debug.Log("BlowUpBalloons: no balloons in front within distance, blow ignored");
+            Debug.Log("BlowUpBalloons: No balloons in front within distance, blow ignored");
         }
     }
 
+    // Handle breath-based triggering when in Breath mode
+    private void UpdateBreathControl()
+    {
+        if (pressureSource == null)
+            return;
+
+        float pressure = pressureSource.lastPressureKPa;
+        bool breathStrong = pressure >= breathThresholdKPa;
+
+        // When breath crosses the threshold upward inside a zone, act like a blow press
+        if (breathStrong && !wasBreathStrong)
+        {
+            if (IsInsideBlowZone())
+            {
+                TriggerBlow();
+                Debug.Log($"BlowUpBalloons: Blow triggered by breath, pressure={pressure:0.00} kPa");
+            }
+        }
+
+        wasBreathStrong = breathStrong;
+    }
+
+    // Update moving state of balloons based on zone and trigger state
     private void Update()
     {
+        if (controlMode == BlowControlMode.Breath)
+        {
+            UpdateBreathControl();
+        }
+
         if (simpleMove == null || simpleMove.Length == 0)
             return;
 
         bool insideZone = IsInsideBlowZone();
 
-        // If player leaves the zone, stop blowing and reset trigger and selection
+        // Leaving the zone resets everything
         if (!insideZone)
         {
             blowTriggered = false;
@@ -137,15 +205,14 @@ public class BlowUpBalloons : MonoBehaviour
             return;
         }
 
-        // Player is inside a zone, but blow was not triggered here
+        // Inside zone but blow was never triggered here
         if (!blowTriggered)
         {
             ResetBalloons();
             return;
         }
 
-        // Player is inside a zone and blow was triggered in this zone:
-        // keep balloons moving according to the selection made at press time
+        // Inside zone and blow was triggered: keep only selected balloons moving
         for (int i = 0; i < simpleMove.Length; i++)
         {
             SimpleMove s = simpleMove[i];
@@ -156,15 +223,16 @@ public class BlowUpBalloons : MonoBehaviour
         }
     }
 
+    // Disable all balloons and clear selection
     private void ResetBalloons()
     {
-        if (simpleMove == null)
-            return;
-
-        foreach (SimpleMove s in simpleMove)
+        if (simpleMove != null)
         {
-            if (s != null)
-                s.enabled = false;
+            foreach (SimpleMove s in simpleMove)
+            {
+                if (s != null)
+                    s.enabled = false;
+            }
         }
 
         if (balloonShouldBlow != null)
@@ -174,8 +242,7 @@ public class BlowUpBalloons : MonoBehaviour
         }
     }
 
-    // Each BlowStart has its own BlowEnd as a child.
-    // Player must be between parent.x and child.x.
+    // Check if player is inside any blow zone (between BlowStart and its child BlowEnd)
     private bool IsInsideBlowZone()
     {
         if (blowStarts == null || blowStarts.Length == 0)

@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 /*
  * Allows the player to push a crate only between PushStart / PushEnd markers
- * while holding an InputAction button.
+ * using either a keyboard button or breath input.
  *
  * - Attach this script to the PLAYER.
  * - The crate must have a Rigidbody2D and a tag (e.g. "PushBox").
@@ -13,6 +13,15 @@ using UnityEngine.InputSystem;
 
 public class PushBox : MonoBehaviour
 {
+    public enum PushControlMode
+    {
+        Keyboard,
+        Breath
+    }
+
+    [Header("Control Mode")]
+    [SerializeField] private PushControlMode controlMode = PushControlMode.Keyboard;
+
     [Header("Input (New Input System)")]
     [Tooltip("Input action used to push the box (Button type).")]
     [SerializeField]
@@ -32,15 +41,23 @@ public class PushBox : MonoBehaviour
     [Tooltip("Maximum horizontal speed for the box when pushing (for safety)")]
     [SerializeField] private float maxBoxSpeedX = 5f;
 
+    [Header("Breath Control")]
+    [Tooltip("Source of breath pressure values (kPa)")]
+    [SerializeField] private PressureReaderFromSerial pressureSource;
+
+    [Tooltip("Breath threshold in kPa to allow pushing")]
+    [SerializeField] private float breathThresholdKPa = 1.0f;
+
+    // Push zone markers
     private Transform[] pushStarts;
     private Transform[] pushEnds;
 
     // The crate we are currently touching (if any)
     private Rigidbody2D currentBoxRb;
 
+    // Find all PushStart / PushEnd markers by tag
     private void Awake()
     {
-        // --- Find all PushStart and PushEnd objects by tag ---
         GameObject[] startObjs = GameObject.FindGameObjectsWithTag(pushStartTag);
         GameObject[] endObjs = GameObject.FindGameObjectsWithTag(pushEndTag);
 
@@ -54,56 +71,72 @@ public class PushBox : MonoBehaviour
             pushEnds[i] = endObjs[i].transform;
 
         if (pushStarts.Length == 0)
-            Debug.LogWarning("PlayerPushBox: No objects found with tag " + pushStartTag);
+            Debug.LogWarning("PushBox: No objects found with tag " + pushStartTag);
         if (pushEnds.Length == 0)
-            Debug.LogWarning("PlayerPushBox: No objects found with tag " + pushEndTag);
+            Debug.LogWarning("PushBox: No objects found with tag " + pushEndTag);
     }
 
+    // Enable keyboard input only when using keyboard mode
     private void OnEnable()
     {
-        // ���� ��Input System ����
-        pushAction.Enable();
+        if (controlMode == PushControlMode.Keyboard)
+        {
+            pushAction.Enable();
+        }
     }
 
+    // Disable keyboard input when script is disabled
     private void OnDisable()
     {
-        pushAction.Disable();
+        if (controlMode == PushControlMode.Keyboard)
+        {
+            pushAction.Disable();
+        }
     }
 
+    // Handle pushing logic in physics update
     private void FixedUpdate()
     {
         if (currentBoxRb == null)
             return;
 
-        // ����� ������ ���� �����
-        bool isKeyHeld = pushAction.IsPressed();
         bool inAllowedZone = IsInPushZone(transform.position.x);
+        bool canPush = false;
 
-        if (isKeyHeld && inAllowedZone)
+        if (controlMode == PushControlMode.Keyboard)
         {
-            // ���� �����: ������� �� �-X (������� FreezeRotation)
+            bool isKeyHeld = pushAction.IsPressed();
+            canPush = isKeyHeld && inAllowedZone;
+        }
+        else if (controlMode == PushControlMode.Breath)
+        {
+            if (pressureSource != null)
+            {
+                float pressure = pressureSource.lastPressureKPa;
+                bool breathStrong = pressure >= breathThresholdKPa;
+                canPush = breathStrong && inAllowedZone;
+            }
+        }
+
+        if (canPush)
+        {
+            // Allow movement in X, keep rotation frozen
             currentBoxRb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
-            // ����� ������ ������ (�� ���� ��� ����)
+            // Clamp horizontal speed for safety
             Vector2 v = currentBoxRb.linearVelocity;
             v.x = Mathf.Clamp(v.x, -maxBoxSpeedX, maxBoxSpeedX);
             currentBoxRb.linearVelocity = v;
         }
         else
         {
-            // ���� �����: ������� �� ��� �-X
+            // Lock X movement when pushing is not allowed
             currentBoxRb.constraints = RigidbodyConstraints2D.FreezeRotation |
                                        RigidbodyConstraints2D.FreezePositionX;
         }
     }
 
-    /// <summary>
-    /// Checks if the given x-position is inside an allowed push region.
-    /// ����� ��� �-BridgeBuilder:
-    /// - ������ �� PushStart ������ ��������
-    /// - ������ �� PushEnd ������ ��������
-    /// - ���� ����� �� ����� PushStart ����� ������� ������ �������� ��� Start.
-    /// </summary>
+    // Check if the player is inside a valid push zone between PushStart and PushEnd
     private bool IsInPushZone(float playerX)
     {
         float lastStartX = float.NegativeInfinity;
@@ -123,19 +156,16 @@ public class PushBox : MonoBehaviour
                 lastEndX = e.position.x;
         }
 
-        // �� �� ����� ����� PushStart ��� � ���� �����
         if (lastStartX == float.NegativeInfinity)
             return false;
 
-        // �� ������ ������ �������� ��� End (�� ����) � ���� �����
         if (lastEndX >= lastStartX)
             return false;
 
-        // ����: ������ ������ ��� Start � ����
         return true;
     }
 
-    // ��������� �� ����� � ������ �� �-Rigidbody ���
+    // Detect when the player starts touching a pushable crate
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (!collision.collider.CompareTag(pushBoxTag))
@@ -144,13 +174,12 @@ public class PushBox : MonoBehaviour
         currentBoxRb = collision.collider.attachedRigidbody;
         if (currentBoxRb != null)
         {
-            // ���� ������� � ����� ���� ���� X ������ ����
             currentBoxRb.constraints = RigidbodyConstraints2D.FreezeRotation |
                                        RigidbodyConstraints2D.FreezePositionX;
         }
     }
 
-    // ��������� ���� ����� � ������ ����
+    // Detect when the player stops touching the crate
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (currentBoxRb == null)
@@ -158,7 +187,6 @@ public class PushBox : MonoBehaviour
 
         if (collision.collider.attachedRigidbody == currentBoxRb)
         {
-            // ������� �� ����� � ����� ���� ���� �-X
             currentBoxRb.constraints = RigidbodyConstraints2D.FreezeRotation |
                                        RigidbodyConstraints2D.FreezePositionX;
             currentBoxRb = null;

@@ -5438,7 +5438,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a1bd48e298538b4c8791f5f4d876ec8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PressureReaderFromSerial
-  portName: COM3
+  portName: COM5
   baudRate: 115200
   debugText: {fileID: 119026698}
   lastPressureKPa: 0

@@ -3,34 +3,53 @@ using UnityEngine.InputSystem;
 
 /*
  * Makes the player rise while the jump key is held,
- * BUT ONLY when the player is inside a "jump zone"
- * defined between a JumpStart and its child JumpEnd.
+ * BUT ONLY when inside a jump zone defined between a JumpStart and its child JumpEnd.
+ *
+ * Now supports:
+ * - Keyboard OR Breath control (selectable in Inspector)
+ * - 3 breath jump strength levels (low / medium / high), each with configurable
+ *   threshold (kPa) and vertical speed.
  */
+
 public class Jump : MonoBehaviour
 {
+    public enum JumpControlMode
+    {
+        Keyboard,
+        Breath
+    }
+
+    [Header("Control Mode")]
+    [SerializeField] private JumpControlMode controlMode = JumpControlMode.Keyboard;
+
     [Header("Components")]
     [SerializeField] Rigidbody2D rigidBody;
     [SerializeField] Animator animator;
 
-    [Header("Input")]
+    [Header("Keyboard Input")]
     [SerializeField] InputAction jumpButton = new InputAction(type: InputActionType.Button);
 
-    [Header("Jump Settings")]
-    [SerializeField] float riseSpeed = 4f;
+    [Header("Breath Input (kPa)")]
+    [SerializeField] private PressureReaderFromSerial pressureSource;
+    [SerializeField] private float lowThresholdKPa = 1.0f;
+    [SerializeField] private float mediumThresholdKPa = 2.0f;
+    [SerializeField] private float highThresholdKPa = 3.5f;
+
+    [Header("Breath Speeds")]
+    [SerializeField] private float lowJumpSpeed = 2f;
+    [SerializeField] private float mediumJumpSpeed = 4f;
+    [SerializeField] private float highJumpSpeed = 7f;
 
     [Header("Jump Zone Tags")]
     [SerializeField] private string jumpStartTag = "JumpStart";
-    [SerializeField] private string jumpEndTag = "JumpEnd"; // optional, used to find the child
+    [SerializeField] private string jumpEndTag = "JumpEnd";
 
-    // All JumpStart transforms in the scene
     private Transform[] jumpStarts;
-
-    // true only while key is held and we are in a valid jump zone
     private bool isHeld = false;
 
     private void Awake()
     {
-        // Find all JumpStart objects by tag
+        // Find all JumpStart markers
         GameObject[] startObjs = GameObject.FindGameObjectsWithTag(jumpStartTag);
         jumpStarts = new Transform[startObjs.Length];
 
@@ -41,58 +60,118 @@ public class Jump : MonoBehaviour
             Debug.LogWarning("Jump: No objects found with tag " + jumpStartTag);
     }
 
-    void OnEnable()
+    private void OnEnable()
     {
-        jumpButton.Enable();
-        jumpButton.performed += OnJumpPressed;
-        jumpButton.canceled += OnJumpReleased;
+        if (controlMode == JumpControlMode.Keyboard)
+        {
+            jumpButton.Enable();
+            jumpButton.performed += OnJumpPressed;
+            jumpButton.canceled += OnJumpReleased;
+        }
     }
 
-    void OnDisable()
+    private void OnDisable()
     {
-        jumpButton.performed -= OnJumpPressed;
-        jumpButton.canceled -= OnJumpReleased;
-        jumpButton.Disable();
+        if (controlMode == JumpControlMode.Keyboard)
+        {
+            jumpButton.performed -= OnJumpPressed;
+            jumpButton.canceled -= OnJumpReleased;
+            jumpButton.Disable();
+        }
+
+        isHeld = false;
     }
 
+    // Keyboard press event
     private void OnJumpPressed(InputAction.CallbackContext ctx)
     {
         if (IsInsideJumpZone())
         {
             isHeld = true;
-            Debug.Log("Jump: Jump started inside jump zone");
         }
         else
         {
             isHeld = false;
-            Debug.Log("Jump: Player is NOT inside a jump zone - jump ignored");
         }
     }
 
+    // Keyboard release event
     private void OnJumpReleased(InputAction.CallbackContext ctx)
     {
         isHeld = false;
     }
 
-    void FixedUpdate()
+    // Physics update for vertical movement
+    private void FixedUpdate()
     {
         Vector2 v = rigidBody.linearVelocity;
 
+        if (controlMode == JumpControlMode.Keyboard)
+        {
+            HandleKeyboardJump(ref v);
+        }
+        else if (controlMode == JumpControlMode.Breath)
+        {
+            HandleBreathJump(ref v);
+        }
+
+        rigidBody.linearVelocity = v;
+    }
+
+    // Keyboard jump logic
+    private void HandleKeyboardJump(ref Vector2 v)
+    {
         if (isHeld && IsInsideJumpZone())
         {
-            v.y = riseSpeed;
+            v.y = mediumJumpSpeed;  // default keyboard jump uses only medium
             animator.SetBool("isJumping", true);
         }
         else
         {
             animator.SetBool("isJumping", false);
         }
-
-        rigidBody.linearVelocity = v;
     }
 
-    // Returns true if the player is inside any jump zone.
-    // Each jump zone is defined by a JumpStart and its child JumpEnd.
+    // Breath jump logic with 3 levels
+    private void HandleBreathJump(ref Vector2 v)
+    {
+        if (pressureSource == null)
+        {
+            animator.SetBool("isJumping", false);
+            return;
+        }
+
+        if (!IsInsideJumpZone())
+        {
+            animator.SetBool("isJumping", false);
+            return;
+        }
+
+        float pressure = pressureSource.lastPressureKPa;
+        float selectedSpeed = 0f;
+
+        // Determine jump strength based on breath level
+        if (pressure >= highThresholdKPa)
+            selectedSpeed = highJumpSpeed;
+        else if (pressure >= mediumThresholdKPa)
+            selectedSpeed = mediumJumpSpeed;
+        else if (pressure >= lowThresholdKPa)
+            selectedSpeed = lowJumpSpeed;
+        else
+            selectedSpeed = 0f;
+
+        if (selectedSpeed > 0f)
+        {
+            v.y = selectedSpeed;
+            animator.SetBool("isJumping", true);
+        }
+        else
+        {
+            animator.SetBool("isJumping", false);
+        }
+    }
+
+    // Check if the player is inside any jump zone
     private bool IsInsideJumpZone()
     {
         if (jumpStarts == null || jumpStarts.Length == 0)
@@ -105,15 +184,9 @@ public class Jump : MonoBehaviour
             if (start == null)
                 continue;
 
-            // Find the corresponding JumpEnd: either the first child,
-            // or specifically the child with the jumpEndTag.
             Transform end = null;
 
-            // Option A: first child is the end point
-            if (start.childCount > 0)
-                end = start.GetChild(0);
-
-            // Option B (safer): look for a child with tag jumpEndTag
+            // Find child with jumpEndTag
             for (int i = 0; i < start.childCount; i++)
             {
                 Transform child = start.GetChild(i);
@@ -126,8 +199,14 @@ public class Jump : MonoBehaviour
 
             if (end == null)
             {
-                Debug.LogWarning("Jump: JumpStart " + start.name + " has no JumpEnd child");
-                continue;
+                // If no tagged child, fallback: use first child
+                if (start.childCount > 0)
+                    end = start.GetChild(0);
+                else
+                {
+                    Debug.LogWarning("Jump: JumpStart " + start.name + " has no JumpEnd child");
+                    continue;
+                }
             }
 
             float x1 = start.position.x;

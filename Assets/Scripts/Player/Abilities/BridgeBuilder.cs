@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 /*
- * Builds a bridge under the player while a specified input action is held,
+ * Builds a bridge under the player while an input is held,
  * provided the player has passed a BridgeStart marker but not yet a BridgeEnd marker.
  * Bridge pieces are instantiated at regular intervals to form the bridge.
  *
@@ -15,7 +15,16 @@ using UnityEngine.InputSystem;
 
 public class BridgeBuilder : MonoBehaviour
 {
-    [Header("Input")]
+    public enum BridgeControlMode
+    {
+        Keyboard,
+        Breath
+    }
+
+    [Header("Control Mode")]
+    [SerializeField] private BridgeControlMode controlMode = BridgeControlMode.Keyboard;
+
+    [Header("Input (Keyboard)")]
     [SerializeField]
     private InputAction buildBridgeAction = new InputAction(type: InputActionType.Button);
 
@@ -40,29 +49,37 @@ public class BridgeBuilder : MonoBehaviour
     [Header("Bridge Settings")]
     [SerializeField] private float pieceWidth = 0.5f;
     [SerializeField] private float buildSpeed = 2f;
-    // how far below the player feet the bridge should be built
     [SerializeField] private float yOffsetBelowFeet = 0.25f;
 
-    // Arrays to hold references to BridgeStart and BridgeEnd objects
+    [Header("Breath Control")]
+    [Tooltip("Source of breath pressure values (kPa)")]
+    [SerializeField] private PressureReaderFromSerial pressureSource;
+    [Tooltip("Breath threshold in kPa to start building")]
+    [SerializeField] private float breathThresholdKPa = 1.0f;
+
+    // Build zone markers
     private Transform[] bridgeStarts;
     private Transform[] bridgeEnds;
 
     // Dark segments defined by DarkBridgeStart / DarkBridgeEnd pairs
-    private readonly List<Vector2> darkSegments = new List<Vector2>(); // (startX, endX)
+    private readonly List<Vector2> darkSegments = new List<Vector2>();
 
+    // Build state
     private bool isBuilding = false;
     private float currentLength = 0f;
-    // Origin point of the player for building the bridge
     private float originX;
     private float originY;
     private float maxLength = Mathf.Infinity;
 
+    // Spawned pieces
     private readonly List<GameObject> pieces = new List<GameObject>();
 
-    // Find BridgeStart, BridgeEnd and DarkBridgeStart, DarkBridgeEnd objects in the scene
+    // Breath edge detection
+    private bool wasBreathStrong = false;
+
+    // Find all markers and build dark segments list
     private void Awake()
     {
-        // --- Build zone markers ---
         GameObject[] startObjs = GameObject.FindGameObjectsWithTag(bridgeStartTag);
         GameObject[] endObjs = GameObject.FindGameObjectsWithTag(bridgeEndTag);
 
@@ -81,7 +98,7 @@ public class BridgeBuilder : MonoBehaviour
         if (bridgeEnds.Length == 0)
             Debug.LogWarning("BridgeBuilder: No objects found with tag " + bridgeEndTag);
 
-        // --- Dark style segments (optional) ---
+        // Dark style segments (optional)
         if (darkBridgePiecePrefab != null &&
             !string.IsNullOrEmpty(darkBridgeStartTag) &&
             !string.IsNullOrEmpty(darkBridgeEndTag))
@@ -98,7 +115,6 @@ public class BridgeBuilder : MonoBehaviour
             foreach (var go in darkEndObjs)
                 if (go != null) darkEnds.Add(go.transform);
 
-            // For each DarkBridgeStart find the nearest DarkBridgeEnd ahead on X
             foreach (var s in darkStarts)
             {
                 float startX = s.position.x;
@@ -121,38 +137,43 @@ public class BridgeBuilder : MonoBehaviour
                 }
             }
 
-            // Optional: sort segments by startX (nice for debugging)
             darkSegments.Sort((a, b) => a.x.CompareTo(b.x));
         }
     }
 
-    // Subscribe and unsubscribe to input action events
+    // Enable keyboard input only when using keyboard mode
     private void OnEnable()
     {
-        buildBridgeAction.Enable();
-        buildBridgeAction.performed += OnBuildPressed;
-        buildBridgeAction.canceled += OnBuildReleased;
+        if (controlMode == BridgeControlMode.Keyboard)
+        {
+            buildBridgeAction.Enable();
+            buildBridgeAction.performed += OnBuildPressed;
+            buildBridgeAction.canceled += OnBuildReleased;
+        }
     }
 
+    // Disable keyboard input when script is disabled
     private void OnDisable()
     {
-        buildBridgeAction.performed -= OnBuildPressed;
-        buildBridgeAction.canceled -= OnBuildReleased;
-        buildBridgeAction.Disable();
+        if (controlMode == BridgeControlMode.Keyboard)
+        {
+            buildBridgeAction.performed -= OnBuildPressed;
+            buildBridgeAction.canceled -= OnBuildReleased;
+            buildBridgeAction.Disable();
+        }
     }
 
-    // Handle build bridge input action pressed
-    private void OnBuildPressed(InputAction.CallbackContext ctx)
+    // Try to start building at the player position (used by both control modes)
+    private bool TryStartBuilding()
     {
         if (player == null)
         {
             Debug.LogWarning("BridgeBuilder: Player reference is not assigned");
-            return;
+            return false;
         }
 
         float playerX = player.position.x;
 
-        // Find the last BridgeStart behind the player
         float lastStartX = float.NegativeInfinity;
         foreach (Transform s in bridgeStarts)
         {
@@ -161,7 +182,6 @@ public class BridgeBuilder : MonoBehaviour
                 lastStartX = s.position.x;
         }
 
-        // Find the last BridgeEnd behind the player
         float lastEndX = float.NegativeInfinity;
         foreach (Transform e in bridgeEnds)
         {
@@ -170,30 +190,24 @@ public class BridgeBuilder : MonoBehaviour
                 lastEndX = e.position.x;
         }
 
-        // If no BridgeStart has been passed yet - cannot build
         if (lastStartX == float.NegativeInfinity)
         {
             Debug.Log("BridgeBuilder: Player has not passed any BridgeStart yet");
-            return;
+            return false;
         }
 
-        // If the most recent marker behind the player is a BridgeEnd - cannot build
         if (lastEndX >= lastStartX)
         {
             Debug.Log("BridgeBuilder: Player already passed the last BridgeEnd — cannot build here");
-            return;
+            return false;
         }
 
-        // At this point the last marker is a BridgeStart - OK to build
-        // Set bridge origin from player's current position
         originX = player.position.x;
-        // build the bridge slightly below player feet
         originY = player.position.y - yOffsetBelowFeet;
 
         currentLength = 0f;
         ClearBridgePieces();
 
-        // Find the nearest BridgeEnd ahead of the player
         float closestEndX = float.PositiveInfinity;
         foreach (Transform e in bridgeEnds)
         {
@@ -205,28 +219,50 @@ public class BridgeBuilder : MonoBehaviour
         if (closestEndX < float.PositiveInfinity)
             maxLength = Mathf.Abs(closestEndX - originX);
         else
-            maxLength = Mathf.Infinity; // no BridgeEnd ahead
+            maxLength = Mathf.Infinity;
+
+        Debug.Log("BridgeBuilder: Started building bridge for this gap");
+        return true;
+    }
+
+    // Handle keyboard press event
+    private void OnBuildPressed(InputAction.CallbackContext ctx)
+    {
+        if (controlMode != BridgeControlMode.Keyboard)
+            return;
+
+        if (!isBuilding)
+        {
+            if (!TryStartBuilding())
+                return;
+        }
 
         isBuilding = true;
-        Debug.Log("BridgeBuilder: Started building bridge for this gap");
     }
 
-    // Handle build bridge input action released
+    // Handle keyboard release event
     private void OnBuildReleased(InputAction.CallbackContext ctx)
     {
+        if (controlMode != BridgeControlMode.Keyboard)
+            return;
+
         isBuilding = false;
-        Debug.Log("BridgeBuilder: Stopped building bridge");
+        currentLength = 0f;
     }
 
-    // Build bridge pieces while the build action is held
+    // Main update: handles breath input (if selected) and builds pieces over time
     private void Update()
     {
+        if (controlMode == BridgeControlMode.Breath)
+        {
+            UpdateBreathControl();
+        }
+
         if (!isBuilding || bridgePiecePrefab == null || pieceWidth <= 0f)
             return;
 
         currentLength += buildSpeed * Time.deltaTime;
 
-        // Stop building at the maximum allowed length
         if (currentLength >= maxLength)
         {
             currentLength = maxLength;
@@ -234,7 +270,6 @@ public class BridgeBuilder : MonoBehaviour
         }
 
         int neededPieces = Mathf.FloorToInt(currentLength / pieceWidth);
-        // Instantiate new pieces as needed
         while (pieces.Count < neededPieces)
         {
             float x = originX + pieces.Count * pieceWidth;
@@ -245,10 +280,38 @@ public class BridgeBuilder : MonoBehaviour
         }
     }
 
-    // Returns true if the given x is inside any dark segment
+    // Handle breath input when using breath control mode
+    private void UpdateBreathControl()
+    {
+        if (pressureSource == null)
+            return;
+
+        float pressure = pressureSource.lastPressureKPa;
+        bool breathStrong = pressure >= breathThresholdKPa;
+
+        if (breathStrong && !wasBreathStrong)
+        {
+            if (!isBuilding)
+            {
+                if (!TryStartBuilding())
+                    breathStrong = false;
+                else
+                    isBuilding = true;
+            }
+        }
+
+        if (!breathStrong && wasBreathStrong)
+        {
+            isBuilding = false;
+            currentLength = 0f;
+        }
+
+        wasBreathStrong = breathStrong;
+    }
+
+    // Check if an x position is inside any dark segment
     private bool IsInDarkSegment(float x)
     {
-        // If no dark segments defined, always false
         if (darkSegments.Count == 0)
             return false;
 
@@ -260,23 +323,19 @@ public class BridgeBuilder : MonoBehaviour
         return false;
     }
 
-    // Instantiates a bridge piece at the specified position
+    // Instantiate one bridge piece at the given position
     private void InstantiatePiece(Vector3 pos)
     {
         GameObject prefabToUse = bridgePiecePrefab;
 
-        // If we have a dark prefab and this x is within a dark segment - use it
         if (darkBridgePiecePrefab != null && IsInDarkSegment(pos.x))
-        {
             prefabToUse = darkBridgePiecePrefab;
-        }
 
         GameObject piece = Instantiate(prefabToUse, pos, Quaternion.identity);
         pieces.Add(piece);
-        Debug.Log("BridgeBuilder: Bridge piece placed at " + pos + " (dark=" + (prefabToUse == darkBridgePiecePrefab) + ")");
     }
 
-    // Destroys all instantiated bridge pieces
+    // Destroy all spawned bridge pieces
     private void ClearBridgePieces()
     {
         foreach (GameObject g in pieces)
