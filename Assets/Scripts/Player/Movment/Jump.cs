@@ -20,6 +20,7 @@ public class Jump : MonoBehaviour
         Breath
     }
 
+    [HideInInspector]
     [Header("Control Mode")]
     [SerializeField] private JumpControlMode controlMode = JumpControlMode.Keyboard;
 
@@ -85,6 +86,43 @@ public class Jump : MonoBehaviour
         }
 
         isHeld = false;
+    }
+
+    // Called by InputModeManager to switch between Keyboard/Breath
+    public void SetControlMode(bool useBreath)
+    {
+        JumpControlMode newMode = useBreath ? JumpControlMode.Breath : JumpControlMode.Keyboard;
+
+        if (newMode == controlMode)
+            return;
+
+        // Clean up old mode
+        if (controlMode == JumpControlMode.Keyboard)
+        {
+            jumpButton.performed -= OnJumpPressed;
+            jumpButton.canceled -= OnJumpReleased;
+            jumpButton.Disable();
+        }
+
+        controlMode = newMode;
+
+        // Initialize new mode
+        if (isActiveAndEnabled && controlMode == JumpControlMode.Keyboard)
+        {
+            jumpButton.Enable();
+            jumpButton.performed += OnJumpPressed;
+            jumpButton.canceled += OnJumpReleased;
+        }
+
+        // Reset state when switching
+        isHeld = false;
+        wasJumping = false;
+        if (animator != null)
+        {
+            animator.SetBool("isJumping", false);
+        }
+
+        Debug.Log("Jump: Control mode set to " + controlMode);
     }
 
     // Keyboard press event

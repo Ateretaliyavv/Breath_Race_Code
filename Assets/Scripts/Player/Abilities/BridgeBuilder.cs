@@ -21,6 +21,7 @@ public class BridgeBuilder : MonoBehaviour
         Breath
     }
 
+    [HideInInspector]
     [Header("Control Mode")]
     [SerializeField] private BridgeControlMode controlMode = BridgeControlMode.Keyboard;
 
@@ -161,6 +162,42 @@ public class BridgeBuilder : MonoBehaviour
             buildBridgeAction.canceled -= OnBuildReleased;
             buildBridgeAction.Disable();
         }
+    }
+
+    // Called by InputModeManager to switch between Keyboard/Breath
+    public void SetControlMode(bool useBreath)
+    {
+        BridgeControlMode newMode = useBreath ? BridgeControlMode.Breath : BridgeControlMode.Keyboard;
+
+        if (newMode == controlMode)
+            return;
+
+        // Clean up old mode
+        if (controlMode == BridgeControlMode.Keyboard)
+        {
+            buildBridgeAction.performed -= OnBuildPressed;
+            buildBridgeAction.canceled -= OnBuildReleased;
+            buildBridgeAction.Disable();
+        }
+
+        controlMode = newMode;
+
+        // Initialize new mode (keyboard actions)
+        if (isActiveAndEnabled && controlMode == BridgeControlMode.Keyboard)
+        {
+            buildBridgeAction.Enable();
+            buildBridgeAction.performed += OnBuildPressed;
+            buildBridgeAction.canceled += OnBuildReleased;
+        }
+
+        // Reset state when switching mode
+        isBuilding = false;
+        currentLength = 0f;
+        maxLength = Mathf.Infinity;
+        wasBreathStrong = false;
+        ClearBridgePieces();
+
+        Debug.Log("BridgeBuilder: Control mode set to " + controlMode);
     }
 
     // Try to start building at the player position (used by both control modes)

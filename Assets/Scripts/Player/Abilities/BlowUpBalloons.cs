@@ -19,6 +19,7 @@ public class BlowUpBalloons : MonoBehaviour
         Breath
     }
 
+    [HideInInspector]
     [Header("Control Mode")]
     [SerializeField] private BlowControlMode controlMode = BlowControlMode.Keyboard;
 
@@ -108,6 +109,38 @@ public class BlowUpBalloons : MonoBehaviour
             return;
 
         TriggerBlow();
+    }
+
+    // Called by InputModeManager to switch between Keyboard/Breath
+    public void SetControlMode(bool useBreath)
+    {
+        BlowControlMode newMode = useBreath ? BlowControlMode.Breath : BlowControlMode.Keyboard;
+
+        if (controlMode == newMode)
+            return;
+
+        // Clean up previous mode
+        if (controlMode == BlowControlMode.Keyboard)
+        {
+            blowUpButton.performed -= OnBlowPressed;
+            blowUpButton.Disable();
+        }
+
+        controlMode = newMode;
+
+        // Initialize new mode (for keyboard we need the InputAction subscribed)
+        if (isActiveAndEnabled && controlMode == BlowControlMode.Keyboard)
+        {
+            blowUpButton.Enable();
+            blowUpButton.performed += OnBlowPressed;
+        }
+
+        // Reset runtime state when switching mode
+        blowTriggered = false;
+        ResetBalloons();
+        wasBreathStrong = false;
+
+        Debug.Log("BlowUpBalloons: Control mode set to " + controlMode);
     }
 
     // Select balloons in front of the player and start them if inside zone

@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.InputSystem; // Required for the New Input System
+using UnityEngine.UI;
 
 public class TutorialManager : MonoBehaviour
 {

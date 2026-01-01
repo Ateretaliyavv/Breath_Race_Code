@@ -19,6 +19,7 @@ public class PushBox : MonoBehaviour
         Breath
     }
 
+    [HideInInspector]
     [Header("Control Mode")]
     [SerializeField] private PushControlMode controlMode = PushControlMode.Keyboard;
 
@@ -92,6 +93,31 @@ public class PushBox : MonoBehaviour
         {
             pushAction.Disable();
         }
+    }
+
+    // Called by InputModeManager to switch between Keyboard/Breath
+    public void SetControlMode(bool useBreath)
+    {
+        PushControlMode newMode = useBreath ? PushControlMode.Breath : PushControlMode.Keyboard;
+
+        if (newMode == controlMode)
+            return;
+
+        // Clean up old mode
+        if (controlMode == PushControlMode.Keyboard)
+        {
+            pushAction.Disable();
+        }
+
+        controlMode = newMode;
+
+        // Initialize new mode
+        if (isActiveAndEnabled && controlMode == PushControlMode.Keyboard)
+        {
+            pushAction.Enable();
+        }
+
+        Debug.Log("PushBox: Control mode set to " + controlMode);
     }
 
     // Handle pushing logic in physics update
