@@ -20,6 +20,7 @@ TagManager:
   - PushBox
   - PushStart
   - PushEnd
+  - FallZone
   layers:
   - Default
   - TransparentFX
