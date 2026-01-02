@@ -2160,7 +2160,6 @@ MonoBehaviour:
   jump: {fileID: 0}
   inflatingBalloon: {fileID: 1925457261}
   balloonExplod: {fileID: 1925457258}
-  simpleBlow: {fileID: 0}
 --- !u!4 &854563172
 Transform:
   m_ObjectHideFlags: 0
@@ -5235,12 +5234,12 @@ MonoBehaviour:
       m_Action: Inflating Button
       m_Flags: 0
     m_Flags: 0
-  scaleStep: 0.5
-  maxScale: 0
+  inflateRatePerSecond: 1
+  maxScale: 50
   audioSource: {fileID: 1925457264}
-  inflateSound: {fileID: 8300000, guid: 78ad99fd0a0a5144280b07bbdba84815, type: 3}
+  inflateSound: {fileID: 8300000, guid: a652877b012108e41871f867ada9f176, type: 3}
   pressureSource: {fileID: 194383341}
-  breathThresholdKPa: 1
+  breathThresholdKPa: 3
 --- !u!212 &1925457262
 SpriteRenderer:
   m_ObjectHideFlags: 0

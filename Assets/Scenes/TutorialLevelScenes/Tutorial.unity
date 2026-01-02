@@ -1180,10 +1180,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputModeManager
   currentMode: 1
-  bridgeBuilder: {fileID: 0}
-  pushBox: {fileID: 0}
-  blowUpBalloons: {fileID: 0}
-  jump: {fileID: 0}
+  bridgeBuilder: {fileID: 906930554}
+  pushBox: {fileID: 906930558}
+  blowUpBalloons: {fileID: 906930557}
+  jump: {fileID: 906930550}
   inflatingBalloon: {fileID: 0}
   balloonExplod: {fileID: 0}
 --- !u!1 &312690842
