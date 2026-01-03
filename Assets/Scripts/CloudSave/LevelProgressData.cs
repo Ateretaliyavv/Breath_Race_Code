@@ -3,8 +3,9 @@
  */
 public static class LevelProgressData
 {
+    public static string Username;
+
     public static string LastLevelId;
     public static string LastLevelSceneName;
     public static int LastLevelStars;
 }
-

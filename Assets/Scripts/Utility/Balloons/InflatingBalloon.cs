@@ -13,6 +13,7 @@ public class InflatingBalloon : MonoBehaviour
         Breath
     }
 
+    [HideInInspector]
     [Header("Control Mode")]
     [SerializeField] private InflateControlMode controlMode = InflateControlMode.Keyboard;
 
@@ -20,8 +21,8 @@ public class InflatingBalloon : MonoBehaviour
     [SerializeField] private InputAction inflatingButton;
 
     [Header("Inflation Settings")]
-    [Tooltip("How much to add to X & Y scale on each press")]
-    [SerializeField] private float scaleStep = 0.1f;
+    [Tooltip("How much to add to X & Y scale per second while inflating")]
+    [SerializeField] private float inflateRatePerSecond = 0.5f;
     [Tooltip("Maximum scale limit (optional)")]
     [SerializeField] private float maxScale = 3.0f;
 
@@ -32,10 +33,10 @@ public class InflatingBalloon : MonoBehaviour
     [Header("Breath Control")]
     [Tooltip("Source of breath pressure values (kPa)")]
     [SerializeField] private PressureWebSocketReceiver pressureSource;
-    [Tooltip("Breath threshold in kPa to trigger one inflation step")]
+    [Tooltip("Breath threshold in kPa to start continuous inflation")]
     [SerializeField] private float breathThresholdKPa = 1.0f;
 
-    private bool wasBreathStrong = false;
+    private bool isInflatingHeld = false;
 
     private void Awake()
     {
@@ -49,6 +50,7 @@ public class InflatingBalloon : MonoBehaviour
         {
             inflatingButton.Enable();
             inflatingButton.performed += OnInflatePressed;
+            inflatingButton.canceled += OnInflateReleased;
         }
     }
 
@@ -57,10 +59,11 @@ public class InflatingBalloon : MonoBehaviour
         if (controlMode == InflateControlMode.Keyboard)
         {
             inflatingButton.performed -= OnInflatePressed;
+            inflatingButton.canceled -= OnInflateReleased;
             inflatingButton.Disable();
         }
 
-        wasBreathStrong = false;
+        isInflatingHeld = false;
     }
 
     // Called by InputModeManager to switch between Keyboard/Breath
@@ -75,6 +78,7 @@ public class InflatingBalloon : MonoBehaviour
         if (controlMode == InflateControlMode.Keyboard)
         {
             inflatingButton.performed -= OnInflatePressed;
+            inflatingButton.canceled -= OnInflateReleased;
             inflatingButton.Disable();
         }
 
@@ -85,16 +89,21 @@ public class InflatingBalloon : MonoBehaviour
         {
             inflatingButton.Enable();
             inflatingButton.performed += OnInflatePressed;
+            inflatingButton.canceled += OnInflateReleased;
         }
 
-        wasBreathStrong = false;
+        isInflatingHeld = false;
 
         Debug.Log("InflatingBalloon: Control mode set to " + controlMode);
     }
 
     private void Update()
     {
-        if (controlMode == InflateControlMode.Breath)
+        if (controlMode == InflateControlMode.Keyboard)
+        {
+            UpdateKeyboardHoldInflation();
+        }
+        else
         {
             UpdateBreathControl();
         }
@@ -105,33 +114,55 @@ public class InflatingBalloon : MonoBehaviour
         if (controlMode != InflateControlMode.Keyboard)
             return;
 
-        InflateOnce();
+        // Start continuous inflation while the button is held
+        isInflatingHeld = true;
     }
 
-    // Handle breath-based inflation (rising edge)
+    private void OnInflateReleased(InputAction.CallbackContext ctx)
+    {
+        if (controlMode != InflateControlMode.Keyboard)
+            return;
+
+        // Stop continuous inflation when the button is released
+        isInflatingHeld = false;
+    }
+
+    // Continuous inflation while key is held
+    private void UpdateKeyboardHoldInflation()
+    {
+        if (!isInflatingHeld)
+            return;
+
+        InflateContinuous(Time.deltaTime);
+    }
+
+    // Handle breath-based inflation (continuous above threshold)
     private void UpdateBreathControl()
     {
         if (pressureSource == null)
             return;
 
         float pressure = pressureSource.lastPressureKPa;
-        bool breathStrong = pressure >= breathThresholdKPa;
 
-        if (breathStrong && !wasBreathStrong)
+        // Inflate only while breath is strong enough (above threshold)
+        if (pressure >= breathThresholdKPa)
         {
-            InflateOnce();
+            InflateContinuous(Time.deltaTime);
         }
-
-        wasBreathStrong = breathStrong;
     }
 
-    // One inflation step + sound
-    private void InflateOnce()
+    // Continuous inflation step + sound
+    private void InflateContinuous(float dt)
     {
+        if (dt <= 0f || inflateRatePerSecond <= 0f)
+            return;
+
+        float delta = inflateRatePerSecond * dt;
+
         // Calculate new size
         Vector3 s = transform.localScale;
-        s.x += scaleStep;
-        s.y += scaleStep;
+        s.x += delta;
+        s.y += delta;
 
         // Limit size
         if (maxScale > 0f)
@@ -144,7 +175,7 @@ public class InflatingBalloon : MonoBehaviour
         transform.localScale = s;
 
         //Play Inflate Sound
-        if (audioSource != null && inflateSound != null)
+        if (audioSource != null && inflateSound != null && !audioSource.isPlaying)
         {
             // Randomize pitch slightly for realism
             audioSource.pitch = Random.Range(0.9f, 1.1f);

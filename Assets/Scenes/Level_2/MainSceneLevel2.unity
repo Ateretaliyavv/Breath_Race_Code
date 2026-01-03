@@ -72730,7 +72730,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 277fd327a96f8984c95aeef5b47028de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputModeManager
-  currentMode: 0
+  currentMode: 1
   bridgeBuilder: {fileID: 1379212103}
   pushBox: {fileID: 1379212111}
   blowUpBalloons: {fileID: 1379212100}

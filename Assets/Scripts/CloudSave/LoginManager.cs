@@ -4,178 +4,211 @@ using System.Threading.Tasks;
 using TMPro;
 using Unity.Services.Authentication;
 using Unity.Services.CloudSave;
-
 using Unity.Services.Core;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /*
-* Handles user registration & login using Unity Authentication
-* and then loads the main game scene.
+* Handles user registration & login using Unity Authentication and then loads the main game scene.
+* The player enters ONLY a username.
+* A fixed password is used for ALL users.
+* The username is saved to Cloud Save under a dedicated key.
 */
 
 public class LoginManager : MonoBehaviour
 {
-    [Header("UI References")]
+    [Header("UI")]
     [SerializeField] private TMP_InputField usernameInput;
-    [SerializeField] private TMP_InputField passwordInput;
-    [SerializeField] private TextMeshProUGUI statusText; // Optional: for displaying messages
+    [SerializeField] private TMP_InputField passwordInput; // Optional: can be null / removed from UI
+    [SerializeField] private TextMeshProUGUI statusText;
 
     [Header("Scene To Load After Login")]
-    [SerializeField] private string sceneToLoad = "OpenScene";
+    [SerializeField] private string sceneToLoad = "Scene1";
 
-    private bool servicesInitialized = false;
+    private string fixedPassword = "Password2026!!";
 
-    // Initialization
-    private async void Awake()
+    [Header("Cloud Save Keys")]
+    [Tooltip("Key used to store the username in Cloud Save.")]
+    [SerializeField] private string cloudUsernameKey = "username";
+
+    [Tooltip("Example key for other cloud data (kept from the original script if you used it).")]
+    [SerializeField] private string cloudHighScoreKey = "highScore";
+
+    private async void Start()
     {
-        // Initialize Unity Services
+        // Disable password UI if exists, since we use a fixed password.
+        if (passwordInput != null)
+        {
+            passwordInput.text = string.Empty;
+            passwordInput.interactable = false;
+            passwordInput.gameObject.SetActive(false);
+        }
+
+        await InitUnityServicesIfNeeded();
+    }
+
+    private async Task InitUnityServicesIfNeeded()
+    {
         try
         {
-            await UnityServices.InitializeAsync();
-            servicesInitialized = true;
-            Debug.Log("Unity Services initialized successfully.");
+            if (UnityServices.State != ServicesInitializationState.Initialized)
+            {
+                if (statusText != null) statusText.text = "Initializing services...";
+                await UnityServices.InitializeAsync();
+            }
 
-            if (statusText != null)
-                statusText.text = "Please log in or register.";
+            if (statusText != null) statusText.text = "Ready. Enter username.";
         }
         catch (Exception e)
         {
-            Debug.LogError("Failed to initialize Unity Services: " + e);
-            if (statusText != null)
-                statusText.text = "Error: Failed to initialize services.";
+            Debug.LogError("Unity Services init failed: " + e.Message);
+            if (statusText != null) statusText.text = "Init failed: " + e.Message;
         }
     }
 
-
-    // Called by the "Register" button
-    public async void OnRegisterClicked()
+    public async void Register()
     {
-        if (!servicesInitialized)
+        string username = GetTrimmedUsername();
+        if (string.IsNullOrEmpty(username))
         {
-            if (statusText != null)
-                statusText.text = "Services not initialized yet.";
-            return;
-        }
-
-        string user = usernameInput.text.Trim();
-        string pass = passwordInput.text;
-
-        // Basic validation
-        if (string.IsNullOrEmpty(user) || string.IsNullOrEmpty(pass))
-        {
-            if (statusText != null)
-                statusText.text = "Username and password must not be empty.";
+            SetStatus("Please enter a username.");
             return;
         }
 
         try
         {
-            // Create a new account with username + password
-            await AuthenticationService.Instance.SignUpWithUsernamePasswordAsync(user, pass);
-            Debug.Log("SignUp successful. Player ID: " + AuthenticationService.Instance.PlayerId);
+            SetStatus("Registering...");
 
-            if (statusText != null)
-                statusText.text = "Registration successful! Logging in...";
+            // If a user is already signed in, sign out first to avoid conflicts.
+            if (AuthenticationService.Instance.IsSignedIn)
+                AuthenticationService.Instance.SignOut();
 
-            await AfterLoginAsync();
+            await AuthenticationService.Instance.SignUpWithUsernamePasswordAsync(username, fixedPassword);
+
+            // Save username for the session + persist to Cloud Save.
+            await SaveUsernameToCloud(username);
+
+            SetStatus("Registration successful. Loading...");
+            LoadNextScene();
+        }
+        catch (AuthenticationException e)
+        {
+            Debug.LogError("Register failed: " + e.Message);
+            SetStatus("Register failed: " + e.Message);
+        }
+        catch (RequestFailedException e)
+        {
+            Debug.LogError("Register failed: " + e.Message);
+            SetStatus("Register failed: " + e.Message);
         }
         catch (Exception e)
         {
-            Debug.LogError("SignUp failed: " + e.Message);
-            if (statusText != null)
-                statusText.text = "Registration failed: " + e.Message;
+            Debug.LogError("Register failed: " + e.Message);
+            SetStatus("Register failed: " + e.Message);
         }
     }
 
-    // Called by the "Login" button
-    public async void OnLoginClicked()
+    public async void Login()
     {
-        if (!servicesInitialized)
+        string username = GetTrimmedUsername();
+        if (string.IsNullOrEmpty(username))
         {
-            if (statusText != null)
-                statusText.text = "Services not initialized yet.";
-            return;
-        }
-
-        string user = usernameInput.text.Trim();
-        string pass = passwordInput.text;
-
-        // Basic validation
-        if (string.IsNullOrEmpty(user) || string.IsNullOrEmpty(pass))
-        {
-            if (statusText != null)
-                statusText.text = "Username and password must not be empty.";
+            SetStatus("Please enter a username.");
             return;
         }
 
         try
         {
-            // Log in with username + password
-            await AuthenticationService.Instance.SignInWithUsernamePasswordAsync(user, pass);
-            Debug.Log("SignIn successful. Player ID: " + AuthenticationService.Instance.PlayerId);
+            SetStatus("Logging in...");
 
-            if (statusText != null)
-                statusText.text = "Login successful! Loading game...";
+            // If a user is already signed in, sign out first.
+            if (AuthenticationService.Instance.IsSignedIn)
+                AuthenticationService.Instance.SignOut();
 
-            await AfterLoginAsync();
+            await AuthenticationService.Instance.SignInWithUsernamePasswordAsync(username, fixedPassword);
+
+            // Save username for the session + persist to Cloud Save.
+            await SaveUsernameToCloud(username);
+
+            SetStatus("Login successful. Loading...");
+            LoadNextScene();
+        }
+        catch (AuthenticationException e)
+        {
+            Debug.LogError("Login failed: " + e.Message);
+            SetStatus("Login failed: " + e.Message);
+        }
+        catch (RequestFailedException e)
+        {
+            Debug.LogError("Login failed: " + e.Message);
+            SetStatus("Login failed: " + e.Message);
         }
         catch (Exception e)
         {
-            Debug.LogError("SignIn failed: " + e.Message);
-            if (statusText != null)
-                statusText.text = "Login failed: " + e.Message;
+            Debug.LogError("Login failed: " + e.Message);
+            SetStatus("Login failed: " + e.Message);
         }
     }
 
-    // What happens AFTER successful login / registration
-    private async Task AfterLoginAsync()
+    private string GetTrimmedUsername()
     {
-        // Optional: load player data from Cloud Save before entering the game
-        await LoadPlayerDataAsync();
+        if (usernameInput == null)
+            return string.Empty;
 
-        // Load the main game scene
-        if (!string.IsNullOrEmpty(sceneToLoad))
-        {
-            SceneManager.LoadScene(sceneToLoad);
-        }
-        else
-        {
-            Debug.LogWarning("sceneToLoad is empty. Please set it in the Inspector.");
-        }
+        return usernameInput.text.Trim();
     }
 
-    // Save a simple value to Cloud Save after login.
-    public async Task SavePlayerScoreAsync(int score)
+    private void LoadNextScene()
+    {
+        if (string.IsNullOrEmpty(sceneToLoad))
+        {
+            Debug.LogWarning("LoginManager: sceneToLoad is empty.");
+            return;
+        }
+
+        SceneManager.LoadScene(sceneToLoad);
+    }
+
+    private void SetStatus(string msg)
+    {
+        if (statusText != null)
+            statusText.text = msg;
+    }
+
+    private async Task SaveUsernameToCloud(string username)
     {
         try
         {
+            // Keep it in a global static holder for easy access across scenes.
+            LevelProgressData.Username = username;
+
             var data = new Dictionary<string, object>
             {
-                { "highScore", score }
+                { cloudUsernameKey, username }
             };
 
             await CloudSaveService.Instance.Data.Player.SaveAsync(data);
-            Debug.Log("Score saved to Cloud Save: " + score);
+            Debug.Log("Saved username to Cloud Save: " + username);
         }
         catch (Exception e)
         {
-            Debug.LogError("Cloud Save failed: " + e.Message);
+            Debug.LogError("Failed to save username to Cloud Save: " + e.Message);
+            // Not fatal for gameplay; user can continue.
         }
     }
 
-    // Load data from Cloud Save on login
-    private async Task LoadPlayerDataAsync()
+    // Optional helper if you previously loaded some values like high score.
+    public async void LoadHighScoreIfExists()
     {
         try
         {
-            var keys = new HashSet<string> { "highScore" };
+            var keys = new HashSet<string> { cloudHighScoreKey };
             var result = await CloudSaveService.Instance.Data.Player.LoadAsync(keys);
 
-            if (result.ContainsKey("highScore"))
+            if (result.TryGetValue(cloudHighScoreKey, out var item))
             {
-                int highScore = result["highScore"].Value.GetAs<int>();
-                Debug.Log("Loaded high score from Cloud Save: " + highScore);
+                string highScore = item.Value.GetAs<string>();
+                Debug.Log("Loaded high score: " + highScore);
 
                 if (statusText != null)
                     statusText.text = "Loaded high score: " + highScore;
