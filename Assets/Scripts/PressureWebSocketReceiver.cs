@@ -9,26 +9,19 @@ using UnityEngine;
 
 public class PressureWebSocketReceiver : MonoBehaviour
 {
-    [Header("WebSocket Settings")]
-    [Tooltip("IP of ESP32 WebSocket server, e.g. ws://192.168.43.3:5005")]
-    [SerializeField] private string wsUrl = "ws://192.168.43.3:5005";
-
-    [Header("Debug UI (optional)")]
+    [Header("UI (optional)")]
     [SerializeField] private TextMeshProUGUI debugText;
 
     [Header("Latest Pressure (kPa)")]
     public float lastPressureKPa = 0f;
 
-    // ====== WebGL (JavaScript plugin) ======
-#if UNITY_WEBGL && !UNITY_EDITOR
-    [DllImport("__Internal")]
-    private static extern void WS_Connect(string url, string gameObjectName, string methodName);
+    [Header("Editor/Standalone (WiFi WebSocket)")]
+    [SerializeField] private string wsUrl = "ws://192.168.43.3:5005";
 
-    [DllImport("__Internal")]
-    private static extern void WS_Close();
-#endif
+    [Header("WebGL (USB WebSerial Receiver)")]
+    [Tooltip("Assign the WebSerialPressureReceiver in the scene.")]
+    [SerializeField] private WebSerialPressureReceiver webSerialReceiver;
 
-    // ====== Editor / Standalone (.NET WebSocket) ======
 #if !UNITY_WEBGL || UNITY_EDITOR
     private ClientWebSocket client;
     private CancellationTokenSource cts;
@@ -37,33 +30,26 @@ public class PressureWebSocketReceiver : MonoBehaviour
     private void Start()
     {
 #if UNITY_WEBGL && !UNITY_EDITOR
-        // WebGL: use JS WebSocket
-        WS_Connect(wsUrl, gameObject.name, "OnWebSocketMessage");
-        Debug.Log("PressureWebSocketReceiver (WebGL): Connecting to " + wsUrl);
+        // WebGL: value comes from WebSerialPressureReceiver (USB).
+        if (webSerialReceiver == null)
+            Debug.LogWarning("PressureReceiverUnified: webSerialReceiver is not assigned.");
 #else
-        // Editor / PC build: use .NET WebSocket
-        Debug.Log("PressureWebSocketReceiver (Editor/Standalone): Connecting to " + wsUrl);
+        // Standalone/Editor: connect over ws:// to ESP32.
         StartDotNetWebSocket();
 #endif
     }
 
-    private void OnDestroy()
+    private void Update()
     {
 #if UNITY_WEBGL && !UNITY_EDITOR
-        WS_Close();
-#else
-        CloseDotNetWebSocket();
+        if (webSerialReceiver != null)
+            lastPressureKPa = webSerialReceiver.lastPressureKPa;
 #endif
+
+        if (debugText != null)
+            debugText.text = "Pressure: " + lastPressureKPa.ToString("0.000") + " kPa";
     }
 
-    // ---------- WEBGL PATH ----------
-    // Called from JS when a WebSocket message is received
-    public void OnWebSocketMessage(string msg)
-    {
-        ParsePressure(msg);
-    }
-
-    // ---------- EDITOR / PC PATH ----------
 #if !UNITY_WEBGL || UNITY_EDITOR
     private async void StartDotNetWebSocket()
     {
@@ -73,13 +59,12 @@ public class PressureWebSocketReceiver : MonoBehaviour
         try
         {
             await client.ConnectAsync(new Uri(wsUrl), cts.Token);
-            Debug.Log("PressureWebSocketReceiver: Connected via .NET WebSocket");
-
             _ = ReceiveLoop(cts.Token);
+            Debug.Log("PressureReceiverUnified: Connected via .NET WebSocket");
         }
         catch (Exception e)
         {
-            Debug.LogError("PressureWebSocketReceiver: ConnectAsync error: " + e.Message);
+            Debug.LogError("PressureReceiverUnified: Connect error: " + e.Message);
         }
     }
 
@@ -97,11 +82,7 @@ public class PressureWebSocketReceiver : MonoBehaviour
                 WebSocketReceiveResult result = await client.ReceiveAsync(segment, token);
 
                 if (result.MessageType == WebSocketMessageType.Close)
-                {
-                    Debug.Log("PressureWebSocketReceiver: Server closed connection");
-                    await client.CloseAsync(WebSocketCloseStatus.NormalClosure, "", token);
                     break;
-                }
 
                 if (result.MessageType == WebSocketMessageType.Text)
                 {
@@ -110,56 +91,27 @@ public class PressureWebSocketReceiver : MonoBehaviour
                 }
             }
         }
-        catch (OperationCanceledException)
-        {
-            // ignore – we're shutting down
-        }
+        catch (OperationCanceledException) { }
         catch (Exception e)
         {
-            Debug.LogError("PressureWebSocketReceiver: ReceiveLoop error: " + e.Message);
+            Debug.LogError("PressureReceiverUnified: Receive error: " + e.Message);
         }
     }
 
-    private void CloseDotNetWebSocket()
+    private void ParsePressure(string msg)
+    {
+        if (float.TryParse(msg, NumberStyles.Float, CultureInfo.InvariantCulture, out float v))
+            lastPressureKPa = v;
+    }
+
+    private void OnDestroy()
     {
         try
         {
-            if (cts != null)
-            {
-                cts.Cancel();
-                cts.Dispose();
-                cts = null;
-            }
-
-            if (client != null)
-            {
-                if (client.State == WebSocketState.Open)
-                    client.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closing", CancellationToken.None).Wait();
-
-                client.Dispose();
-                client = null;
-            }
+            if (cts != null) { cts.Cancel(); cts.Dispose(); cts = null; }
+            if (client != null) { client.Dispose(); client = null; }
         }
-        catch (Exception e)
-        {
-            Debug.LogWarning("PressureWebSocketReceiver: CloseDotNetWebSocket error: " + e.Message);
-        }
+        catch { }
     }
 #endif
-
-    // ---------- SHARED PARSING ----------
-    private void ParsePressure(string msg)
-    {
-        if (float.TryParse(msg, NumberStyles.Float, CultureInfo.InvariantCulture, out float value))
-        {
-            lastPressureKPa = value;
-
-            if (debugText != null)
-                debugText.text = "Pressure: " + lastPressureKPa.ToString("0.000") + " kPa";
-        }
-        else
-        {
-            Debug.LogWarning("PressureWebSocketReceiver: Failed to parse message: " + msg);
-        }
-    }
 }
