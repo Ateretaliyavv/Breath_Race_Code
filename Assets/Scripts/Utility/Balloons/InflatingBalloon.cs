@@ -1,10 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-/*
- * Script that handles balloon inflation via button press or breath.
- * - Plays an "Inflate" sound on every step.
- */
 public class InflatingBalloon : MonoBehaviour
 {
     public enum InflateControlMode
@@ -28,7 +24,7 @@ public class InflatingBalloon : MonoBehaviour
 
     [Header("Audio Settings")]
     [SerializeField] private AudioSource audioSource;
-    [SerializeField] private AudioClip inflateSound; // Sound for "Puff"
+    [SerializeField] private AudioClip inflateSound; // Sound for "Hiss/Air"
 
     [Header("Breath Control")]
     [Tooltip("Source of breath pressure values (kPa)")]
@@ -42,6 +38,14 @@ public class InflatingBalloon : MonoBehaviour
     {
         if (audioSource == null)
             audioSource = GetComponent<AudioSource>();
+
+
+        if (audioSource != null)
+        {
+            audioSource.loop = true; // the sound should loop while inflating
+            audioSource.clip = inflateSound;
+            audioSource.playOnAwake = false;
+        }
     }
 
     private void OnEnable()
@@ -64,9 +68,9 @@ public class InflatingBalloon : MonoBehaviour
         }
 
         isInflatingHeld = false;
+        StopInflationSound(); // make sure sound stops when disabled
     }
 
-    // Called by InputModeManager to switch between Keyboard/Breath
     public void SetControlMode(bool useBreath)
     {
         InflateControlMode newMode = useBreath ? InflateControlMode.Breath : InflateControlMode.Keyboard;
@@ -93,65 +97,73 @@ public class InflatingBalloon : MonoBehaviour
         }
 
         isInflatingHeld = false;
+        StopInflationSound(); // stop sound on mode change
 
         Debug.Log("InflatingBalloon: Control mode set to " + controlMode);
     }
 
     private void Update()
     {
+        bool isInflatingNow = false;
+
+        // check if we should inflate this frame
         if (controlMode == InflateControlMode.Keyboard)
         {
-            UpdateKeyboardHoldInflation();
+            if (isInflatingHeld)
+            {
+                InflateContinuous(Time.deltaTime);
+                isInflatingNow = true;
+            }
+        }
+        else // Breath Mode
+        {
+            if (pressureSource != null && pressureSource.lastPressureKPa >= breathThresholdKPa)
+            {
+                InflateContinuous(Time.deltaTime);
+                isInflatingNow = true;
+            }
+        }
+
+
+        HandleAudio(isInflatingNow);
+    }
+
+    private void HandleAudio(bool isInflating)
+    {
+        if (audioSource == null || inflateSound == null) return;
+
+        if (isInflating)
+        {
+            // if inflating, ensure the sound is playing
+            if (!audioSource.isPlaying)
+            {
+                audioSource.pitch = Random.Range(0.95f, 1.05f);
+                audioSource.Play();
+            }
         }
         else
         {
-            UpdateBreathControl();
+            // if not inflating, stop the sound if it's playing
+            if (audioSource.isPlaying)
+            {
+                audioSource.Stop();
+            }
         }
     }
 
     private void OnInflatePressed(InputAction.CallbackContext ctx)
     {
-        if (controlMode != InflateControlMode.Keyboard)
-            return;
-
-        // Start continuous inflation while the button is held
+        if (controlMode != InflateControlMode.Keyboard) return;
         isInflatingHeld = true;
     }
 
     private void OnInflateReleased(InputAction.CallbackContext ctx)
     {
-        if (controlMode != InflateControlMode.Keyboard)
-            return;
-
-        // Stop continuous inflation when the button is released
+        if (controlMode != InflateControlMode.Keyboard) return;
         isInflatingHeld = false;
     }
 
-    // Continuous inflation while key is held
-    private void UpdateKeyboardHoldInflation()
-    {
-        if (!isInflatingHeld)
-            return;
-
-        InflateContinuous(Time.deltaTime);
-    }
-
-    // Handle breath-based inflation (continuous above threshold)
-    private void UpdateBreathControl()
-    {
-        if (pressureSource == null)
-            return;
-
-        float pressure = pressureSource.lastPressureKPa;
-
-        // Inflate only while breath is strong enough (above threshold)
-        if (pressure >= breathThresholdKPa)
-        {
-            InflateContinuous(Time.deltaTime);
-        }
-    }
-
-    // Continuous inflation step + sound
+    // Continuous inflation step (ללא סאונד בפנים)
     private void InflateContinuous(float dt)
     {
         if (dt <= 0f || inflateRatePerSecond <= 0f)
@@ -159,27 +171,25 @@ public class InflatingBalloon : MonoBehaviour
 
         float delta = inflateRatePerSecond * dt;
 
-        // Calculate new size
         Vector3 s = transform.localScale;
         s.x += delta;
         s.y += delta;
 
-        // Limit size
         if (maxScale > 0f)
         {
             s.x = Mathf.Min(s.x, maxScale);
             s.y = Mathf.Min(s.y, maxScale);
         }
 
-        // Apply new scale
         transform.localScale = s;
+    }
 
-        //Play Inflate Sound
-        if (audioSource != null && inflateSound != null && !audioSource.isPlaying)
+    // fast stop of inflation sound
+    private void StopInflationSound()
+    {
+        if (audioSource != null && audioSource.isPlaying)
         {
-            // Randomize pitch slightly for realism
-            audioSource.pitch = Random.Range(0.9f, 1.1f);
-            audioSource.PlayOneShot(inflateSound);
+            audioSource.Stop();
         }
     }
 }

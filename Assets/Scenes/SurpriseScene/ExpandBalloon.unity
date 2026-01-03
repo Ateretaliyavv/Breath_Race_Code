@@ -2153,7 +2153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 277fd327a96f8984c95aeef5b47028de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputModeManager
-  currentMode: 1
+  currentMode: 0
   bridgeBuilder: {fileID: 0}
   pushBox: {fileID: 0}
   blowUpBalloons: {fileID: 0}
@@ -5237,7 +5237,7 @@ MonoBehaviour:
   inflateRatePerSecond: 1
   maxScale: 50
   audioSource: {fileID: 1925457264}
-  inflateSound: {fileID: 8300000, guid: a652877b012108e41871f867ada9f176, type: 3}
+  inflateSound: {fileID: 8300000, guid: 78ad99fd0a0a5144280b07bbdba84815, type: 3}
   pressureSource: {fileID: 194383341}
   breathThresholdKPa: 3
 --- !u!212 &1925457262
