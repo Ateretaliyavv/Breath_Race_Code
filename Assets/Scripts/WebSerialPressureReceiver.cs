@@ -28,7 +28,7 @@ public class WebSerialPressureReceiver : MonoBehaviour
 
     private void Awake()
     {
-        // Keep exactly one receiver across all scenes
+        // Ensure exactly one instance exists
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -38,6 +38,10 @@ public class WebSerialPressureReceiver : MonoBehaviour
         Instance = this;
         gameObject.name = "BreathUSB"; // Fixed name for JS SendMessage
         DontDestroyOnLoad(gameObject);
+
+        // Hide debug text until a real message is received
+        if (debugText != null)
+            debugText.gameObject.SetActive(false);
     }
 
     // Must be called by a user gesture (button click) in WebGL
@@ -83,10 +87,9 @@ public class WebSerialPressureReceiver : MonoBehaviour
         if (string.IsNullOrWhiteSpace(chunk))
             return;
 
-        // Helpful for debugging in WebGL (Browser Console)
         Debug.Log("SERIAL CHUNK: [" + chunk + "]");
 
-        // Normalize CRLF and split into lines (WebSerial often batches multiple lines)
+        // Normalize line endings and split into lines
         string[] lines = chunk.Replace("\r", "\n").Split('\n');
 
         for (int i = 0; i < lines.Length; i++)
@@ -95,15 +98,15 @@ public class WebSerialPressureReceiver : MonoBehaviour
             if (string.IsNullOrEmpty(line))
                 continue;
 
-            // Ignore debug lines that start with '#'
+            // Ignore comment/debug lines from device
             if (line.StartsWith("#"))
                 continue;
 
-            // Extract first float token from the line (works even if line contains text)
+            // Extract first floating-point number from the line
             Match m = Regex.Match(line, @"-?\d+(\.\d+)?");
             if (!m.Success)
             {
-                if (debugText != null) debugText.text = "No number: " + line;
+                ShowDebug("No number: " + line);
                 continue;
             }
 
@@ -111,15 +114,18 @@ public class WebSerialPressureReceiver : MonoBehaviour
             {
                 lastPressureKPa = v;
 
-                Debug.Log("SERIAL PARSED: " + lastPressureKPa.ToString("0.000", CultureInfo.InvariantCulture));
+                Debug.Log("SERIAL PARSED: " +
+                          lastPressureKPa.ToString("0.000", CultureInfo.InvariantCulture));
 
-                if (debugText != null)
-                    debugText.text = "Pressure: " + lastPressureKPa.ToString("0.000", CultureInfo.InvariantCulture) + " kPa";
+                ShowDebug(
+                    "Pressure: " +
+                    lastPressureKPa.ToString("0.000", CultureInfo.InvariantCulture) +
+                    " kPa"
+                );
             }
             else
             {
-                if (debugText != null)
-                    debugText.text = "Parse failed: " + line;
+                ShowDebug("Parse failed: " + line);
             }
         }
     }
@@ -128,6 +134,18 @@ public class WebSerialPressureReceiver : MonoBehaviour
     public void OnSerialStatus(string msg)
     {
         SetStatus(msg);
+    }
+
+    // Enables and updates the debug text only when needed
+    private void ShowDebug(string msg)
+    {
+        if (debugText == null)
+            return;
+
+        if (!debugText.gameObject.activeSelf)
+            debugText.gameObject.SetActive(true);
+
+        debugText.text = msg;
     }
 
     private void SetStatus(string msg)

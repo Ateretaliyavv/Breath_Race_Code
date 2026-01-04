@@ -901,53 +901,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 9.250937, y: 1.0405245}
   m_EdgeRadius: 0
---- !u!1 &297829686
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 297829688}
-  - component: {fileID: 297829687}
-  m_Layer: 0
-  m_Name: WebSocketReceiver
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &297829687
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 297829686}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68488a8069a441b42b17cdf42558ebfa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PressureWebSocketReceiver
-  debugText: {fileID: 0}
-  lastPressureKPa: 0
-  wsUrl: ws://192.168.43.3:5005
---- !u!4 &297829688
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 297829686}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 511.39502, y: 217.50122, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &311488245
 GameObject:
   m_ObjectHideFlags: 0
@@ -992,7 +945,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 277fd327a96f8984c95aeef5b47028de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputModeManager
-  currentMode: 0
+  currentMode: 1
   bridgeBuilder: {fileID: 906930554}
   pushBox: {fileID: 906930558}
   blowUpBalloons: {fileID: 906930557}
@@ -14352,4 +14305,3 @@ SceneRoots:
   - {fileID: 1616218756}
   - {fileID: 1125202464}
   - {fileID: 471670572}
-  - {fileID: 297829688}
