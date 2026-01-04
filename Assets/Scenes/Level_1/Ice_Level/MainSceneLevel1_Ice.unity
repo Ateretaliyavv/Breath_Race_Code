@@ -163,7 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 277fd327a96f8984c95aeef5b47028de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputModeManager
-  currentMode: 1
+  currentMode: 0
   bridgeBuilder: {fileID: 906930554}
   pushBox: {fileID: 906930558}
   blowUpBalloons: {fileID: 906930557}
@@ -31431,7 +31431,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &931853381
 RectTransform:
   m_ObjectHideFlags: 0

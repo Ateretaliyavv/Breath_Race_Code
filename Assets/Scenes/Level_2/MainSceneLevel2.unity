@@ -2833,7 +2833,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &209393895
 RectTransform:
   m_ObjectHideFlags: 0
@@ -72731,7 +72731,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 277fd327a96f8984c95aeef5b47028de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputModeManager
-  currentMode: 1
+  currentMode: 0
   bridgeBuilder: {fileID: 1379212103}
   pushBox: {fileID: 1379212111}
   blowUpBalloons: {fileID: 1379212100}
@@ -73472,7 +73472,7 @@ Transform:
   m_GameObject: {fileID: 1571674895}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -38.1, y: 13.91, z: 0}
+  m_LocalPosition: {x: -38.154, y: 14.008, z: 0}
   m_LocalScale: {x: 3.8227, y: 4.6881, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
