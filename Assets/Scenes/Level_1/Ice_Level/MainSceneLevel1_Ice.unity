@@ -23196,7 +23196,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 122.81006, y: 40.677002}
+  m_AnchoredPosition: {x: 122.81003, y: 40.677002}
   m_SizeDelta: {x: 9081.42, y: 1276.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &510861091
@@ -31451,8 +31451,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -178.59608, y: -142.7874}
+  m_SizeDelta: {x: -357.1922, y: -285.5748}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &931853382
 MonoBehaviour:
@@ -36802,9 +36802,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68488a8069a441b42b17cdf42558ebfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PressureWebSocketReceiver
-  wsUrl: ws://192.168.43.3:5005
   debugText: {fileID: 0}
   lastPressureKPa: 0
+  wsUrl: ws://192.168.43.3:5005
+  webSerialReceiver: {fileID: 0}
 --- !u!4 &1282857212
 Transform:
   m_ObjectHideFlags: 0
@@ -43681,7 +43682,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -337.2522, y: -151.97162}
+  m_AnchoredPosition: {x: -158.65613, y: -9.184204}
   m_SizeDelta: {x: 2324.3704, y: 386.5723}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1629998938
@@ -54606,7 +54607,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2094857340}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -54615,7 +54616,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -308, y: -151.66156}
+  m_AnchoredPosition: {x: -129.40393, y: -8.8741455}
   m_SizeDelta: {x: 101.6959, y: 28.2245}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2094857342
