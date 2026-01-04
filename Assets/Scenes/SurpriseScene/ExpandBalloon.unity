@@ -993,9 +993,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68488a8069a441b42b17cdf42558ebfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PressureWebSocketReceiver
-  wsUrl: ws://192.168.43.3:5005
   debugText: {fileID: 0}
   lastPressureKPa: 0
+  wsUrl: ws://192.168.43.3:5005
+  webSerialReceiver: {fileID: 0}
 --- !u!4 &194383342
 Transform:
   m_ObjectHideFlags: 0
@@ -2153,7 +2154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 277fd327a96f8984c95aeef5b47028de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputModeManager
-  currentMode: 0
+  currentMode: 1
   bridgeBuilder: {fileID: 0}
   pushBox: {fileID: 0}
   blowUpBalloons: {fileID: 0}

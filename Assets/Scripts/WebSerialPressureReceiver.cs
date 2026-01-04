@@ -25,18 +25,29 @@ public class WebSerialPressureReceiver : MonoBehaviour
     public void ConnectUSB()
     {
 #if UNITY_WEBGL && !UNITY_EDITOR
-        if (WebSerial_IsSupported() == 0)
+    try
+    {
+        int supported = WebSerial_IsSupported();
+        SetStatus("WebSerial supported: " + supported);
+
+        if (supported == 0)
         {
-            SetStatus("WebSerial not supported. Use Chrome/Edge.");
+            SetStatus("WebSerial not supported. Use Chrome/Edge on desktop.");
             return;
         }
 
-        SetStatus("Connecting USB...");
+        SetStatus("Requesting USB device...");
         WebSerial_Connect(gameObject.name, nameof(OnSerialLine), nameof(OnSerialStatus));
+    }
+    catch (Exception e)
+    {
+        SetStatus("WebSerial exception: " + e.Message);
+    }
 #else
-        SetStatus("USB WebSerial works only in WebGL build.");
+        SetStatus("USB WebSerial works only in WebGL build (not in Unity Editor).");
 #endif
     }
+
 
     public void DisconnectUSB()
     {
