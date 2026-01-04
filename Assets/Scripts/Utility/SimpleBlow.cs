@@ -1,6 +1,15 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/*
+ * Moves an object while the input is held (Keyboard)
+ * or while breath pressure is above a threshold (Breath).
+ *
+ * IMPORTANT:
+ * - Breath input is read from PressureWebSocketReceiver.Instance (singleton).
+ * - Do not assign any pressure source in the Inspector.
+ */
+
 public class SimpleBlow : MonoBehaviour
 {
     public enum BlowControlMode
@@ -20,11 +29,9 @@ public class SimpleBlow : MonoBehaviour
     [SerializeField] private AudioClip moveSound;
 
     [Header("Keyboard Input")]
-    [SerializeField] InputAction blowButton = new InputAction(type: InputActionType.Button); // Enter arrow key
+    [SerializeField] InputAction blowButton = new InputAction(type: InputActionType.Button);
 
     [Header("Breath Control")]
-    [Tooltip("Source of breath pressure values (kPa)")]
-    [SerializeField] private PressureWebSocketReceiver pressureSource;
     [Tooltip("Breath threshold in kPa to start movement")]
     [SerializeField] private float breathThresholdKPa = 1.0f;
 
@@ -34,9 +41,7 @@ public class SimpleBlow : MonoBehaviour
     {
         // Auto-fetch AudioSource if not assigned
         if (audioSource == null)
-        {
             audioSource = GetComponent<AudioSource>();
-        }
     }
 
     void OnEnable()
@@ -58,12 +63,10 @@ public class SimpleBlow : MonoBehaviour
             blowButton.Disable();
         }
 
-        // Stop sound if script is disabled while blowing
-        if (audioSource != null) audioSource.Stop();
-        isBlowing = false;
+        StopBlow();
     }
 
-    //To Chage between keybord and breath
+    //To change between keyboard and breath
     public void SetControlMode(bool useBreath)
     {
         BlowControlMode newMode = useBreath ? BlowControlMode.Breath : BlowControlMode.Keyboard;
@@ -95,6 +98,14 @@ public class SimpleBlow : MonoBehaviour
         Debug.Log("SimpleBlow: Control mode set to " + controlMode);
     }
 
+    private float GetPressureKPa()
+    {
+        if (PressureWebSocketReceiver.Instance == null)
+            return 0f;
+
+        return PressureWebSocketReceiver.Instance.lastPressureKPa;
+    }
+
     private void OnBlowPressed(InputAction.CallbackContext ctx)
     {
         if (controlMode != BlowControlMode.Keyboard)
@@ -113,13 +124,14 @@ public class SimpleBlow : MonoBehaviour
 
     private void StartBlow()
     {
+        if (isBlowing) return;
         isBlowing = true;
 
-        // --- Start Playing Sound ---
+        // Start sound
         if (audioSource != null && moveSound != null)
         {
             audioSource.clip = moveSound;
-            audioSource.loop = true; // Enable loop so it plays continuously
+            audioSource.loop = true;
             audioSource.Play();
         }
     }
@@ -128,18 +140,16 @@ public class SimpleBlow : MonoBehaviour
     {
         isBlowing = false;
 
-        // --- Stop Playing Sound ---
+        // Stop sound
         if (audioSource != null)
         {
-            audioSource.loop = false; // Optional: reset loop state
+            audioSource.loop = false;
             audioSource.Stop();
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
-        // במצב נשיפה – בודק לחץ מהחיישן ומחליט אם "לנשוף"
         if (controlMode == BlowControlMode.Breath)
         {
             UpdateBreathControl();
@@ -147,29 +157,18 @@ public class SimpleBlow : MonoBehaviour
 
         if (isBlowing)
         {
-            // Move the object in the specified direction at the specified speed
             transform.position += direction.normalized * speed * Time.deltaTime;
         }
     }
 
     private void UpdateBreathControl()
     {
-        if (pressureSource == null)
-        {
-            StopBlow();
-            return;
-        }
-
-        float pressure = pressureSource.lastPressureKPa;
+        float pressure = GetPressureKPa();
         bool breathStrong = pressure >= breathThresholdKPa;
 
         if (breathStrong && !isBlowing)
-        {
             StartBlow();
-        }
         else if (!breathStrong && isBlowing)
-        {
             StopBlow();
-        }
     }
 }

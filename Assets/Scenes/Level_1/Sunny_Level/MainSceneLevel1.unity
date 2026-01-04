@@ -7898,54 +7898,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &304979231
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 304979233}
-  - component: {fileID: 304979232}
-  m_Layer: 0
-  m_Name: WebSocketReceiver
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &304979232
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 304979231}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68488a8069a441b42b17cdf42558ebfa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PressureWebSocketReceiver
-  debugText: {fileID: 0}
-  lastPressureKPa: 0
-  wsUrl: ws://192.168.43.3:5005
-  webSerialReceiver: {fileID: 0}
---- !u!4 &304979233
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 304979231}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 511.39502, y: 217.50122, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &320531409
 GameObject:
   m_ObjectHideFlags: 0
@@ -10485,7 +10437,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 277fd327a96f8984c95aeef5b47028de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputModeManager
-  currentMode: 0
+  currentMode: 1
   bridgeBuilder: {fileID: 906930554}
   pushBox: {fileID: 906930558}
   blowUpBalloons: {fileID: 906930557}
@@ -11144,7 +11096,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &691196597
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11179,7 +11131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a20b2296866770c48bef9904bfff3e17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  receiver: {fileID: 304979232}
+  receiver: {fileID: 0}
   fillImage: {fileID: 1801358940}
   percentText: {fileID: 516181215}
   minKPa: 0.3
@@ -13541,7 +13493,6 @@ MonoBehaviour:
       m_Action: Jump Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 304979232}
   lowThresholdKPa: 1
   mediumThresholdKPa: 2
   highThresholdKPa: 3.5
@@ -13706,7 +13657,6 @@ MonoBehaviour:
   pieceWidth: 0.8
   buildSpeed: 6
   yOffsetBelowFeet: 1
-  pressureSource: {fileID: 304979232}
   breathThresholdKPa: 1
 --- !u!114 &906930555
 MonoBehaviour:
@@ -13764,7 +13714,6 @@ MonoBehaviour:
     m_Flags: 0
   blowStartTag: BlowStart
   maxBlowDistanceX: 20
-  pressureSource: {fileID: 304979232}
   breathThresholdKPa: 1
 --- !u!114 &906930558
 MonoBehaviour:
@@ -13800,7 +13749,6 @@ MonoBehaviour:
   pushEndTag: PushEnd
   pushBoxTag: PushBox
   maxBoxSpeedX: 5
-  pressureSource: {fileID: 304979232}
   breathThresholdKPa: 1
 --- !u!114 &906930559
 MonoBehaviour:
@@ -33357,4 +33305,3 @@ SceneRoots:
   - {fileID: 1616218756}
   - {fileID: 1663136957}
   - {fileID: 1374963352}
-  - {fileID: 304979233}

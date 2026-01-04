@@ -9,46 +9,42 @@ mergeInto(LibraryManager.library, {
     var onStatus = UTF8ToString(onStatusPtr);
 
     if (!navigator.serial) {
-      SendMessage(goName, onStatus, "WebSerial not supported (use Chrome/Edge).");
+      try { SendMessage(goName, onStatus, "WebSerial not supported (use Chrome/Edge)."); } catch (e) {}
       return;
     }
 
-    // Keep state in Module
-    if (!Module.webSerial) Module.webSerial = {};
-    var S = Module.webSerial;
+    // Use window as a stable global store across scene loads.
+    if (!window.__webSerialUnity) window.__webSerialUnity = {};
+    var S = window.__webSerialUnity;
 
-    // Persist callbacks/target so scene changes won't break JS state.
+    // Update receiver target every time (scene can change).
     S.goName = goName;
     S.onData = onData;
     S.onStatus = onStatus;
 
-    // Optional fixed fallback target name (recommended):
-    // If your receiver GameObject is always named "BreathUSB", this keeps working even if
-    // you pass a different name from C# or if a scene accidentally renames something.
+    // Optional hard fallback receiver name (use ONLY if you guarantee it exists).
+    // If you use DontDestroyOnLoad and keep the receiver object named "BreathUSB",
+    // this helps when Unity temporarily unloads objects during scene switches.
     S.fallbackGoName = "BreathUSB";
 
-    // Safe SendMessage wrapper:
-    //Try the provided goName
-    //If it fails (object not found), try fallbackGoName
+    // Safe SendMessage:
+    // - Try current receiver
+    // - If missing, try fallback receiver
+    // - Never throw (keep the serial loop alive)
     function safeSend(method, message) {
       try {
         SendMessage(S.goName, method, message);
         return;
-      } catch (e1) {
-        // Ignore and try fallback
-      }
+      } catch (e1) {}
+
       try {
         SendMessage(S.fallbackGoName, method, message);
-      } catch (e2) {
-        // If both fail, there's no receiver object alive right now.
-        // We intentionally do not throw to keep the read loop alive.
-      }
+      } catch (e2) {}
     }
 
-    // Prevent double-connect: if already connected/reading, disconnect first.
     (async function () {
       try {
-        // If we already have a port/reader, shut it down cleanly first.
+        // Prevent double-connect: close previous session if exists.
         if (S.port || S.reader) {
           S.keepReading = false;
 
@@ -71,11 +67,12 @@ mergeInto(LibraryManager.library, {
         // Must be called from a user gesture (button click).
         S.port = await navigator.serial.requestPort();
 
-        // Make baud rate explicit (matches your ESP32 Serial.begin(115200)).
+        // Match ESP32 Serial.begin(115200).
         await S.port.open({ baudRate: 115200 });
 
         safeSend(S.onStatus, "Serial connected (115200).");
 
+        // Read loop: accumulate chunks and split by newline.
         const decoder = new TextDecoder();
         S.reader = S.port.readable.getReader();
 
@@ -88,7 +85,6 @@ mergeInto(LibraryManager.library, {
 
           buffer += decoder.decode(value, { stream: true });
 
-          // Split by newline into complete lines
           let idx;
           while ((idx = buffer.indexOf("\n")) >= 0) {
             let line = buffer.slice(0, idx).trim();
@@ -110,8 +106,8 @@ mergeInto(LibraryManager.library, {
   WebSerial_Disconnect: function () {
     (async function () {
       try {
-        if (!Module.webSerial) return;
-        var S = Module.webSerial;
+        if (!window.__webSerialUnity) return;
+        var S = window.__webSerialUnity;
 
         S.keepReading = false;
 

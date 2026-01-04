@@ -2,14 +2,16 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+/*
+ * BlowProgressBar
+ * - Reads pressure from PressureWebSocketReceiver singleton (persists across scenes).
+ * - No Inspector reference required; it auto-resolves Instance.
+ */
 public class BlowProgressBar : MonoBehaviour
 {
-    [Header("Data Source")]
-    [SerializeField] private PressureWebSocketReceiver receiver;
-
     [Header("UI References")]
-    [SerializeField] private Image fillImage;               // the pink Image (Type=Filled)
-    [SerializeField] private TextMeshProUGUI percentText;   // the % text (optional)
+    [SerializeField] private Image fillImage;               // Image (Type = Filled)
+    [SerializeField] private TextMeshProUGUI percentText;   // optional
 
     [Header("Pressure Range (kPa)")]
     [SerializeField] private float minKPa = 0.3f;
@@ -23,19 +25,28 @@ public class BlowProgressBar : MonoBehaviour
 
     private float smooth01;
 
+    private void Awake()
+    {
+        if (fillImage == null)
+            Debug.LogWarning("BlowProgressBar: fillImage is not assigned.");
+    }
+
     private void Update()
     {
-        if (receiver == null || fillImage == null) return;
+        if (fillImage == null) return;
 
-        float kpa = receiver.lastPressureKPa;
+        // Read from singleton (created once in entry scene / auto-created by receiver).
+        float kpa = 0f;
+        if (PressureWebSocketReceiver.Instance != null)
+            kpa = PressureWebSocketReceiver.Instance.lastPressureKPa;
 
-        // map kPa -> 0..1
+        // Map kPa -> 0..1
         float target01 = Mathf.Clamp01(Mathf.InverseLerp(minKPa, maxKPa, kpa));
 
-        // smooth movement
+        // Smooth movement
         smooth01 = Mathf.Lerp(smooth01, target01, 1f - Mathf.Exp(-smoothSpeed * Time.deltaTime));
 
-        // THIS is the correct way for a Filled Image
+        // Apply to UI
         fillImage.fillAmount = smooth01;
 
         if (percentText != null)

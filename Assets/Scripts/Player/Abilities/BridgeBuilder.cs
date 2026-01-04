@@ -11,6 +11,10 @@ using UnityEngine.InputSystem;
  *  - Between DarkBridgeStart and DarkBridgeEnd markers the bridge pieces
  *    can use an alternative "dark" prefab, and outside of these zones
  *    the regular prefab is used.
+ *
+ * IMPORTANT:
+ * - Breath input is read from PressureWebSocketReceiver.Instance (singleton).
+ * - Do not assign any pressure source in the Inspector.
  */
 
 public class BridgeBuilder : MonoBehaviour
@@ -53,8 +57,6 @@ public class BridgeBuilder : MonoBehaviour
     [SerializeField] private float yOffsetBelowFeet = 0.25f;
 
     [Header("Breath Control")]
-    [Tooltip("Source of breath pressure values (kPa)")]
-    [SerializeField] private PressureWebSocketReceiver pressureSource;
     [Tooltip("Breath threshold in kPa to start building")]
     [SerializeField] private float breathThresholdKPa = 1.0f;
 
@@ -200,6 +202,14 @@ public class BridgeBuilder : MonoBehaviour
         Debug.Log("BridgeBuilder: Control mode set to " + controlMode);
     }
 
+    private float GetPressureKPa()
+    {
+        if (PressureWebSocketReceiver.Instance == null)
+            return 0f;
+
+        return PressureWebSocketReceiver.Instance.lastPressureKPa;
+    }
+
     // Try to start building at the player position (used by both control modes)
     private bool TryStartBuilding()
     {
@@ -320,12 +330,10 @@ public class BridgeBuilder : MonoBehaviour
     // Handle breath input when using breath control mode
     private void UpdateBreathControl()
     {
-        if (pressureSource == null)
-            return;
-
-        float pressure = pressureSource.lastPressureKPa;
+        float pressure = GetPressureKPa();
         bool breathStrong = pressure >= breathThresholdKPa;
 
+        // Rising edge: start building
         if (breathStrong && !wasBreathStrong)
         {
             if (!isBuilding)
@@ -337,6 +345,7 @@ public class BridgeBuilder : MonoBehaviour
             }
         }
 
+        // Falling edge: stop building
         if (!breathStrong && wasBreathStrong)
         {
             isBuilding = false;

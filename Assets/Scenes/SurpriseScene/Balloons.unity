@@ -245,7 +245,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &8495416
 AudioSource:
@@ -470,7 +469,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &16296374
 AudioSource:
@@ -695,7 +693,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &85960215
 AudioSource:
@@ -920,7 +917,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &203591962
 AudioSource:
@@ -1145,7 +1141,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &209239823
 AudioSource:
@@ -1370,7 +1365,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &223381472
 AudioSource:
@@ -1595,7 +1589,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &346492313
 AudioSource:
@@ -1820,7 +1813,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &373883900
 AudioSource:
@@ -2045,7 +2037,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!1 &504823502
 GameObject:
@@ -2173,7 +2164,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &504823506
 AudioSource:
@@ -2429,7 +2419,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &671224268
 AudioSource:
@@ -2654,7 +2643,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &695330771
 AudioSource:
@@ -2879,7 +2867,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &739497362
 AudioSource:
@@ -3104,7 +3091,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &750002105
 AudioSource:
@@ -3329,7 +3315,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &782967305
 AudioSource:
@@ -3554,7 +3539,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &917002677
 AudioSource:
@@ -3779,7 +3763,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &931873369
 AudioSource:
@@ -4004,7 +3987,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &1009197577
 AudioSource:
@@ -4103,54 +4085,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!1 &1033003518
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1033003520}
-  - component: {fileID: 1033003519}
-  m_Layer: 0
-  m_Name: WebSocketReceiver
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1033003519
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1033003518}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68488a8069a441b42b17cdf42558ebfa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PressureWebSocketReceiver
-  debugText: {fileID: 0}
-  lastPressureKPa: 0
-  wsUrl: ws://192.168.43.3:5005
-  webSerialReceiver: {fileID: 0}
---- !u!4 &1033003520
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1033003518}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 511.39502, y: 217.50122, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1060210702
 GameObject:
   m_ObjectHideFlags: 0
@@ -4277,7 +4211,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &1060210706
 AudioSource:
@@ -4502,7 +4435,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &1080963885
 AudioSource:
@@ -4864,7 +4796,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &1130234381
 AudioSource:
@@ -5089,7 +5020,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &1138705523
 AudioSource:
@@ -5404,7 +5334,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &1173092226
 AudioSource:
@@ -5629,7 +5558,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &1216163563
 AudioSource:
@@ -5854,7 +5782,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &1242524956
 AudioSource:
@@ -6079,7 +6006,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &1269741933
 AudioSource:
@@ -6478,7 +6404,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &1384620106
 AudioSource:
@@ -6703,7 +6628,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &1430575927
 AudioSource:
@@ -6928,7 +6852,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &1441927258
 AudioSource:
@@ -7153,7 +7076,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &1536533030
 AudioSource:
@@ -7378,7 +7300,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &1584413850
 AudioSource:
@@ -7603,7 +7524,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &1614199653
 AudioSource:
@@ -7828,7 +7748,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &1664482697
 AudioSource:
@@ -8053,7 +7972,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &1667417061
 AudioSource:
@@ -8278,7 +8196,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &1689555094
 AudioSource:
@@ -8503,7 +8420,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &1694434070
 AudioSource:
@@ -8728,7 +8644,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &1711791182
 AudioSource:
@@ -8953,7 +8868,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &1732889524
 AudioSource:
@@ -9178,7 +9092,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &1816406709
 AudioSource:
@@ -9403,7 +9316,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &1844982656
 AudioSource:
@@ -9628,7 +9540,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &1874208361
 AudioSource:
@@ -9853,7 +9764,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &1894819700
 AudioSource:
@@ -10078,7 +9988,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &1899554751
 AudioSource:
@@ -10303,7 +10212,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &1932305110
 AudioSource:
@@ -10528,7 +10436,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &1943585779
 AudioSource:
@@ -10753,7 +10660,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &1953861305
 AudioSource:
@@ -11060,7 +10966,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &2000573631
 AudioSource:
@@ -11285,7 +11190,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &2037389490
 AudioSource:
@@ -11510,7 +11414,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &2065586424
 AudioSource:
@@ -11735,7 +11638,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &2085459134
 AudioSource:
@@ -11960,7 +11862,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &2113698053
 AudioSource:
@@ -12185,7 +12086,6 @@ MonoBehaviour:
       m_Action: Blow Button
       m_Flags: 0
     m_Flags: 0
-  pressureSource: {fileID: 1033003519}
   breathThresholdKPa: 1
 --- !u!82 &2144245094
 AudioSource:
@@ -12294,4 +12194,3 @@ SceneRoots:
   - {fileID: 445447853}
   - {fileID: 1994442812}
   - {fileID: 1287304169}
-  - {fileID: 1033003520}

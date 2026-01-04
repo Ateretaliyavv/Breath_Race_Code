@@ -9,6 +9,10 @@ using UnityEngine.InputSystem;
  * - Added Audio Support.
  * - Added Sound Duration Limit (cuts the sound if it's too long).
  * - Supports two control modes: Keyboard OR Breath (from pressure sensor).
+ *
+ * IMPORTANT:
+ * - Breath input is read from PressureWebSocketReceiver.Instance (singleton).
+ * - Do not assign any pressure source in the Inspector.
  */
 
 public class BlowUpBalloons : MonoBehaviour
@@ -41,8 +45,7 @@ public class BlowUpBalloons : MonoBehaviour
     [Header("Blow Distance")]
     [SerializeField] private float maxBlowDistanceX = 10f;
 
-    [Header("Breath Control (WebSocket Pressure)")]
-    [SerializeField] private PressureWebSocketReceiver pressureSource;
+    [Header("Breath Control (kPa)")]
     [SerializeField] private float breathThresholdKPa = 1.0f;
 
     // All BlowStart objects in the scene
@@ -101,6 +104,14 @@ public class BlowUpBalloons : MonoBehaviour
         blowTriggered = false;
         ResetBalloons();
         wasBreathStrong = false;
+    }
+
+    private float GetPressureKPa()
+    {
+        if (PressureWebSocketReceiver.Instance == null)
+            return 0f;
+
+        return PressureWebSocketReceiver.Instance.lastPressureKPa;
     }
 
     private void OnBlowPressed(InputAction.CallbackContext ctx)
@@ -208,9 +219,7 @@ public class BlowUpBalloons : MonoBehaviour
     // Handle breath-based triggering when in Breath mode
     private void UpdateBreathControl()
     {
-        if (pressureSource == null) return;
-
-        float pressure = pressureSource.lastPressureKPa;
+        float pressure = GetPressureKPa();
         bool breathStrong = pressure >= breathThresholdKPa;
 
         // Trigger only on rising edge of strong breath

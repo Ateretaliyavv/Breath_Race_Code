@@ -1,6 +1,15 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/*
+ * Inflates a balloon continuously while the input is held (Keyboard)
+ * or while breath pressure is above a threshold (Breath).
+ *
+ * IMPORTANT:
+ * - Breath input is read from PressureWebSocketReceiver.Instance (singleton).
+ * - Do not assign any pressure source in the Inspector.
+ */
+
 public class InflatingBalloon : MonoBehaviour
 {
     public enum InflateControlMode
@@ -19,6 +28,7 @@ public class InflatingBalloon : MonoBehaviour
     [Header("Inflation Settings")]
     [Tooltip("How much to add to X & Y scale per second while inflating")]
     [SerializeField] private float inflateRatePerSecond = 0.5f;
+
     [Tooltip("Maximum scale limit (optional)")]
     [SerializeField] private float maxScale = 3.0f;
 
@@ -27,8 +37,6 @@ public class InflatingBalloon : MonoBehaviour
     [SerializeField] private AudioClip inflateSound; // Sound for "Hiss/Air"
 
     [Header("Breath Control")]
-    [Tooltip("Source of breath pressure values (kPa)")]
-    [SerializeField] private PressureWebSocketReceiver pressureSource;
     [Tooltip("Breath threshold in kPa to start continuous inflation")]
     [SerializeField] private float breathThresholdKPa = 1.0f;
 
@@ -38,7 +46,6 @@ public class InflatingBalloon : MonoBehaviour
     {
         if (audioSource == null)
             audioSource = GetComponent<AudioSource>();
-
 
         if (audioSource != null)
         {
@@ -68,7 +75,7 @@ public class InflatingBalloon : MonoBehaviour
         }
 
         isInflatingHeld = false;
-        StopInflationSound(); // make sure sound stops when disabled
+        StopInflationSound();
     }
 
     public void SetControlMode(bool useBreath)
@@ -97,16 +104,24 @@ public class InflatingBalloon : MonoBehaviour
         }
 
         isInflatingHeld = false;
-        StopInflationSound(); // stop sound on mode change
+        StopInflationSound();
 
         Debug.Log("InflatingBalloon: Control mode set to " + controlMode);
+    }
+
+    private float GetPressureKPa()
+    {
+        if (PressureWebSocketReceiver.Instance == null)
+            return 0f;
+
+        return PressureWebSocketReceiver.Instance.lastPressureKPa;
     }
 
     private void Update()
     {
         bool isInflatingNow = false;
 
-        // check if we should inflate this frame
+        // Decide if we should inflate this frame
         if (controlMode == InflateControlMode.Keyboard)
         {
             if (isInflatingHeld)
@@ -115,15 +130,15 @@ public class InflatingBalloon : MonoBehaviour
                 isInflatingNow = true;
             }
         }
-        else // Breath Mode
+        else
         {
-            if (pressureSource != null && pressureSource.lastPressureKPa >= breathThresholdKPa)
+            float pressure = GetPressureKPa();
+            if (pressure >= breathThresholdKPa)
             {
                 InflateContinuous(Time.deltaTime);
                 isInflatingNow = true;
             }
         }
-
 
         HandleAudio(isInflatingNow);
     }
@@ -134,7 +149,6 @@ public class InflatingBalloon : MonoBehaviour
 
         if (isInflating)
         {
-            // if inflating, ensure the sound is playing
             if (!audioSource.isPlaying)
             {
                 audioSource.pitch = Random.Range(0.95f, 1.05f);
@@ -143,11 +157,8 @@ public class InflatingBalloon : MonoBehaviour
         }
         else
         {
-            // if not inflating, stop the sound if it's playing
             if (audioSource.isPlaying)
-            {
                 audioSource.Stop();
-            }
         }
     }
 
@@ -163,7 +174,6 @@ public class InflatingBalloon : MonoBehaviour
         isInflatingHeld = false;
     }
 
-    // Continuous inflation step (ללא סאונד בפנים)
     private void InflateContinuous(float dt)
     {
         if (dt <= 0f || inflateRatePerSecond <= 0f)
@@ -184,12 +194,9 @@ public class InflatingBalloon : MonoBehaviour
         transform.localScale = s;
     }
 
-    // fast stop of inflation sound
     private void StopInflationSound()
     {
         if (audioSource != null && audioSource.isPlaying)
-        {
             audioSource.Stop();
-        }
     }
 }

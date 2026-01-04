@@ -8,17 +8,20 @@ using TMPro;
 using UnityEngine;
 
 /*
- * Unified pressure receiver:
- * - WebGL: reads pressure from WebSerialPressureReceiver.Instance (USB).
- * - Editor/Standalone: reads pressure from ESP32 via ws:// WebSocket.
+ * PressureWebSocketReceiver
+ * - Singleton that persists across scenes (DontDestroyOnLoad)
+ * - Auto-creates itself if missing (so it exists even when starting from any scene)
+ * - Standalone/Editor: reads pressure over WiFi WebSocket (ws://)
+ * - WebGL: reads pressure from WebSerialPressureReceiver.Instance (USB WebSerial)
  *
- * This script is intended to exist in EVERY scene.
- * It does NOT use DontDestroyOnLoad.
- * It prevents duplicates by enforcing a singleton instance.
+ * IMPORTANT:
+ * - You can place it in the Entry scene, but you don't have to (it will auto-create).
+ * - Do NOT add multiple copies in scenes; duplicates will self-destroy.
  */
-
 public class PressureWebSocketReceiver : MonoBehaviour
 {
+    public static PressureWebSocketReceiver Instance { get; private set; }
+
     [Header("UI (optional)")]
     [SerializeField] private TextMeshProUGUI debugText;
 
@@ -28,41 +31,40 @@ public class PressureWebSocketReceiver : MonoBehaviour
     [Header("Editor/Standalone (WiFi WebSocket)")]
     [SerializeField] private string wsUrl = "ws://192.168.43.3:5005";
 
-    [Header("WebGL (USB WebSerial Receiver)")]
-    [Tooltip("Optional. If left empty, the script will auto-use WebSerialPressureReceiver.Instance.")]
-    [SerializeField] private WebSerialPressureReceiver webSerialReceiver;
-
-    private static PressureWebSocketReceiver instance;
-
 #if !UNITY_WEBGL || UNITY_EDITOR
     private ClientWebSocket client;
     private CancellationTokenSource cts;
 #endif
 
+    // Ensures this singleton exists even if you start Play from a non-entry scene.
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    private static void EnsureExists()
+    {
+        if (Instance != null) return;
+
+        GameObject go = new GameObject("PressureWebSocketReceiver");
+        go.AddComponent<PressureWebSocketReceiver>();
+    }
+
     private void Awake()
     {
-        // Enforce exactly one active instance even if the script exists in every scene.
-        // The newest scene instance will be destroyed; the first instance remains active.
-        if (instance != null && instance != this)
+        // Singleton + persist across scenes
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
 
-        instance = this;
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
     {
 #if UNITY_WEBGL && !UNITY_EDITOR
-        // WebGL: values come from WebSerialPressureReceiver (USB).
-        if (webSerialReceiver == null)
-            webSerialReceiver = WebSerialPressureReceiver.Instance;
-
-        if (webSerialReceiver == null)
-            Debug.LogWarning("PressureWebSocketReceiver (WebGL): WebSerialPressureReceiver.Instance not found. Pressure will stay 0 until USB is connected.");
+        // WebGL: connection is handled by WebSerialPressureReceiver (user gesture required).
 #else
-        // Editor/Standalone: connect over ws:// to ESP32.
+        // Editor/Standalone: connect over WiFi WebSocket to ESP32.
         StartDotNetWebSocket();
 #endif
     }
@@ -70,21 +72,22 @@ public class PressureWebSocketReceiver : MonoBehaviour
     private void Update()
     {
 #if UNITY_WEBGL && !UNITY_EDITOR
-        // In case the USB object appears later (after scene load), keep trying to find it.
-        if (webSerialReceiver == null)
-            webSerialReceiver = WebSerialPressureReceiver.Instance;
-
-        if (webSerialReceiver != null)
-            lastPressureKPa = webSerialReceiver.lastPressureKPa;
+        // WebGL: only update when USB receiver exists; otherwise keep last value (don't reset to 0).
+        if (WebSerialPressureReceiver.Instance != null)
+            lastPressureKPa = WebSerialPressureReceiver.Instance.lastPressureKPa;
 #endif
 
         if (debugText != null)
-            debugText.text = "Pressure: " + lastPressureKPa.ToString("0.000") + " kPa";
+            debugText.text = "Pressure: " + lastPressureKPa.ToString("0.000", CultureInfo.InvariantCulture) + " kPa";
     }
 
 #if !UNITY_WEBGL || UNITY_EDITOR
     private async void StartDotNetWebSocket()
     {
+        // Avoid duplicate connections if Start is called again somehow.
+        if (client != null && client.State == WebSocketState.Open)
+            return;
+
         cts = new CancellationTokenSource();
         client = new ClientWebSocket();
 
@@ -102,7 +105,7 @@ public class PressureWebSocketReceiver : MonoBehaviour
 
     private async Task ReceiveLoop(CancellationToken token)
     {
-        var buffer = new byte[1024];
+        byte[] buffer = new byte[1024];
 
         try
         {
@@ -119,34 +122,52 @@ public class PressureWebSocketReceiver : MonoBehaviour
                 if (result.MessageType == WebSocketMessageType.Text)
                 {
                     string msg = Encoding.UTF8.GetString(buffer, 0, result.Count);
-                    ParsePressure(msg);
+
+                    // Parse a single float number sent as text (InvariantCulture).
+                    if (float.TryParse(msg, NumberStyles.Float, CultureInfo.InvariantCulture, out float v))
+                        lastPressureKPa = v;
                 }
             }
         }
-        catch (OperationCanceledException) { }
+        catch (OperationCanceledException)
+        {
+            // Normal on shutdown
+        }
         catch (Exception e)
         {
             Debug.LogError("PressureWebSocketReceiver: Receive error: " + e.Message);
         }
     }
 
-    private void ParsePressure(string msg)
-    {
-        if (float.TryParse(msg, NumberStyles.Float, CultureInfo.InvariantCulture, out float v))
-            lastPressureKPa = v;
-    }
-
     private void OnDestroy()
     {
-        // Only the active singleton instance should clean up.
-        if (instance != this) return;
+        // Only the active singleton should clean up resources.
+        if (Instance != this)
+            return;
 
         try
         {
-            if (cts != null) { cts.Cancel(); cts.Dispose(); cts = null; }
-            if (client != null) { client.Dispose(); client = null; }
+            if (cts != null)
+            {
+                cts.Cancel();
+                cts.Dispose();
+                cts = null;
+            }
+
+            if (client != null)
+            {
+                client.Dispose();
+                client = null;
+            }
         }
-        catch { }
+        catch
+        {
+            // Ignore shutdown errors
+        }
+
+        // Clear Instance when destroyed (e.g., when quitting play mode)
+        if (Instance == this)
+            Instance = null;
     }
 #endif
 }

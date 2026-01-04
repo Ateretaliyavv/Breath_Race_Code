@@ -10,6 +10,10 @@ using UnityEngine.InputSystem;
  * - 3 breath jump strength levels (low / medium / high), each with configurable
  *   threshold (kPa) and vertical speed.
  * - AUDIO SUPPORT ADDED
+ *
+ * IMPORTANT:
+ * - Breath input is read from PressureWebSocketReceiver.Instance (singleton).
+ * - Do not assign any pressure source in the Inspector.
  */
 
 public class Jump : MonoBehaviour
@@ -37,7 +41,6 @@ public class Jump : MonoBehaviour
     [SerializeField] InputAction jumpButton = new InputAction(type: InputActionType.Button);
 
     [Header("Breath Input (kPa)")]
-    [SerializeField] private PressureWebSocketReceiver pressureSource;
     [SerializeField] private float lowThresholdKPa = 1.0f;
     [SerializeField] private float mediumThresholdKPa = 2.0f;
     [SerializeField] private float highThresholdKPa = 3.5f;
@@ -86,6 +89,14 @@ public class Jump : MonoBehaviour
         }
 
         isHeld = false;
+    }
+
+    private float GetPressureKPa()
+    {
+        if (PressureWebSocketReceiver.Instance == null)
+            return 0f;
+
+        return PressureWebSocketReceiver.Instance.lastPressureKPa;
     }
 
     // Called by InputModeManager to switch between Keyboard/Breath
@@ -185,13 +196,6 @@ public class Jump : MonoBehaviour
     // Breath jump logic with 3 levels
     private void HandleBreathJump(ref Vector2 v)
     {
-        if (pressureSource == null)
-        {
-            animator.SetBool("isJumping", false);
-            wasJumping = false;
-            return;
-        }
-
         if (!IsInsideJumpZone())
         {
             animator.SetBool("isJumping", false);
@@ -199,7 +203,7 @@ public class Jump : MonoBehaviour
             return;
         }
 
-        float pressure = pressureSource.lastPressureKPa;
+        float pressure = GetPressureKPa();
         float selectedSpeed = 0f;
 
         if (pressure >= highThresholdKPa)

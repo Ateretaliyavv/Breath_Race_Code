@@ -2,7 +2,6 @@ using System;
 using System.Globalization;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 #if UNITY_WEBGL && !UNITY_EDITOR
 using System.Runtime.InteropServices;
@@ -10,9 +9,8 @@ using System.Runtime.InteropServices;
 
 public class WebSerialPressureReceiver : MonoBehaviour
 {
-    [Header("Singleton / Persistence")]
-    [Tooltip("Keep this object alive across scene loads (required for WebGL + WebSerial).")]
-    [SerializeField] private bool dontDestroyOnLoad = true;
+    // Single instance shared across scenes
+    public static WebSerialPressureReceiver Instance { get; private set; }
 
     [Header("Optional UI")]
     [SerializeField] private TextMeshProUGUI statusText;
@@ -20,9 +18,6 @@ public class WebSerialPressureReceiver : MonoBehaviour
 
     [Header("Latest Pressure (kPa)")]
     public float lastPressureKPa = 0f;
-
-    // Expose a global instance so other scripts can read the latest pressure safely.
-    public static WebSerialPressureReceiver Instance { get; private set; }
 
 #if UNITY_WEBGL && !UNITY_EDITOR
     [DllImport("__Internal")] private static extern int WebSerial_IsSupported();
@@ -32,7 +27,7 @@ public class WebSerialPressureReceiver : MonoBehaviour
 
     private void Awake()
     {
-        // Ensure only one receiver exists. This prevents duplicate connections after returning to menu.
+        // Keep exactly one receiver across all scenes
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -40,30 +35,11 @@ public class WebSerialPressureReceiver : MonoBehaviour
         }
 
         Instance = this;
-
-        if (dontDestroyOnLoad)
-            DontDestroyOnLoad(gameObject);
+        gameObject.name = "BreathUSB"; // Fixed name for JS SendMessage
+        DontDestroyOnLoad(gameObject);
     }
 
-    private void OnEnable()
-    {
-        // Optional: log scene changes while debugging connection persistence.
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    private void OnDisable()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        // If your UI references exist only in the first scene, they will become null after scene load.
-        // The receiver keeps working; only UI updates are skipped when references are missing.
-        Debug.Log($"WebSerial: Receiver active in scene '{scene.name}' as '{gameObject.name}'.");
-    }
-
-    // Call this from a UI Button (must be user gesture)
+    // Must be called by a user gesture (button click) in WebGL
     public void ConnectUSB()
     {
 #if UNITY_WEBGL && !UNITY_EDITOR
@@ -78,8 +54,6 @@ public class WebSerialPressureReceiver : MonoBehaviour
                 return;
             }
 
-            // IMPORTANT: JS will SendMessage to the GameObject name you pass here.
-            // This GameObject must continue to exist across scene loads.
             SetStatus("Requesting USB device...");
             WebSerial_Connect(gameObject.name, nameof(OnSerialLine), nameof(OnSerialStatus));
         }
@@ -102,20 +76,28 @@ public class WebSerialPressureReceiver : MonoBehaviour
 #endif
     }
 
-    // Called from JS: receives a single line (should be a number)
+    // Called from JS: receives a single line from Serial
     public void OnSerialLine(string line)
     {
-        // Ignore debug lines if you ever send them with '#'
-        if (!string.IsNullOrEmpty(line) && line.StartsWith("#"))
+        if (string.IsNullOrWhiteSpace(line))
             return;
 
-        if (float.TryParse(line, NumberStyles.Float, CultureInfo.InvariantCulture, out float v))
+        // Ignore debug lines that start with '#'
+        if (line.StartsWith("#"))
+            return;
+
+        // Expecting numeric-only lines like: "3.452"
+        if (float.TryParse(line.Trim(), NumberStyles.Float, CultureInfo.InvariantCulture, out float v))
         {
             lastPressureKPa = v;
-
-            // UI references may be null in other scenes (normal if UI exists only in the menu scene).
             if (debugText != null)
                 debugText.text = "Pressure: " + lastPressureKPa.ToString("0.000") + " kPa";
+        }
+        else
+        {
+            // If you ever see this, Arduino is still printing text like "Pressure: ..."
+            if (debugText != null)
+                debugText.text = "Parse failed: " + line;
         }
     }
 

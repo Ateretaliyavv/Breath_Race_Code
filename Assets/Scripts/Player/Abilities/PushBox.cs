@@ -9,6 +9,11 @@ using UnityEngine.InputSystem;
  * - The crate must have a Rigidbody2D and a tag (e.g. "PushBox").
  * - PushStart / PushEnd are empty GameObjects placed in the scene;
  *   their tags are set in the inspector.
+ *
+ * IMPORTANT:
+ * This script does NOT take a PressureWebSocketReceiver reference from the Inspector.
+ * It reads breath from PressureWebSocketReceiver.Instance, so the receiver must exist
+ * once in the game (usually created in the Entry scene and marked DontDestroyOnLoad).
  */
 
 public class PushBox : MonoBehaviour
@@ -43,9 +48,6 @@ public class PushBox : MonoBehaviour
     [SerializeField] private float maxBoxSpeedX = 5f;
 
     [Header("Breath Control")]
-    [Tooltip("Source of breath pressure values (kPa)")]
-    [SerializeField] private PressureWebSocketReceiver pressureSource;
-
     [Tooltip("Breath threshold in kPa to allow pushing")]
     [SerializeField] private float breathThresholdKPa = 1.0f;
 
@@ -56,7 +58,6 @@ public class PushBox : MonoBehaviour
     // The crate we are currently touching (if any)
     private Rigidbody2D currentBoxRb;
 
-    // Find all PushStart / PushEnd markers by tag
     private void Awake()
     {
         GameObject[] startObjs = GameObject.FindGameObjectsWithTag(pushStartTag);
@@ -77,22 +78,22 @@ public class PushBox : MonoBehaviour
             Debug.LogWarning("PushBox: No objects found with tag " + pushEndTag);
     }
 
-    // Enable keyboard input only when using keyboard mode
+    private void Start()
+    {
+        if (PressureWebSocketReceiver.Instance == null)
+            Debug.LogWarning("PushBox: PressureWebSocketReceiver.Instance is null. Breath mode will not work.");
+    }
+
     private void OnEnable()
     {
         if (controlMode == PushControlMode.Keyboard)
-        {
             pushAction.Enable();
-        }
     }
 
-    // Disable keyboard input when script is disabled
     private void OnDisable()
     {
         if (controlMode == PushControlMode.Keyboard)
-        {
             pushAction.Disable();
-        }
     }
 
     // Called by InputModeManager to switch between Keyboard/Breath
@@ -103,24 +104,17 @@ public class PushBox : MonoBehaviour
         if (newMode == controlMode)
             return;
 
-        // Clean up old mode
         if (controlMode == PushControlMode.Keyboard)
-        {
             pushAction.Disable();
-        }
 
         controlMode = newMode;
 
-        // Initialize new mode
         if (isActiveAndEnabled && controlMode == PushControlMode.Keyboard)
-        {
             pushAction.Enable();
-        }
 
         Debug.Log("PushBox: Control mode set to " + controlMode);
     }
 
-    // Handle pushing logic in physics update
     private void FixedUpdate()
     {
         if (currentBoxRb == null)
@@ -136,9 +130,10 @@ public class PushBox : MonoBehaviour
         }
         else if (controlMode == PushControlMode.Breath)
         {
-            if (pressureSource != null)
+            // Read breath from the global receiver instance (survives scene changes).
+            if (PressureWebSocketReceiver.Instance != null)
             {
-                float pressure = pressureSource.lastPressureKPa;
+                float pressure = PressureWebSocketReceiver.Instance.lastPressureKPa;
                 bool breathStrong = pressure >= breathThresholdKPa;
                 canPush = breathStrong && inAllowedZone;
             }
@@ -146,23 +141,19 @@ public class PushBox : MonoBehaviour
 
         if (canPush)
         {
-            // Allow movement in X, keep rotation frozen
             currentBoxRb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
-            // Clamp horizontal speed for safety
             Vector2 v = currentBoxRb.linearVelocity;
             v.x = Mathf.Clamp(v.x, -maxBoxSpeedX, maxBoxSpeedX);
             currentBoxRb.linearVelocity = v;
         }
         else
         {
-            // Lock X movement when pushing is not allowed
             currentBoxRb.constraints = RigidbodyConstraints2D.FreezeRotation |
                                        RigidbodyConstraints2D.FreezePositionX;
         }
     }
 
-    // Check if the player is inside a valid push zone between PushStart and PushEnd
     private bool IsInPushZone(float playerX)
     {
         float lastStartX = float.NegativeInfinity;
@@ -191,7 +182,6 @@ public class PushBox : MonoBehaviour
         return true;
     }
 
-    // Detect when the player starts touching a pushable crate
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (!collision.collider.CompareTag(pushBoxTag))
@@ -205,7 +195,6 @@ public class PushBox : MonoBehaviour
         }
     }
 
-    // Detect when the player stops touching the crate
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (currentBoxRb == null)
