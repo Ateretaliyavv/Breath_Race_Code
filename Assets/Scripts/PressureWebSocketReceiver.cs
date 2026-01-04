@@ -36,16 +36,6 @@ public class PressureWebSocketReceiver : MonoBehaviour
     private CancellationTokenSource cts;
 #endif
 
-    // Ensures this singleton exists even if you start Play from a non-entry scene.
-    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-    private static void EnsureExists()
-    {
-        if (Instance != null) return;
-
-        GameObject go = new GameObject("PressureWebSocketReceiver");
-        go.AddComponent<PressureWebSocketReceiver>();
-    }
-
     private void Awake()
     {
         // Singleton + persist across scenes
