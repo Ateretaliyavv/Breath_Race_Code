@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class SoundManager : MonoBehaviour
 {
@@ -21,6 +22,9 @@ public class SoundManager : MonoBehaviour
         AudioListener.volume = isMuted ? 0 : 1;
 
         UpdateIcon();
+
+        // Remove UI focus so Enter won't trigger again
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     private void UpdateIcon()
