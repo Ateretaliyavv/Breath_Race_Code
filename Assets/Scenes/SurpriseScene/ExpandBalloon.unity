@@ -993,9 +993,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68488a8069a441b42b17cdf42558ebfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PressureWebSocketReceiver
-  wsUrl: ws://192.168.43.3:5005
   debugText: {fileID: 0}
   lastPressureKPa: 0
+  wsUrl: ws://192.168.43.3:5005
+  webSerialReceiver: {fileID: 0}
 --- !u!4 &194383342
 Transform:
   m_ObjectHideFlags: 0
@@ -5237,7 +5238,7 @@ MonoBehaviour:
   inflateRatePerSecond: 1
   maxScale: 50
   audioSource: {fileID: 1925457264}
-  inflateSound: {fileID: 8300000, guid: 78ad99fd0a0a5144280b07bbdba84815, type: 3}
+  inflateSound: {fileID: 8300000, guid: d654174ef194bd7479bf4b8d8f753318, type: 3}
   pressureSource: {fileID: 194383341}
   breathThresholdKPa: 3
 --- !u!212 &1925457262
