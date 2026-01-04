@@ -1,5 +1,6 @@
 using System;
 using System.Globalization;
+using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
 
@@ -55,7 +56,7 @@ public class WebSerialPressureReceiver : MonoBehaviour
             }
 
             SetStatus("Requesting USB device...");
-            WebSerial_Connect(gameObject.name, nameof(OnSerialLine), nameof(OnSerialStatus));
+            WebSerial_Connect(gameObject.name, nameof(OnSerialData), nameof(OnSerialStatus));
         }
         catch (Exception e)
         {
@@ -76,28 +77,50 @@ public class WebSerialPressureReceiver : MonoBehaviour
 #endif
     }
 
-    // Called from JS: receives a single line from Serial
-    public void OnSerialLine(string line)
+    // Called from JS: receives raw serial chunks (may contain multiple lines)
+    public void OnSerialData(string chunk)
     {
-        if (string.IsNullOrWhiteSpace(line))
+        if (string.IsNullOrWhiteSpace(chunk))
             return;
 
-        // Ignore debug lines that start with '#'
-        if (line.StartsWith("#"))
-            return;
+        // Helpful for debugging in WebGL (Browser Console)
+        Debug.Log("SERIAL CHUNK: [" + chunk + "]");
 
-        // Expecting numeric-only lines like: "3.452"
-        if (float.TryParse(line.Trim(), NumberStyles.Float, CultureInfo.InvariantCulture, out float v))
+        // Normalize CRLF and split into lines (WebSerial often batches multiple lines)
+        string[] lines = chunk.Replace("\r", "\n").Split('\n');
+
+        for (int i = 0; i < lines.Length; i++)
         {
-            lastPressureKPa = v;
-            if (debugText != null)
-                debugText.text = "Pressure: " + lastPressureKPa.ToString("0.000") + " kPa";
-        }
-        else
-        {
-            // If you ever see this, Arduino is still printing text like "Pressure: ..."
-            if (debugText != null)
-                debugText.text = "Parse failed: " + line;
+            string line = lines[i].Trim();
+            if (string.IsNullOrEmpty(line))
+                continue;
+
+            // Ignore debug lines that start with '#'
+            if (line.StartsWith("#"))
+                continue;
+
+            // Extract first float token from the line (works even if line contains text)
+            Match m = Regex.Match(line, @"-?\d+(\.\d+)?");
+            if (!m.Success)
+            {
+                if (debugText != null) debugText.text = "No number: " + line;
+                continue;
+            }
+
+            if (float.TryParse(m.Value, NumberStyles.Float, CultureInfo.InvariantCulture, out float v))
+            {
+                lastPressureKPa = v;
+
+                Debug.Log("SERIAL PARSED: " + lastPressureKPa.ToString("0.000", CultureInfo.InvariantCulture));
+
+                if (debugText != null)
+                    debugText.text = "Pressure: " + lastPressureKPa.ToString("0.000", CultureInfo.InvariantCulture) + " kPa";
+            }
+            else
+            {
+                if (debugText != null)
+                    debugText.text = "Parse failed: " + line;
+            }
         }
     }
 
@@ -109,7 +132,9 @@ public class WebSerialPressureReceiver : MonoBehaviour
 
     private void SetStatus(string msg)
     {
-        if (statusText != null) statusText.text = msg;
+        if (statusText != null)
+            statusText.text = msg;
+
         Debug.Log("WebSerial: " + msg);
     }
 }
