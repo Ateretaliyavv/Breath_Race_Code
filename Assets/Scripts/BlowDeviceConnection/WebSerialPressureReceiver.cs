@@ -7,14 +7,17 @@ using UnityEngine;
 using System.Runtime.InteropServices;
 #endif
 
+/*
+ * Receives breath pressure data over USB using WebSerial in WebGL builds.
+ * Manages connection status messages and exposes the latest pressure value to the game.
+ */
 public class WebSerialPressureReceiver : MonoBehaviour
 {
     // Single instance shared across scenes
     public static WebSerialPressureReceiver Instance { get; private set; }
 
     [Header("Optional UI")]
-    [SerializeField] private TextMeshProUGUI statusText;
-    [SerializeField] private TextMeshProUGUI debugText;
+    [SerializeField] private TextMeshProUGUI statusText; // Can be disabled in Inspector; auto-shows on new status
 
     [Header("Latest Pressure (kPa)")]
     public float lastPressureKPa = 0f;
@@ -37,10 +40,6 @@ public class WebSerialPressureReceiver : MonoBehaviour
         Instance = this;
         gameObject.name = "BreathUSB"; // Fixed name for JS SendMessage
         DontDestroyOnLoad(gameObject);
-
-        // Hide debug text until a real message is received
-        if (debugText != null)
-            debugText.gameObject.SetActive(false);
     }
 
     // Must be called by a user gesture (button click) in WebGL
@@ -105,7 +104,7 @@ public class WebSerialPressureReceiver : MonoBehaviour
             Match m = Regex.Match(line, @"-?\d+(\.\d+)?");
             if (!m.Success)
             {
-                ShowDebug("No number: " + line);
+                Debug.LogWarning("SERIAL: No number in line: " + line);
                 continue;
             }
 
@@ -113,18 +112,15 @@ public class WebSerialPressureReceiver : MonoBehaviour
             {
                 lastPressureKPa = v;
 
-                Debug.Log("SERIAL PARSED: " +
-                          lastPressureKPa.ToString("0.000", CultureInfo.InvariantCulture));
-
-                ShowDebug(
-                    "Pressure: " +
+                Debug.Log(
+                    "SERIAL PARSED: " +
                     lastPressureKPa.ToString("0.000", CultureInfo.InvariantCulture) +
                     " kPa"
                 );
             }
             else
             {
-                ShowDebug("Parse failed: " + line);
+                Debug.LogWarning("SERIAL: Parse failed for line: " + line);
             }
         }
     }
@@ -135,22 +131,16 @@ public class WebSerialPressureReceiver : MonoBehaviour
         SetStatus(msg);
     }
 
-    // Enables and updates the debug text only when needed
-    private void ShowDebug(string msg)
-    {
-        if (debugText == null)
-            return;
-
-        if (!debugText.gameObject.activeSelf)
-            debugText.gameObject.SetActive(true);
-
-        debugText.text = msg;
-    }
-
+    // Updates status text; if the status UI object is disabled in Inspector, it will be enabled on demand
     private void SetStatus(string msg)
     {
         if (statusText != null)
+        {
+            if (!statusText.gameObject.activeSelf)
+                statusText.gameObject.SetActive(true);
+
             statusText.text = msg;
+        }
 
         Debug.Log("WebSerial: " + msg);
     }

@@ -1603,7 +1603,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1116265497
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2262,7 +2262,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WebSerialPressureReceiver
   statusText: {fileID: 1116265497}
-  debugText: {fileID: 0}
   lastPressureKPa: 0
 --- !u!4 &1426824551
 Transform:
