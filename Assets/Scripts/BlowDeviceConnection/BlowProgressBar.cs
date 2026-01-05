@@ -5,7 +5,7 @@ using UnityEngine.UI;
 /*
  * BlowProgressBar
  * - Reads pressure from PressureWebSocketReceiver singleton (persists across scenes).
- * - No Inspector reference required; it auto-resolves Instance.
+ * - Hides itself when the global input mode is Keyboard.
  */
 public class BlowProgressBar : MonoBehaviour
 {
@@ -23,24 +23,56 @@ public class BlowProgressBar : MonoBehaviour
     [Header("Happy Colors (optional)")]
     [SerializeField] private Gradient happyGradient;
 
+    [Header("Visibility")]
+    [SerializeField] private GameObject uiRoot; // If null uses this GameObject
+
     private float smooth01;
+    private bool lastVisibleState = true;
 
     private void Awake()
     {
+        if (uiRoot == null)
+            uiRoot = gameObject;
+
         if (fillImage == null)
             Debug.LogWarning("BlowProgressBar: fillImage is not assigned.");
     }
 
     private void Update()
     {
-        if (fillImage == null) return;
+        // Show only in Breath mode (if manager missing default to show)
+        bool shouldShow = true;
+
+        if (GlobalInputModeManager.Instance != null)
+            shouldShow = GlobalInputModeManager.Instance.UseBreath;
+
+        if (shouldShow != lastVisibleState)
+        {
+            uiRoot.SetActive(shouldShow);
+            lastVisibleState = shouldShow;
+
+            // Reset visuals when hiding to avoid showing stale state next time
+            if (!shouldShow)
+            {
+                smooth01 = 0f;
+                if (fillImage != null) fillImage.fillAmount = 0f;
+                if (percentText != null) percentText.text = "";
+                return;
+            }
+        }
+
+        if (!shouldShow)
+            return;
+
+        if (fillImage == null)
+            return;
 
         // Read from singleton (created once in entry scene / auto-created by receiver).
         float kpa = 0f;
         if (PressureWebSocketReceiver.Instance != null)
             kpa = PressureWebSocketReceiver.Instance.lastPressureKPa;
 
-        // Map kPa -> 0..1
+        // Map kPa 0..1
         float target01 = Mathf.Clamp01(Mathf.InverseLerp(minKPa, maxKPa, kpa));
 
         // Smooth movement

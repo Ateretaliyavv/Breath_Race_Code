@@ -68,6 +68,15 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Level_1/Ice_Level/MainSceneLevel1_Ice.unity
     guid: 9a1ffdadba7546f40a6d34e52bfdb9a9
+  - enabled: 1
+    path: Assets/Scenes/StartScene/KeybordOrBlow.unity
+    guid: bb7062baea524d2499eebcabf56cd405
+  - enabled: 1
+    path: Assets/Scenes/TutorialLevelScenes/TutorialKeybord.unity
+    guid: 9151424bae9e93243b751cb2e937f09b
+  - enabled: 1
+    path: Assets/Scenes/SurpriseScene/BalloonsKeybord.unity
+    guid: 00fb969187ac95848b689c88fce793f4
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

@@ -1,8 +1,8 @@
+using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
-using System;
 
 #if UNITY_WEBGL && !UNITY_EDITOR
 using System.Runtime.InteropServices;
@@ -22,6 +22,12 @@ public class WebSerialPressureReceiver : MonoBehaviour
 
     [Header("Latest Pressure (kPa)")]
     public float lastPressureKPa = 0f;
+
+    // True when device is considered connected (status says connected OR first pressure arrives)
+    public bool IsConnected { get; private set; } = false;
+
+    // Optional event for UI panels to react to status updates
+    public event Action<string> StatusChanged;
 
 #if UNITY_WEBGL && !UNITY_EDITOR
     [DllImport("__Internal")] private static extern int WebSerial_IsSupported();
@@ -49,6 +55,9 @@ public class WebSerialPressureReceiver : MonoBehaviour
 #if UNITY_WEBGL && !UNITY_EDITOR
         try
         {
+            // Reset connection state for a new attempt
+            IsConnected = false;
+
             int supported = WebSerial_IsSupported();
             SetStatus("WebSerial supported: " + supported);
 
@@ -74,6 +83,7 @@ public class WebSerialPressureReceiver : MonoBehaviour
     {
 #if UNITY_WEBGL && !UNITY_EDITOR
         WebSerial_Disconnect();
+        IsConnected = false;
         SetStatus("Disconnected.");
 #else
         SetStatus("Disconnect is WebGL-only.");
@@ -113,6 +123,13 @@ public class WebSerialPressureReceiver : MonoBehaviour
             {
                 lastPressureKPa = v;
 
+                // First valid pressure implies the device is connected/streaming
+                if (!IsConnected)
+                {
+                    IsConnected = true;
+                    SetStatus("Device connected. Receiving pressure...");
+                }
+
                 Debug.Log(
                     "SERIAL PARSED: " +
                     lastPressureKPa.ToString("0.000", CultureInfo.InvariantCulture) +
@@ -130,6 +147,10 @@ public class WebSerialPressureReceiver : MonoBehaviour
     public void OnSerialStatus(string msg)
     {
         SetStatus(msg);
+
+        // If your JS sends a "connected" text, treat it as connected
+        if (!string.IsNullOrEmpty(msg) && msg.ToLower().Contains("connected"))
+            IsConnected = true;
     }
 
     // Updates status text; if the status UI object is disabled in Inspector, it will be enabled on demand
@@ -144,5 +165,8 @@ public class WebSerialPressureReceiver : MonoBehaviour
         }
 
         Debug.Log("WebSerial: " + msg);
+
+        // Notify listeners (e.g., your connect popup) about status changes
+        StatusChanged?.Invoke(msg);
     }
 }

@@ -855,9 +855,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 481279993f555ac4c85198a11aa07b18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GoToSceneByClick
+  useInputModeScene: 1
   useRandomScene: 0
   sceneToLoad: Tutorial
   randomSceneNames: []
+  keyboardSceneToLoad: TutorialKeybord
+  breathSceneToLoad: Tutorial
+  baseSceneName: 
+  keyboardVariantSceneName: 
+  breathVariantSceneName: 
   resetRunData: 0
 --- !u!1 &601459995
 GameObject:
@@ -1122,11 +1128,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 481279993f555ac4c85198a11aa07b18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GoToSceneByClick
+  useInputModeScene: 0
   useRandomScene: 1
   sceneToLoad: Balloons
   randomSceneNames:
   - Balloons
   - ExpandBalloon
+  keyboardSceneToLoad: 
+  breathSceneToLoad: 
+  baseSceneName: Balloons
+  keyboardVariantSceneName: BalloonsKeybord
+  breathVariantSceneName: Balloons
   resetRunData: 0
 --- !u!114 &799486593
 MonoBehaviour:
@@ -1522,9 +1534,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 481279993f555ac4c85198a11aa07b18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GoToSceneByClick
+  useInputModeScene: 0
   useRandomScene: 0
   sceneToLoad: MainSceneLevel1_Ice
   randomSceneNames: []
+  keyboardSceneToLoad: 
+  breathSceneToLoad: 
+  baseSceneName: 
+  keyboardVariantSceneName: 
+  breathVariantSceneName: 
   resetRunData: 0
 --- !u!114 &1018305718
 MonoBehaviour:
@@ -1766,9 +1784,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 481279993f555ac4c85198a11aa07b18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GoToSceneByClick
+  useInputModeScene: 0
   useRandomScene: 0
   sceneToLoad: MainSceneLevel3
   randomSceneNames: []
+  keyboardSceneToLoad: 
+  breathSceneToLoad: 
+  baseSceneName: 
+  keyboardVariantSceneName: 
+  breathVariantSceneName: 
   resetRunData: 0
 --- !u!1 &1049273698
 GameObject:
@@ -2684,7 +2708,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000030517578, y: -31.781794}
+  m_AnchoredPosition: {x: 0, y: -31.7818}
   m_SizeDelta: {x: -595.1755, y: -262.2703}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1448835148
@@ -3100,9 +3124,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 481279993f555ac4c85198a11aa07b18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GoToSceneByClick
+  useInputModeScene: 0
   useRandomScene: 0
   sceneToLoad: MainSceneLevel2
   randomSceneNames: []
+  keyboardSceneToLoad: 
+  breathSceneToLoad: 
+  baseSceneName: 
+  keyboardVariantSceneName: 
+  breathVariantSceneName: 
   resetRunData: 0
 --- !u!1 &1625683454
 GameObject:
@@ -3815,9 +3845,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 481279993f555ac4c85198a11aa07b18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GoToSceneByClick
+  useInputModeScene: 0
   useRandomScene: 0
   sceneToLoad: OpenScene
   randomSceneNames: []
+  keyboardSceneToLoad: 
+  breathSceneToLoad: 
+  baseSceneName: 
+  keyboardVariantSceneName: 
+  breathVariantSceneName: 
   resetRunData: 0
 --- !u!114 &1881932452
 MonoBehaviour:
@@ -3965,9 +4001,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 481279993f555ac4c85198a11aa07b18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GoToSceneByClick
+  useInputModeScene: 0
   useRandomScene: 0
   sceneToLoad: MainSceneLevel1
   randomSceneNames: []
+  keyboardSceneToLoad: 
+  breathSceneToLoad: 
+  baseSceneName: 
+  keyboardVariantSceneName: 
+  breathVariantSceneName: 
   resetRunData: 0
 --- !u!114 &1979520186
 MonoBehaviour:
