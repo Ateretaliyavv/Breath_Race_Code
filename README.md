@@ -16,7 +16,7 @@ In the final version of the game, bridge-building and obstacle-jumping will be c
 
 ## UML diagram- 
 
-<img width="961" height="503" alt="image" src="https://github.com/user-attachments/assets/148bc293-6b62-4e30-a597-cca2b7dcfa4d" />
+<img width="1471" height="330" alt="image" src="https://github.com/user-attachments/assets/3975d82b-a767-4815-91a2-90d95f58f869" />
 
 
 
