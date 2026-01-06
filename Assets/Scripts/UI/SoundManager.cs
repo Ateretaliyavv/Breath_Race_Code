@@ -4,13 +4,21 @@ using UnityEngine.EventSystems;
 public class SoundManager : MonoBehaviour
 {
     [Header("UI References")]
-    // Instead of swapping images, we reference the X overlay object
     [SerializeField] private GameObject xOverlayObject;
 
     private bool isMuted = false;
 
     void Start()
     {
+        if (AudioListener.volume == 0)
+        {
+            isMuted = true;
+        }
+        else
+        {
+            isMuted = false;
+        }
+
         UpdateIcon();
     }
 
@@ -29,8 +37,6 @@ public class SoundManager : MonoBehaviour
 
     private void UpdateIcon()
     {
-        // If muted -> enable the X overlay
-        // If not muted -> disable the X overlay
         if (xOverlayObject != null)
         {
             xOverlayObject.SetActive(isMuted);
