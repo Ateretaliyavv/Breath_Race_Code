@@ -11,12 +11,12 @@
 Your goal is to pass all gaps and obstacles in order to win.
 In the final version of the game, bridge-building and obstacle-jumping will be controlled using real breath-based techniques.
 
-## eitch.io link - https://ateretaliya.itch.io/week7-breathrace-alllevels
+## eitch.io link - https://ateretaliya.itch.io/breath-race-blow
 
 
 ## UML diagram- 
 
-<img width="961" height="503" alt="image" src="https://github.com/user-attachments/assets/148bc293-6b62-4e30-a597-cca2b7dcfa4d" />
+<img width="1471" height="330" alt="image" src="https://github.com/user-attachments/assets/3975d82b-a767-4815-91a2-90d95f58f869" />
 
 
 
