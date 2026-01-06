@@ -192,6 +192,7 @@ MonoBehaviour:
   pushBox: {fileID: 906930558}
   tutorialPanel: {fileID: 987078379}
   tutorialText: {fileID: 560973962}
+  tutorialImageDisplay: {fileID: 1394848941}
   confirmButton: {fileID: 0}
   promptText: {fileID: 0}
   jumpKey: 2
@@ -1435,12 +1436,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02ef09e33ac44384ab784165162ad558, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TutorialTrigger
-  instructions: 'For blowing up the balloons and collect dimond, blow  into the device
-    at a strength of at least 1.
+  instructions: 'Blow  for  blowing  up  the  balloons  and  collect  dimond.
 
 
-    To continue, press ''Enter'''
+    To 
+    continue,  press  ''Enter'''
   tutorialType: 2
+  tutorialImage: {fileID: 21300000, guid: e83c98fed5bdd454992beb7059f78d5a, type: 3}
   manager: {fileID: 7098816}
 --- !u!61 &373004905
 BoxCollider2D:
@@ -2243,9 +2245,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 7098817}
   - {fileID: 2049911327}
   - {fileID: 838950823}
-  - {fileID: 7098817}
   - {fileID: 1313407814}
   - {fileID: 1811872340}
   - {fileID: 1605548823}
@@ -2409,8 +2411,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4282861567
-  m_fontColor: {r: 1, g: 0.27735847, b: 0.27735847, a: 1}
+    rgba: 4279900698
+  m_fontColor: {r: 0.1, g: 0.1, b: 0.1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2427,8 +2429,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 65
-  m_fontSizeBase: 65
+  m_fontSize: 60
+  m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2465,7 +2467,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -353.65405, y: 0, z: -346.61255, w: -293.66852}
+  m_margin: {x: -27.911987, y: 0, z: -289.68665, w: -426.49533}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -3091,13 +3093,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02ef09e33ac44384ab784165162ad558, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TutorialTrigger
-  instructions: 'For passing the abyss, blow continuously into the device at a strength
-    of at least 1.
+  instructions: 'Blow  for  passing  the  abyss, and  bild  a  bridge
 
 
-
-    To continue, press ''Enter'''
+    To  continue, 
+    press  ''Enter'''
   tutorialType: 1
+  tutorialImage: {fileID: 21300000, guid: e83c98fed5bdd454992beb7059f78d5a, type: 3}
   manager: {fileID: 7098816}
 --- !u!61 &655846942
 BoxCollider2D:
@@ -4516,12 +4518,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02ef09e33ac44384ab784165162ad558, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  instructions: 'For jumping over the wall, blow into the device at a strength of
-    at least 3.
+  instructions: 'Blow  strongly  for  jumping  over  the  wall
 
 
-    To continue, press ''Enter'''
+    To  continue, 
+    press  ''Enter'''
   tutorialType: 0
+  tutorialImage: {fileID: 21300000, guid: e83c98fed5bdd454992beb7059f78d5a, type: 3}
   manager: {fileID: 7098816}
 --- !u!61 &922515726
 BoxCollider2D:
@@ -4600,6 +4603,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 560973961}
+  - {fileID: 1394848940}
+  - {fileID: 2041178661}
   m_Father: {fileID: 1781649021}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -4620,15 +4625,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6150943, g: 0.59304374, b: 0.59304374, a: 0.6862745}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.7490196}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: cf1462bc694c3c249831ad8ac5293aa2, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -4840,14 +4845,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02ef09e33ac44384ab784165162ad558, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TutorialTrigger
-  instructions: 'For pushing the box into the pit,
-
-    blow continuously into the
-    device at a strength of at least 1.
+  instructions: 'Blow  for  pushing  the  box  into  the  pit
 
 
-    To continue, press ''Enter'''
+    To  continue, 
+    press  ''Enter'''
   tutorialType: 3
+  tutorialImage: {fileID: 21300000, guid: e83c98fed5bdd454992beb7059f78d5a, type: 3}
   manager: {fileID: 7098816}
 --- !u!61 &1107786460
 BoxCollider2D:
@@ -6352,6 +6356,81 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SimpleMove
   direction: {x: 0.7, y: 1, z: 0}
   speed: 5
+--- !u!1 &1394848939
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1394848940}
+  - component: {fileID: 1394848942}
+  - component: {fileID: 1394848941}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1394848940
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1394848939}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 987078380}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -250.71362, y: -152}
+  m_SizeDelta: {x: 258.1273, y: 128.4628}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1394848941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1394848939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1394848942
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1394848939}
+  m_CullTransparentMesh: 1
 --- !u!1 &1401808029
 GameObject:
   m_ObjectHideFlags: 0
@@ -13844,6 +13923,81 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &2041178660
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2041178661}
+  - component: {fileID: 2041178663}
+  - component: {fileID: 2041178662}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2041178661
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2041178660}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 987078380}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -258.62, y: 108}
+  m_SizeDelta: {x: 406.7589, y: 284.26}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2041178662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2041178660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 70dfef42e602bed4eb9044c0275e0b12, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &2041178663
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2041178660}
+  m_CullTransparentMesh: 1
 --- !u!1 &2049911326
 GameObject:
   m_ObjectHideFlags: 0

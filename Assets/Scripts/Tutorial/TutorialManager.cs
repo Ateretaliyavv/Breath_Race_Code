@@ -1,6 +1,6 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem; // Required for the New Input System
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class TutorialManager : MonoBehaviour
@@ -15,11 +15,14 @@ public class TutorialManager : MonoBehaviour
     [Header("UI References")]
     [SerializeField] private GameObject tutorialPanel;
     [SerializeField] private TextMeshProUGUI tutorialText;
+
+    // Drag your UI Image object from the Canvas here
+    [SerializeField] private Image tutorialImageDisplay;
+
     [SerializeField] private Button confirmButton;
     [SerializeField] private TextMeshProUGUI promptText;
 
     [Header("Input Settings (New System)")]
-    // Note: Changed from KeyCode to Key for the New Input System
     [SerializeField] private Key jumpKey = Key.UpArrow;
     [SerializeField] private Key bridgeKey = Key.Space;
     [SerializeField] private Key blowUpKey = Key.Space;
@@ -27,7 +30,7 @@ public class TutorialManager : MonoBehaviour
 
     // Internal state variables
     private MonoBehaviour scriptToUnlock;
-    private Key keyToWaitFor; // Stores which key we are waiting for
+    private Key keyToWaitFor;
     private bool isTutorialActive = false;
 
     private void Start()
@@ -54,14 +57,16 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
-    public void TriggerTutorial(string message, TutorialType type)
+    // Updated method signature to accept the Sprite image
+    public void TriggerTutorial(string message, TutorialType type, Sprite image)
     {
         // 1. Disable player controls
-        moveScript.enabled = false;
-        jumpScript.enabled = false;
-        blowUpScript.enabled = false;
-        bridgeScript.enabled = false;
-        pushBox.enabled = false;
+        // Added null checks to prevent errors if a script is missing
+        if (moveScript) moveScript.enabled = false;
+        if (jumpScript) jumpScript.enabled = false;
+        if (blowUpScript) blowUpScript.enabled = false;
+        if (bridgeScript) bridgeScript.enabled = false;
+        if (pushBox) pushBox.enabled = false;
 
         // 2. Configure the key to wait for and the script to unlock
         switch (type)
@@ -84,13 +89,33 @@ public class TutorialManager : MonoBehaviour
                 break;
         }
 
-        // 3. Update the UI
+        // 3. Update the UI Text
         if (tutorialText != null)
             tutorialText.text = message;
 
         if (promptText != null)
             promptText.text = "Press " + keyToWaitFor.ToString() + " to continue";
 
+        // --- New Logic: Handle the Image ---
+        if (tutorialImageDisplay != null)
+        {
+            if (image != null)
+            {
+                // If an image was provided, assign it and show the UI element
+                tutorialImageDisplay.sprite = image;
+                tutorialImageDisplay.gameObject.SetActive(true);
+
+                // Optional: Preserves aspect ratio so the image doesn't look stretched
+                tutorialImageDisplay.preserveAspect = true;
+            }
+            else
+            {
+                // If no image is provided, hide the Image UI component
+                tutorialImageDisplay.gameObject.SetActive(false);
+            }
+        }
+
+        // 4. Show the panel
         if (tutorialPanel != null)
             tutorialPanel.SetActive(true);
 
@@ -104,8 +129,12 @@ public class TutorialManager : MonoBehaviour
         if (tutorialPanel != null)
             tutorialPanel.SetActive(false);
 
-        moveScript.isPressedUI = true;
-        moveScript.enabled = true;
+        // Return control to the player
+        if (moveScript)
+        {
+            moveScript.isPressedUI = true;
+            moveScript.enabled = true;
+        }
 
         if (scriptToUnlock != null)
         {

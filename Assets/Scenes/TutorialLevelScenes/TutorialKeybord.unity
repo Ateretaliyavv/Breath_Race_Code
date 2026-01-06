@@ -192,6 +192,7 @@ MonoBehaviour:
   pushBox: {fileID: 906930558}
   tutorialPanel: {fileID: 987078379}
   tutorialText: {fileID: 560973962}
+  tutorialImageDisplay: {fileID: 1924730010}
   confirmButton: {fileID: 0}
   promptText: {fileID: 0}
   jumpKey: 63
@@ -1233,9 +1234,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02ef09e33ac44384ab784165162ad558, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TutorialTrigger
-  instructions: For blowing up the balloons and collect dimond, press  'Space' on
-    keybord
+  instructions: For  blowing  up  the  balloons  and  collect  dimond,  press  'Space' 
+    on  keybord
   tutorialType: 2
+  tutorialImage: {fileID: 21300000, guid: 211a6b1ff8a86464188bc10b1127a9c1, type: 3}
   manager: {fileID: 7098816}
 --- !u!61 &373004905
 BoxCollider2D:
@@ -1963,9 +1965,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 7098817}
   - {fileID: 2049911327}
   - {fileID: 838950823}
-  - {fileID: 7098817}
   - {fileID: 1313407814}
   - {fileID: 1811872340}
   - {fileID: 1605548823}
@@ -2129,8 +2131,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4282861567
-  m_fontColor: {r: 1, g: 0.27735847, b: 0.27735847, a: 1}
+    rgba: 4279900698
+  m_fontColor: {r: 0.1, g: 0.1, b: 0.1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2147,8 +2149,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 65
-  m_fontSizeBase: 65
+  m_fontSize: 62
+  m_fontSizeBase: 62
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2185,7 +2187,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -353.65405, y: 0, z: -346.61255, w: -293.66852}
+  m_margin: {x: -258.77765, y: 0, z: -292.84937, w: -220.92993}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -2811,8 +2813,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02ef09e33ac44384ab784165162ad558, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TutorialTrigger
-  instructions: For passing the abyss press continuously  'Space' on keybord
+  instructions: For  passing  the  abyss  press  continuously   'Space'  on  keybord
   tutorialType: 1
+  tutorialImage: {fileID: 21300000, guid: 211a6b1ff8a86464188bc10b1127a9c1, type: 3}
   manager: {fileID: 7098816}
 --- !u!61 &655846942
 BoxCollider2D:
@@ -4231,8 +4234,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02ef09e33ac44384ab784165162ad558, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  instructions: For jumping over the wall, press continuously  'Up' arrow on keybord
+  instructions: For  jumping  over  the  wall,  press  continuously  'Up'  arrow 
+    on  keybord
   tutorialType: 0
+  tutorialImage: {fileID: 21300000, guid: 7d3425b1e5b167a4186cade60220e45b, type: 3}
   manager: {fileID: 7098816}
 --- !u!61 &922515726
 BoxCollider2D:
@@ -4311,6 +4316,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 560973961}
+  - {fileID: 1924730009}
   m_Father: {fileID: 1781649021}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -4331,15 +4337,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6150943, g: 0.59304374, b: 0.59304374, a: 0.6862745}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.7921569}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: cf1462bc694c3c249831ad8ac5293aa2, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -4551,9 +4557,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02ef09e33ac44384ab784165162ad558, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TutorialTrigger
-  instructions: For pushing the box into the pit, press continuously  'Space' on
-    keybord
+  instructions: For  pushing  the  box  into  the  pit,  press  continuously  'Space' 
+    on  keybord
   tutorialType: 3
+  tutorialImage: {fileID: 21300000, guid: 211a6b1ff8a86464188bc10b1127a9c1, type: 3}
   manager: {fileID: 7098816}
 --- !u!61 &1107786460
 BoxCollider2D:
@@ -12781,6 +12788,81 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1924730008
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1924730009}
+  - component: {fileID: 1924730011}
+  - component: {fileID: 1924730010}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1924730009
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1924730008}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 987078380}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 5.7031, y: -127.1485}
+  m_SizeDelta: {x: 262.7347, y: 137.0706}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1924730010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1924730008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1924730011
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1924730008}
+  m_CullTransparentMesh: 1
 --- !u!1 &1928606012
 GameObject:
   m_ObjectHideFlags: 0
@@ -13497,9 +13579,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 481279993f555ac4c85198a11aa07b18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GoToSceneByClick
+  useInputModeScene: 0
   useRandomScene: 0
   sceneToLoad: OpenScene
   randomSceneNames: []
+  keyboardSceneToLoad: 
+  breathSceneToLoad: 
+  baseSceneName: 
+  keyboardVariantSceneName: 
+  breathVariantSceneName: 
   resetRunData: 1
 --- !u!114 &2100572725
 MonoBehaviour:
