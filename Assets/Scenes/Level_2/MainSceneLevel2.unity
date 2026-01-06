@@ -6458,20 +6458,20 @@ MonoBehaviour:
   smoothSpeed: 20
   happyGradient:
     serializedVersion: 2
-    key0: {r: 0.081131995, g: 0.29860663, b: 1, a: 1}
-    key1: {r: 0, g: 0.700507, b: 0.78113204, a: 1}
-    key2: {r: 0, g: 0.97735846, b: 0.27071148, a: 0}
-    key3: {r: 0.9469564, g: 0.99607843, b: 0.031372532, a: 0}
-    key4: {r: 0.99607843, g: 0.5314441, b: 0.031372532, a: 0}
-    key5: {r: 0.99607843, g: 0.031372532, b: 0.05222008, a: 0}
+    key0: {r: 0, g: 0.14989536, b: 0.6377357, a: 1}
+    key1: {r: 0, g: 0.97735846, b: 0.27071148, a: 1}
+    key2: {r: 0.9469564, g: 0.99607843, b: 0.031372532, a: 0}
+    key3: {r: 0.99607843, g: 0.5314441, b: 0.031372532, a: 0}
+    key4: {r: 0.99607843, g: 0.031372532, b: 0.05222008, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
     key6: {r: 0, g: 0, b: 0, a: 0}
     key7: {r: 0, g: 0, b: 0, a: 0}
     ctime0: 0
-    ctime1: 13107
-    ctime2: 26214
-    ctime3: 39321
-    ctime4: 52428
-    ctime5: 65535
+    ctime1: 16384
+    ctime2: 32768
+    ctime3: 49151
+    ctime4: 65535
+    ctime5: 0
     ctime6: 0
     ctime7: 0
     atime0: 0
@@ -6484,7 +6484,7 @@ MonoBehaviour:
     atime7: 0
     m_Mode: 0
     m_ColorSpace: -1
-    m_NumColorKeys: 6
+    m_NumColorKeys: 5
     m_NumAlphaKeys: 2
   uiRoot: {fileID: 517984469}
 --- !u!114 &517984472
@@ -64781,8 +64781,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1586, y: 752.79}
-  m_SizeDelta: {x: 42.1223, y: 28.2635}
+  m_AnchoredPosition: {x: 1578.6, y: 752.72}
+  m_SizeDelta: {x: 34.5049, y: 28.2635}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &822161783
 MonoBehaviour:
@@ -64806,15 +64806,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: 0
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 859e6a6304886164a8035be7d3874ce6, type: 2}
+  m_sharedMaterial: {fileID: -5023436480827124546, guid: 859e6a6304886164a8035be7d3874ce6, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4284900966
+  m_fontColor: {r: 0.4, g: 0.4, b: 0.4, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -64831,8 +64831,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 35
-  m_fontSizeBase: 35
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -69385,7 +69385,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.4, g: 0.4, b: 0.4, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -69586,9 +69586,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 481279993f555ac4c85198a11aa07b18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GoToSceneByClick
+  useInputModeScene: 0
   useRandomScene: 0
   sceneToLoad: OpenScene
   randomSceneNames: []
+  keyboardSceneToLoad: 
+  breathSceneToLoad: 
+  baseSceneName: 
+  keyboardVariantSceneName: 
+  breathVariantSceneName: 
   resetRunData: 1
 --- !u!114 &1213917409
 MonoBehaviour:

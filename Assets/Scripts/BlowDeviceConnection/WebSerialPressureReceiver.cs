@@ -26,8 +26,9 @@ public class WebSerialPressureReceiver : MonoBehaviour
     // True when device is considered connected (status says connected OR first pressure arrives)
     public bool IsConnected { get; private set; } = false;
 
-    // Optional event for UI panels to react to status updates
+    // UI panels can listen and refresh immediately
     public event Action<string> StatusChanged;
+    public event Action<bool> ConnectionChanged; // Fires only when IsConnected changes
 
 #if UNITY_WEBGL && !UNITY_EDITOR
     [DllImport("__Internal")] private static extern int WebSerial_IsSupported();
@@ -46,6 +47,11 @@ public class WebSerialPressureReceiver : MonoBehaviour
 
         Instance = this;
         gameObject.name = "BreathUSB"; // Fixed name for JS SendMessage
+
+        // Must be a root GameObject for DontDestroyOnLoad to work
+        if (transform.parent != null)
+            transform.SetParent(null);
+
         DontDestroyOnLoad(gameObject);
     }
 
@@ -56,7 +62,7 @@ public class WebSerialPressureReceiver : MonoBehaviour
         try
         {
             // Reset connection state for a new attempt
-            IsConnected = false;
+            SetConnected(false);
 
             int supported = WebSerial_IsSupported();
             SetStatus("WebSerial supported: " + supported);
@@ -83,7 +89,7 @@ public class WebSerialPressureReceiver : MonoBehaviour
     {
 #if UNITY_WEBGL && !UNITY_EDITOR
         WebSerial_Disconnect();
-        IsConnected = false;
+        SetConnected(false);
         SetStatus("Disconnected.");
 #else
         SetStatus("Disconnect is WebGL-only.");
@@ -126,7 +132,7 @@ public class WebSerialPressureReceiver : MonoBehaviour
                 // First valid pressure implies the device is connected/streaming
                 if (!IsConnected)
                 {
-                    IsConnected = true;
+                    SetConnected(true);
                     SetStatus("Device connected. Receiving pressure...");
                 }
 
@@ -146,11 +152,26 @@ public class WebSerialPressureReceiver : MonoBehaviour
     // Called from JS: status messages
     public void OnSerialStatus(string msg)
     {
-        SetStatus(msg);
+        // Update connection state BEFORE notifying listeners
+        string m = (msg ?? "").ToLowerInvariant();
 
-        // If your JS sends a "connected" text, treat it as connected
-        if (!string.IsNullOrEmpty(msg) && msg.ToLower().Contains("connected"))
-            IsConnected = true;
+        // Your actual success message: "Serial connected (115200)."
+        if (m.Contains("serial connected") || m.Contains("connected"))
+            SetConnected(true);
+
+        if (m.Contains("disconnected") || m.Contains("disconnect") || m.Contains("closed") || m.Contains("failed") || m.Contains("error"))
+            SetConnected(false);
+
+        SetStatus(msg);
+    }
+
+    private void SetConnected(bool connected)
+    {
+        if (IsConnected == connected)
+            return;
+
+        IsConnected = connected;
+        ConnectionChanged?.Invoke(IsConnected);
     }
 
     // Updates status text; if the status UI object is disabled in Inspector, it will be enabled on demand

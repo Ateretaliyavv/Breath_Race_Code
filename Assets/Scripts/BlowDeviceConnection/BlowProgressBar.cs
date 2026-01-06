@@ -82,7 +82,10 @@ public class BlowProgressBar : MonoBehaviour
         fillImage.fillAmount = smooth01;
 
         if (percentText != null)
-            percentText.text = Mathf.RoundToInt(smooth01 * 100f) + "%";
+        {
+            int kpaInt = Mathf.FloorToInt(kpa);
+            percentText.text = kpaInt.ToString();
+        }
 
         if (happyGradient != null)
             fillImage.color = happyGradient.Evaluate(smooth01);

@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,7 +25,11 @@ public class BreathConnectPanel : MonoBehaviour
     [Header("Scene To Load")]
     [SerializeField] private string SceneNameToLoad = "OpenScene";
 
+    [Header("Connection Polling (fallback)")]
+    [SerializeField] private float connectPollSeconds = 8f;
+
     private WebSerialPressureReceiver usb;
+    private Coroutine pollRoutine;
 
     private void Awake()
     {
@@ -49,7 +54,10 @@ public class BreathConnectPanel : MonoBehaviour
         usb = WebSerialPressureReceiver.Instance;
 
         if (usb != null)
+        {
             usb.StatusChanged += OnUsbStatus;
+            usb.ConnectionChanged += OnUsbConnectionChanged;
+        }
 
         RefreshStartButton();
     }
@@ -57,7 +65,16 @@ public class BreathConnectPanel : MonoBehaviour
     private void OnDisable()
     {
         if (usb != null)
+        {
             usb.StatusChanged -= OnUsbStatus;
+            usb.ConnectionChanged -= OnUsbConnectionChanged;
+        }
+
+        if (pollRoutine != null)
+        {
+            StopCoroutine(pollRoutine);
+            pollRoutine = null;
+        }
     }
 
     public void Open()
@@ -87,6 +104,30 @@ public class BreathConnectPanel : MonoBehaviour
 
         SetStatus("Requesting USB device...");
         usb.ConnectUSB();
+
+        // Fallback: poll for IsConnected in case no status arrives after connection flips
+        if (pollRoutine != null)
+            StopCoroutine(pollRoutine);
+
+        pollRoutine = StartCoroutine(PollConnection(connectPollSeconds));
+    }
+
+    private IEnumerator PollConnection(float seconds)
+    {
+        float t = seconds;
+
+        while (t > 0f)
+        {
+            RefreshStartButton();
+
+            if (usb != null && usb.IsConnected)
+                yield break;
+
+            t -= Time.unscaledDeltaTime;
+            yield return null;
+        }
+
+        RefreshStartButton();
     }
 
     private void OnStartClicked()
@@ -101,7 +142,19 @@ public class BreathConnectPanel : MonoBehaviour
     private void OnUsbStatus(string msg)
     {
         SetStatus(msg);
+        // RefreshStartButton will also run from ConnectionChanged, but keep this for immediate UI sync
         RefreshStartButton();
+    }
+
+    private void OnUsbConnectionChanged(bool connected)
+    {
+        RefreshStartButton();
+
+        if (connected && pollRoutine != null)
+        {
+            StopCoroutine(pollRoutine);
+            pollRoutine = null;
+        }
     }
 
     private void RefreshStartButton()
