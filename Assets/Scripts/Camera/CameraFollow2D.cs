@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
-/*
- * Script that manage the camera folloing after game object
- */
 
+/*
+ * Script that manages the camera following a game object
+ */
 [RequireComponent(typeof(Camera))]
 public class CameraFollow2D : MonoBehaviour
 {
@@ -105,7 +105,7 @@ public class CameraFollow2D : MonoBehaviour
             {
                 gameOverTriggered = true;
 
-                //Centralized scene loading
+                // Centralized scene loading
                 if (LevelEndManager.Instance != null)
                 {
                     LevelEndManager.Instance.PlayerLost();
@@ -122,15 +122,19 @@ public class CameraFollow2D : MonoBehaviour
         }
     }
 
-    // Call this after respawn: move the camera immediately to the target (player)
-    public void SnapToTargetImmediately()
+    // Call this after respawn: move the camera immediately to the target (player).
+    // Accepts an optional customOffset. If null, uses the default script offset.
+    public void SnapToTargetImmediately(Vector3? customOffset = null)
     {
         if (target == null)
             return;
 
+        // Use customOffset if provided, otherwise use the default 'offset' field
+        Vector3 finalOffset = customOffset ?? offset;
+
         Vector3 pos = transform.position;
-        pos.x = target.position.x + offset.x;
-        pos.y = target.position.y + offset.y;
+        pos.x = target.position.x + finalOffset.x;
+        pos.y = target.position.y + finalOffset.y;
         pos.z = transform.position.z;
         transform.position = pos;
 
@@ -138,5 +142,4 @@ public class CameraFollow2D : MonoBehaviour
         outOfViewTimer = 0f;
         gameOverTriggered = false;
     }
-
 }
