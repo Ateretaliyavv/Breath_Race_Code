@@ -12884,7 +12884,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 4
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -32244,7 +32244,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   player: {fileID: 906930549}
   cameraFollow: {fileID: 87135676}
-  offset: {x: 0, y: 1, z: 0}
+  playerSpawnOffset: {x: 0, y: 1, z: 0}
+  overrideCameraOffset: 1
+  cameraRespawnOffset: {x: 4, y: 0.7, z: 0}
 --- !u!1 &2012858477
 GameObject:
   m_ObjectHideFlags: 0
