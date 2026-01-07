@@ -20,6 +20,10 @@ public class CameraFollow2D : MonoBehaviour
     [SerializeField] private Animator playerAnimator;     // Animator with Idle state
     [SerializeField] private string idleStateName = "Idle";
 
+    [Header("Bridge Zone (Freeze Y)")]
+    [SerializeField] private string bridgeStartTag = "BridgeStart";
+    [SerializeField] private string bridgeEndTag = "BridgeEnd";
+
     [Header("Game Over")]
     [SerializeField] private string gameOverSceneName = "GameOver";
     [SerializeField] private float outOfViewThreshold = 0.5f;
@@ -29,9 +33,30 @@ public class CameraFollow2D : MonoBehaviour
     private bool gameOverTriggered = false;
     private float outOfViewTimer = 0f;
 
+    // Cached build-zone markers (same tags as BridgeBuilder)
+    private Transform[] bridgeStarts = new Transform[0];
+    private Transform[] bridgeEnds = new Transform[0];
+
     private void Awake()
     {
         cam = GetComponent<Camera>();
+
+        // Cache BridgeStart / BridgeEnd markers once (avoid Find every frame)
+        if (!string.IsNullOrEmpty(bridgeStartTag))
+        {
+            GameObject[] startObjs = GameObject.FindGameObjectsWithTag(bridgeStartTag);
+            bridgeStarts = new Transform[startObjs.Length];
+            for (int i = 0; i < startObjs.Length; i++)
+                bridgeStarts[i] = startObjs[i].transform;
+        }
+
+        if (!string.IsNullOrEmpty(bridgeEndTag))
+        {
+            GameObject[] endObjs = GameObject.FindGameObjectsWithTag(bridgeEndTag);
+            bridgeEnds = new Transform[endObjs.Length];
+            for (int i = 0; i < endObjs.Length; i++)
+                bridgeEnds[i] = endObjs[i].transform;
+        }
     }
 
     private void Start()
@@ -51,6 +76,7 @@ public class CameraFollow2D : MonoBehaviour
             return;
 
         bool isIdle = IsPlayerIdle();
+        bool freezeY = IsPlayerBetweenBridgeMarkers(); // Freeze Y only inside BridgeStart..BridgeEnd
 
         // Move the camera only when the player is NOT idle
         if (!isIdle)
@@ -60,14 +86,17 @@ public class CameraFollow2D : MonoBehaviour
             // Constant forward movement on X
             pos.x += cameraSpeedX * Time.deltaTime;
 
-            // Smooth follow on Y
-            float targetY = target.position.y + offset.y;
-            pos.y = Mathf.SmoothDamp(
-                pos.y,
-                targetY,
-                ref verticalVelocity,
-                verticalSmoothTime
-            );
+            // Smooth follow on Y ONLY when not inside the bridge build zone
+            if (!freezeY)
+            {
+                float targetY = target.position.y + offset.y;
+                pos.y = Mathf.SmoothDamp(
+                    pos.y,
+                    targetY,
+                    ref verticalVelocity,
+                    verticalSmoothTime
+                );
+            }
 
             pos.z = transform.position.z;
             transform.position = pos;
@@ -85,6 +114,41 @@ public class CameraFollow2D : MonoBehaviour
 
         AnimatorStateInfo stateInfo = playerAnimator.GetCurrentAnimatorStateInfo(0);
         return stateInfo.IsName(idleStateName);
+    }
+
+    // True when the player passed the last BridgeStart but did NOT pass the last BridgeEnd after it
+    private bool IsPlayerBetweenBridgeMarkers()
+    {
+        if (target == null || bridgeStarts == null || bridgeEnds == null)
+            return false;
+
+        float playerX = target.position.x;
+
+        float lastStartX = float.NegativeInfinity;
+        for (int i = 0; i < bridgeStarts.Length; i++)
+        {
+            Transform s = bridgeStarts[i];
+            if (s == null) continue;
+            float x = s.position.x;
+            if (x <= playerX && x > lastStartX)
+                lastStartX = x;
+        }
+
+        if (lastStartX == float.NegativeInfinity)
+            return false;
+
+        float lastEndX = float.NegativeInfinity;
+        for (int i = 0; i < bridgeEnds.Length; i++)
+        {
+            Transform e = bridgeEnds[i];
+            if (e == null) continue;
+            float x = e.position.x;
+            if (x <= playerX && x > lastEndX)
+                lastEndX = x;
+        }
+
+        // If no end passed yet, or the last end is behind the last start -> we're inside the zone
+        return lastEndX < lastStartX;
     }
 
     // Checks if the player left the camera view and triggers Game Over
