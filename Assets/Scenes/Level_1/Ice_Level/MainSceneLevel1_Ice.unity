@@ -16253,6 +16253,8 @@ MonoBehaviour:
   cameraSpeedX: 4.92
   playerAnimator: {fileID: 906930547}
   idleStateName: Idle
+  bridgeStartTag: BridgeStart
+  bridgeEndTag: BridgeEnd
   gameOverSceneName: GameOver1_Ice
   outOfViewThreshold: 0.5
 --- !u!1 &93706052
@@ -18337,7 +18339,7 @@ Transform:
   m_GameObject: {fileID: 270543378}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 128.38, y: -0.18, z: 0}
+  m_LocalPosition: {x: 128.38, y: 1.1000006, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -20144,6 +20146,7 @@ MonoBehaviour:
   instructions: For blowing up the balloons and collect dimond press  'Space' on
     keybord
   tutorialType: 2
+  tutorialImage: {fileID: 0}
   manager: {fileID: 0}
 --- !u!1 &374219353
 GameObject:
@@ -24359,7 +24362,7 @@ Transform:
   m_GameObject: {fileID: 578896435}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 29.92, y: -0.18, z: 0}
+  m_LocalPosition: {x: 29.92, y: 1.1000006, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -33260,7 +33263,7 @@ Transform:
   m_GameObject: {fileID: 1056471977}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 159.35, y: -0.18, z: 0}
+  m_LocalPosition: {x: 159.35, y: 1.1000006, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -43011,7 +43014,7 @@ Transform:
   m_GameObject: {fileID: 1608077561}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5, y: -0.18, z: 0}
+  m_LocalPosition: {x: -0.5, y: 1.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -48704,7 +48707,7 @@ Transform:
   m_GameObject: {fileID: 1696948427}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 214.32, y: -0.18, z: 0}
+  m_LocalPosition: {x: 214.32, y: 1.1000006, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -50540,7 +50543,7 @@ Transform:
   m_GameObject: {fileID: 1827427421}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 85.43, y: -0.18, z: 0}
+  m_LocalPosition: {x: 85.43, y: 1.1000006, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -53040,7 +53043,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   player: {fileID: 906930549}
   cameraFollow: {fileID: 87135676}
-  offset: {x: 0, y: 1, z: 0}
+  playerSpawnOffset: {x: 0, y: 1, z: 0}
+  overrideCameraOffset: 1
+  cameraRespawnOffset: {x: 4, y: 0.7, z: 0}
 --- !u!1 &2012858477
 GameObject:
   m_ObjectHideFlags: 0
@@ -54088,7 +54093,7 @@ Transform:
   m_GameObject: {fileID: 2064704535}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 276.7, y: -0.18, z: 0}
+  m_LocalPosition: {x: 276.7, y: 1.1000006, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

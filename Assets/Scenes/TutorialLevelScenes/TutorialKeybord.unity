@@ -794,6 +794,8 @@ MonoBehaviour:
   cameraSpeedX: 5
   playerAnimator: {fileID: 906930547}
   idleStateName: Idle
+  bridgeStartTag: BridgeStart
+  bridgeEndTag: BridgeEnd
   gameOverSceneName: GameOverTutorial
   outOfViewThreshold: 0.5
 --- !u!1 &139093052
@@ -13378,7 +13380,7 @@ Transform:
   m_GameObject: {fileID: 2049911326}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -430.2, y: -206, z: 0}
+  m_LocalPosition: {x: -430.2, y: -203.9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
