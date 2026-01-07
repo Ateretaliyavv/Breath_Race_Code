@@ -183,7 +183,7 @@ public class Jump : MonoBehaviour
                 wasJumping = true;
             }
 
-            v.y = mediumJumpSpeed;
+            v.y = highJumpSpeed - 1;
             animator.SetBool("isJumping", true);
         }
         else

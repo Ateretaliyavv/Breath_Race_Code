@@ -13,10 +13,6 @@ using UnityEngine;
  * - Auto-creates itself if missing (so it exists even when starting from any scene)
  * - Standalone/Editor: reads pressure over WiFi WebSocket (ws://)
  * - WebGL: reads pressure from WebSerialPressureReceiver.Instance (USB WebSerial)
- *
- * IMPORTANT:
- * - You can place it in the Entry scene, but you don't have to (it will auto-create).
- * - Do NOT add multiple copies in scenes; duplicates will self-destroy.
  */
 public class PressureWebSocketReceiver : MonoBehaviour
 {
