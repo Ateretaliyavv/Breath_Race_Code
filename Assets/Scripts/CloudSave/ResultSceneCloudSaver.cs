@@ -23,11 +23,12 @@ public class ResultSceneCloudSaver : MonoBehaviour
     private async void Start()
     {
         await SaveAndShowAsync();
+        LevelProgressData.CurrentRunDeaths = 0;
     }
 
     private async Task SaveAndShowAsync()
     {
-        if (statusText != null) statusText.text = "Saving...";
+        if (statusText != null) statusText.text = "";
 
         // 1. Get data from the current run
         int runDiamonds = Mathf.Max(0, DiamondRunKeeper.DimondsCollected);
@@ -105,7 +106,7 @@ public class ResultSceneCloudSaver : MonoBehaviour
             // Only display Diamonds info in the result screen (as requested)
             if (statusText)
             {
-                statusText.text = $"Diamonds: {runDiamonds} (Best Diamonds: {finalBestDiamonds})";
+                statusText.text = $"Diamonds: {runDiamonds} (Best: {finalBestDiamonds})\nRetries: {runDeaths}";
             }
         }
         catch (Exception e)
