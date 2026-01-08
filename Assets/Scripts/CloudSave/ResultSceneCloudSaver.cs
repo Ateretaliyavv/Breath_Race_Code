@@ -2,14 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TMPro;
-using Unity.Services.Authentication;
 using Unity.Services.CloudSave;
+using Unity.Services.Core;
 using UnityEngine;
 
 /*
- * Saves results of the last played level to Unity Cloud Save.
- *
- * Also persists the username in Cloud Save (key "username" by default), so it is guaranteed to exist even when saving results from this scene.
+ * This script runs in the Win / GameOver scenes.
+ * It displays the diamonds collected in the last run and the best (highest) number of diamonds achieved in the same level so far.
  */
 
 public class ResultSceneCloudSaver : MonoBehaviour
@@ -18,177 +17,100 @@ public class ResultSceneCloudSaver : MonoBehaviour
     [SerializeField] private TextMeshProUGUI statusText;
 
     [Header("Cloud Save Keys")]
-    [Tooltip("Key used to store the username in Cloud Save.")]
     [SerializeField] private string cloudUsernameKey = "username";
-
-    [Tooltip("Prefix for per-level best stars in Cloud Save, e.g. bestStars_level1.")]
-    [SerializeField] private string bestStarsKeyPrefix = "bestStars_";
-
-    [Tooltip("Optional key for last played level id.")]
+    [SerializeField] private string bestDiamondsKeyPrefix = "bestDiamonds_";
     [SerializeField] private string lastLevelIdKey = "lastLevelId";
-
-    [Tooltip("Optional key for last played scene name.")]
     [SerializeField] private string lastLevelSceneKey = "lastLevelScene";
 
     private async void Start()
     {
-        await TrySaveResultAsync();
+        await SaveAndShowAsync();
     }
 
-    public async void SaveNow()
+    private async Task SaveAndShowAsync()
     {
-        await TrySaveResultAsync();
-    }
+        if (statusText == null)
+            return;
 
-    private async Task TrySaveResultAsync()
-    {
-        if (!IsSignedIn())
+        // Diamonds for THIS run come from DiamondRunKeeper
+        int diamondsThisRun = Mathf.Max(0, DiamondRunKeeper.DimondsCollected);
+
+        // Level id must be set before loading Win/GameOver
+        string levelId = LevelProgressData.LastLevelId;
+        if (string.IsNullOrEmpty(levelId))
+            levelId = "UnknownLevel";
+
+        bool isGuest = string.IsNullOrEmpty(LevelProgressData.Username);
+
+        if (isGuest)
         {
-            Debug.LogWarning("ResultSceneCloudSaver: Not signed in. Skipping Cloud Save.");
-            if (statusText != null) statusText.text = "Not signed in. Cannot save.";
+            statusText.text =
+                $"Diamonds this run: {diamondsThisRun}\n" +
+                "Nothing was saved to the cloud (Guest).";
             return;
         }
 
+        // Init Unity Services
         try
         {
-            if (statusText != null) statusText.text = "Saving to cloud...";
-
-            // Always save username to Cloud Save (safe to overwrite with same value).
-            await SaveUsernameIfAvailable();
-
-            // Save last played level metadata (optional).
-            await SaveLastLevelMeta();
-
-            // Save best stars per level (only updates if better).
-            await SaveBestStarsForLastLevel();
-
-            if (statusText != null) statusText.text = "Saved successfully.";
+            if (UnityServices.State != ServicesInitializationState.Initialized)
+                await UnityServices.InitializeAsync();
         }
         catch (Exception e)
         {
-            Debug.LogError("ResultSceneCloudSaver: Error while saving data. " + e.Message);
-            if (statusText != null)
-            {
-                statusText.text = "Error saving data: " + e.Message;
-            }
+            Debug.LogError("ResultSceneCloudSaver: UnityServices init failed: " + e.Message);
+            statusText.text =
+                $"Diamonds this run: {diamondsThisRun}\n" +
+                "Could not access cloud services.";
+            return;
         }
-    }
 
-    private bool IsSignedIn()
-    {
+        string bestKey = bestDiamondsKeyPrefix + levelId;
+        int currentBest = 0;
+
+        // Load best
         try
         {
-            return AuthenticationService.Instance != null && AuthenticationService.Instance.IsSignedIn;
-        }
-        catch
-        {
-            return false;
-        }
-    }
+            var loaded = await CloudSaveService.Instance.Data.LoadAsync(new HashSet<string> { bestKey });
 
-    private async Task SaveUsernameIfAvailable()
-    {
-        string username = LevelProgressData.Username;
-
-        if (string.IsNullOrEmpty(username))
-        {
-            // If username was not set in session, do nothing.
-            return;
-        }
-
-        var data = new Dictionary<string, object>
-        {
-            { cloudUsernameKey, username }
-        };
-
-        await CloudSaveService.Instance.Data.Player.SaveAsync(data);
-        Debug.Log("ResultSceneCloudSaver: Saved username: " + username);
-    }
-
-    private async Task SaveLastLevelMeta()
-    {
-        // If you don't use these fields, you can remove this method.
-        // It is kept to align with typical level progress saving patterns.
-        if (string.IsNullOrEmpty(LevelProgressData.LastLevelId) && string.IsNullOrEmpty(LevelProgressData.LastLevelSceneName))
-            return;
-
-        var data = new Dictionary<string, object>();
-
-        if (!string.IsNullOrEmpty(LevelProgressData.LastLevelId))
-            data[lastLevelIdKey] = LevelProgressData.LastLevelId;
-
-        if (!string.IsNullOrEmpty(LevelProgressData.LastLevelSceneName))
-            data[lastLevelSceneKey] = LevelProgressData.LastLevelSceneName;
-
-        if (data.Count == 0)
-            return;
-
-        await CloudSaveService.Instance.Data.Player.SaveAsync(data);
-        Debug.Log("ResultSceneCloudSaver: Saved last level meta.");
-    }
-
-    private async Task SaveBestStarsForLastLevel()
-    {
-        // Requires you to set these fields somewhere when finishing a level.
-        if (string.IsNullOrEmpty(LevelProgressData.LastLevelId))
-        {
-            Debug.Log("ResultSceneCloudSaver: LastLevelId is empty, cannot save best stars.");
-            if (statusText != null) statusText.text += "\nNo level id to save.";
-            return;
-        }
-
-        int newBest = LevelProgressData.LastLevelStars;
-        string key = bestStarsKeyPrefix + LevelProgressData.LastLevelId;
-
-        try
-        {
-            // Load current best.
-            var keys = new HashSet<string> { key };
-            var result = await CloudSaveService.Instance.Data.Player.LoadAsync(keys);
-
-            int currentBest = -1;
-
-            if (result.TryGetValue(key, out var item))
-            {
-                // Stored as int or string depending on earlier versions.
-                // Try both safely.
-                try
-                {
-                    currentBest = item.Value.GetAs<int>();
-                }
-                catch
-                {
-                    int.TryParse(item.Value.GetAs<string>(), out currentBest);
-                }
-            }
-
-            if (newBest > currentBest)
-            {
-                var data = new Dictionary<string, object> { { key, newBest } };
-                await CloudSaveService.Instance.Data.Player.SaveAsync(data);
-
-                Debug.Log($"ResultSceneCloudSaver: Updated best stars for {LevelProgressData.LastLevelId}: {newBest}");
-                if (statusText != null)
-                {
-                    statusText.text += "\nNew best: " + newBest + " stars.";
-                }
-            }
-            else
-            {
-                Debug.Log($"ResultSceneCloudSaver: Best stars unchanged for {LevelProgressData.LastLevelId}. Current: {currentBest}, New: {newBest}");
-                if (statusText != null)
-                {
-                    statusText.text += "\nBest stays: " + newBest + " stars.";
-                }
-            }
+            if (loaded.TryGetValue(bestKey, out var item))
+                currentBest = Convert.ToInt32(item);
         }
         catch (Exception e)
         {
-            Debug.LogError("ResultSceneCloudSaver: Error while saving best stars. " + e.Message);
-            if (statusText != null)
-            {
-                statusText.text += "\nError saving best stars.";
-            }
+            Debug.LogWarning("ResultSceneCloudSaver: Load best failed: " + e.Message);
+            // continue; we'll treat as 0
         }
+
+        int newBest = Mathf.Max(currentBest, diamondsThisRun);
+
+        // Save
+        try
+        {
+            var data = new Dictionary<string, object>
+            {
+                [cloudUsernameKey] = LevelProgressData.Username,
+                [lastLevelIdKey] = levelId,
+                [bestKey] = newBest
+            };
+
+            if (!string.IsNullOrEmpty(LevelProgressData.LastLevelSceneName))
+                data[lastLevelSceneKey] = LevelProgressData.LastLevelSceneName;
+
+            await CloudSaveService.Instance.Data.ForceSaveAsync(data);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("ResultSceneCloudSaver: Cloud save failed: " + e.Message);
+            statusText.text =
+                $"Diamonds this run: {diamondsThisRun}\n" +
+                $"Best diamonds: {newBest} (not saved)";
+            return;
+        }
+
+        // Final UI (2 lines)
+        statusText.text =
+            $"Diamonds this run: {diamondsThisRun}\n" +
+            $"Best diamonds: {newBest}";
     }
 }
