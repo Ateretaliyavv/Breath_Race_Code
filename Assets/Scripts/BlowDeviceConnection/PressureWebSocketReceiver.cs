@@ -50,7 +50,7 @@ public class PressureWebSocketReceiver : MonoBehaviour
 #if UNITY_WEBGL && !UNITY_EDITOR
         // WebGL: connection is handled by WebSerialPressureReceiver (user gesture required).
 #else
-        // Editor/Standalone: connect over WiFi WebSocket to ESP32.
+        // Editor/Standalone: connect over WiFi to ESP32.
         StartDotNetWebSocket();
 #endif
     }
