@@ -25,6 +25,10 @@ public class RespawnAtCheckpoint : MonoBehaviour
         // Check if there is a saved checkpoint for this level
         if (CheckpointManagment.TryGetCheckpoint(levelName, out Vector3 checkpointPos))
         {
+            // Increment death counter because we are respawning
+            LevelProgressData.CurrentRunDeaths++;
+            Debug.Log($"[Respawn] Total deaths this run: {LevelProgressData.CurrentRunDeaths}");
+
             // 1. Move the Player
             Vector3 newPlayerPos = checkpointPos + playerSpawnOffset;
             player.position = newPlayerPos;

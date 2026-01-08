@@ -723,11 +723,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e2ff5357225e8141bc74cc17f4b6eab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  isWinScene: 0
   statusText: {fileID: 1228157060}
   cloudUsernameKey: username
-  bestStarsKeyPrefix: bestStars_
+  bestDiamondsKeyPrefix: bestDiamonds_
+  bestDeathsKeyPrefix: bestDeaths_
   lastLevelIdKey: lastLevelId
-  lastLevelSceneKey: lastLevelScene
 --- !u!4 &657271627
 Transform:
   m_ObjectHideFlags: 0
