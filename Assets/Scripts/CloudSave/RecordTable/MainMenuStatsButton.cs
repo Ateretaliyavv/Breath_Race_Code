@@ -4,19 +4,14 @@ using UnityEngine.UI;
 public class MainMenuStatsButton : MonoBehaviour
 {
     [SerializeField] private Button statsButton;
-    [SerializeField] private PlayerStatsLoader statsLoader; // Reference to the PlayerStatsLoader script
+    [SerializeField] private PlayerStatsLoader statsLoader;
 
     private void Start()
     {
-        // Check if there is a valid username saved in LevelProgressData to determine login status
-        bool isLoggedIn = !string.IsNullOrEmpty(LevelProgressData.Username);
+        RefreshButtonState();
 
         if (statsButton != null)
         {
-            // Toggle the button's visibility based on whether the user is logged in
-            statsButton.gameObject.SetActive(isLoggedIn);
-
-            // Setup the button click event
             statsButton.onClick.RemoveAllListeners();
             statsButton.onClick.AddListener(() =>
             {
@@ -26,9 +21,11 @@ public class MainMenuStatsButton : MonoBehaviour
         }
     }
 
-    // Public method to refresh the button state
     public void RefreshButtonState()
     {
-        Start();
+        bool isLoggedIn = !string.IsNullOrEmpty(LevelProgressData.Username);
+
+        if (statsButton != null)
+            statsButton.gameObject.SetActive(isLoggedIn);
     }
 }

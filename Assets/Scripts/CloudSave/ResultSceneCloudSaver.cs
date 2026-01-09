@@ -8,111 +8,113 @@ using UnityEngine;
 
 public class ResultSceneCloudSaver : MonoBehaviour
 {
-    [Header("Settings")]
-    [Tooltip("Check this ONLY if this script is in the WIN scene. Uncheck for Game Over scene.")]
-    [SerializeField] private bool isWinScene = true;
-
     [Header("UI")]
     [SerializeField] private TextMeshProUGUI statusText;
 
-    [Header("Cloud Save Keys")]
-    [SerializeField] private string bestDiamondsKeyPrefix = "bestDiamonds_";
-    [SerializeField] private string bestDeathsKeyPrefix = "bestDeaths_";
-    [SerializeField] private string lastLevelIdKey = "lastLevelId";
+    private const string BestDiamondsPrefix = "bestDiamonds_";
+    private const string BestRetriesForBestDiamondsPrefix = "bestRetriesForBestDiamonds_";
 
     private async void Start()
     {
         await SaveAndShowAsync();
-        LevelProgressData.CurrentRunDeaths = 0;
     }
 
     private async Task SaveAndShowAsync()
     {
-        if (statusText != null) statusText.text = "";
-
-        // 1. Get data from the current run
-        int runDiamonds = Mathf.Max(0, DiamondRunKeeper.DimondsCollected);
-        int runDeaths = LevelProgressData.CurrentRunDeaths;
-
-        string levelId = LevelProgressData.LastLevelId;
-        if (string.IsNullOrEmpty(levelId)) levelId = "UnknownLevel";
-
-        // Check if Guest
-        if (string.IsNullOrEmpty(LevelProgressData.Username))
-        {
-            if (statusText) statusText.text = $"Diamonds: {runDiamonds}\n(Guest Mode)";
-            return;
-        }
-
-        // Initialize Services
         try
         {
             if (UnityServices.State != ServicesInitializationState.Initialized)
                 await UnityServices.InitializeAsync();
         }
-        catch { }
+        catch (Exception e)
+        {
+            Debug.LogError("UnityServices init failed: " + e.Message);
+            if (statusText) statusText.text = "Cloud init failed.";
+            return;
+        }
 
-        string bestDiamondsKey = bestDiamondsKeyPrefix + levelId;
-        string bestDeathsKey = bestDeathsKeyPrefix + levelId;
+        string levelId = LevelProgressData.LastLevelId;
+        if (string.IsNullOrEmpty(levelId))
+            levelId = "UnknownLevel";
+
+        int runDiamonds = LevelProgressData.LastLevelStars;
+        int runRetries = LevelProgressData.CurrentRunDeaths;
+
+        string bestDiamondsKey = BestDiamondsPrefix + levelId;
+        string bestRetriesKey = BestRetriesForBestDiamondsPrefix + levelId;
 
         int savedBestDiamonds = 0;
-        int savedBestDeaths = -1; // -1 indicates the level has never been completed
+        int savedBestRetriesForBestDiamonds = int.MaxValue;
 
-        // 2. Load previous bests from Cloud
+        Dictionary<string, string> loaded = null;
+
         try
         {
-            var loaded = await CloudSaveService.Instance.Data.Player.LoadAsync(new HashSet<string> { bestDiamondsKey, bestDeathsKey });
-
-            if (loaded.TryGetValue(bestDiamondsKey, out var dItem))
-                savedBestDiamonds = Convert.ToInt32(dItem.Value.GetAs<object>());
-
-            if (loaded.TryGetValue(bestDeathsKey, out var deathItem))
-                savedBestDeaths = Convert.ToInt32(deathItem.Value.GetAs<object>());
+            var keys = new HashSet<string> { bestDiamondsKey, bestRetriesKey };
+            loaded = await CloudSaveService.Instance.Data.LoadAsync(keys);
         }
         catch
         {
-            Debug.Log("No previous record found (or load error).");
+            // No data yet
         }
 
-        // 3. Calculate new records
+        savedBestDiamonds = GetInt(loaded, bestDiamondsKey, 0);
+        savedBestRetriesForBestDiamonds = GetInt(loaded, bestRetriesKey, int.MaxValue);
 
-        // Diamonds: Always take the maximum found
-        int finalBestDiamonds = Mathf.Max(savedBestDiamonds, runDiamonds);
+        bool shouldSave = false;
+        int finalBestDiamonds = savedBestDiamonds;
+        int finalBestRetries = savedBestRetriesForBestDiamonds;
 
-        // Deaths: Calculate only if the level was completed (Win Scene)
-        int finalBestDeaths = savedBestDeaths;
-
-        if (isWinScene)
+        if (runDiamonds > savedBestDiamonds)
         {
-            // Update if it's the first win (-1) OR if the current run has fewer deaths than the saved record
-            if (savedBestDeaths == -1 || runDeaths < savedBestDeaths)
+            finalBestDiamonds = runDiamonds;
+            finalBestRetries = runRetries;
+            shouldSave = true;
+        }
+        else if (runDiamonds == savedBestDiamonds)
+        {
+            if (savedBestRetriesForBestDiamonds == int.MaxValue || runRetries < savedBestRetriesForBestDiamonds)
             {
-                finalBestDeaths = runDeaths;
+                finalBestRetries = runRetries;
+                shouldSave = true;
             }
         }
 
-        // 4. Save to Cloud
-        try
+        if (shouldSave)
         {
+            // Save as strings to match LoadAsync(Dictionary<string,string>)
             var data = new Dictionary<string, object>
             {
-                [lastLevelIdKey] = levelId,
-                [bestDiamondsKey] = finalBestDiamonds,
-                [bestDeathsKey] = finalBestDeaths
+                { bestDiamondsKey, finalBestDiamonds.ToString() },
+                { bestRetriesKey,  finalBestRetries.ToString() }
             };
 
-            await CloudSaveService.Instance.Data.Player.SaveAsync(data);
-
-            // Only display Diamonds info in the result screen (as requested)
-            if (statusText)
+            try
             {
-                statusText.text = $"Diamonds: {runDiamonds} (Best: {finalBestDiamonds})\nRetries: {runDeaths}";
+                await CloudSaveService.Instance.Data.ForceSaveAsync(data);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("Cloud save failed: " + e.Message);
+                if (statusText) statusText.text = "Save failed.";
+                return;
             }
         }
-        catch (Exception e)
+
+        int bestDiamondsToShow = shouldSave ? finalBestDiamonds : savedBestDiamonds;
+
+        if (statusText)
         {
-            if (statusText) statusText.text = "Save Failed.";
-            Debug.LogError(e.Message);
+            statusText.text =
+                $"Diamonds this run: {runDiamonds}\n" +
+                $"Best diamonds (this level): {bestDiamondsToShow}";
         }
+    }
+
+    private int GetInt(Dictionary<string, string> loaded, string key, int defaultValue)
+    {
+        if (loaded != null && loaded.TryGetValue(key, out string s) && int.TryParse(s, out int v))
+            return v;
+        return defaultValue;
     }
 }

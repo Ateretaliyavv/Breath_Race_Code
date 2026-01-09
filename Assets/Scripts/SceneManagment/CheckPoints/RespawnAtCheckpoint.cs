@@ -1,56 +1,47 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-// On level start, moves the player to the last checkpoint position
+// On level start, moves the player to the last checkpoint position (if exists)
+// IMPORTANT: does NOT count retries here (retries are counted only in LevelEndManager.PlayerLost)
 public class RespawnAtCheckpoint : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Transform player;
-    [SerializeField] private CameraFollow2D cameraFollow;  // Main Camera
+    [SerializeField] private CameraFollow2D cameraFollow;
 
     [Header("Player Position Settings")]
     [SerializeField] private Vector3 playerSpawnOffset = new Vector3(0f, 1f, 0f);
 
     [Header("Camera Position Settings")]
-    [Tooltip("If checked, use the custom offset below for the camera instead of its default.")]
     [SerializeField] private bool overrideCameraOffset = true;
-
-    [Tooltip("The camera's distance from the player when respawning at a checkpoint (X and Y).")]
     [SerializeField] private Vector3 cameraRespawnOffset = new Vector3(4f, 0.7f, 0f);
 
     private void Start()
     {
+        if (player == null)
+        {
+            Debug.LogError("[RespawnAtCheckpoint] Player is not assigned!");
+            return;
+        }
+
         string levelName = SceneManager.GetActiveScene().name;
 
-        // Check if there is a saved checkpoint for this level
+        // If checkpoint exists -> move player + snap camera
         if (CheckpointManagment.TryGetCheckpoint(levelName, out Vector3 checkpointPos))
         {
-            // Increment death counter because we are respawning
-            LevelProgressData.CurrentRunDeaths++;
-            Debug.Log($"[Respawn] Total deaths this run: {LevelProgressData.CurrentRunDeaths}");
-
-            // 1. Move the Player
             Vector3 newPlayerPos = checkpointPos + playerSpawnOffset;
             player.position = newPlayerPos;
 
-            // Reset velocity if the player has Rigidbody2D
             Rigidbody2D rb = player.GetComponent<Rigidbody2D>();
             if (rb != null)
                 rb.linearVelocity = Vector2.zero;
 
-            // 2. Snap the Camera
             if (cameraFollow != null)
             {
                 if (overrideCameraOffset)
-                {
-                    // Use the custom offset defined in this script
                     cameraFollow.SnapToTargetImmediately(cameraRespawnOffset);
-                }
                 else
-                {
-                    // Use the default offset defined in CameraFollow2D
                     cameraFollow.SnapToTargetImmediately();
-                }
             }
 
             Debug.Log($"[RespawnAtCheckpoint] Player moved to checkpoint at {newPlayerPos} in {levelName}");

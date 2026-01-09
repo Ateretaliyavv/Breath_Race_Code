@@ -1,5 +1,5 @@
 /*
- * Global class that count results for cloud saving
+ * Global class that stores results for cloud saving + run counters.
  */
 public static class LevelProgressData
 {
@@ -7,13 +7,16 @@ public static class LevelProgressData
 
     public static string LastLevelId;
     public static string LastLevelSceneName;
-    public static int LastLevelStars;
-    public static int CurrentRunDeaths = 0; // count deaths in the current run
 
-    // reset data for a new run
+    // Diamonds collected in the last finished run (Win or GameOver)
+    public static int LastLevelStars;
+
+    // Retries / fails during the CURRENT run
+    public static int CurrentRunDeaths = 0;
+
     public static void ResetRunData()
     {
-        CurrentRunDeaths = 0;
         LastLevelStars = 0;
+        CurrentRunDeaths = 0;
     }
 }

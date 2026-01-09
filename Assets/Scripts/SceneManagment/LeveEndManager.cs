@@ -2,14 +2,11 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /*
-* Handles end-of-level logic: collects stars amount,
-* remembers which level was played, and uses SceneNavigator
-* to go to Win / GameOver scenes.
+* Handles end-of-level logic: collects diamonds amount,
+* remembers which level was played, and navigates to Win / GameOver scenes.
 */
-
 public class LevelEndManager : MonoBehaviour
 {
-    // Global access from other scripts
     public static LevelEndManager Instance { get; private set; }
 
     [Header("Level identification")]
@@ -19,23 +16,24 @@ public class LevelEndManager : MonoBehaviour
     [SerializeField] private string winSceneName = "WinLevel1";
     [SerializeField] private string loseSceneName = "GameOver1";
 
-    [Header("Stars counter in this level")]
-    [SerializeField] private NumberFieldUI starsCounter;  // your diamonds/stars UI
+    [Header("Diamonds counter in this level")]
+    [SerializeField] private NumberFieldUI starsCounter;  // your diamonds UI
 
     private void Awake()
     {
         Instance = this;
     }
 
-    // Called when the player reaches the end-of-level object
     public void PlayerWon()
     {
         EndLevel(winSceneName, true);
     }
 
-    // Called when the camera decides the player is out of view (Game Over)
     public void PlayerLost()
     {
+        //Count EXACTLY ONE retry per loss (works with or without checkpoint)
+        LevelProgressData.CurrentRunDeaths++;
+
         EndLevel(loseSceneName, false);
     }
 
@@ -47,15 +45,12 @@ public class LevelEndManager : MonoBehaviour
             return;
         }
 
-        // TODO: replace CurrentValue with your real property if it's called differently
-        int starsThisRun = starsCounter.GetNumberUI();
+        int diamondsThisRun = starsCounter.GetNumberUI();
 
-        // Remember what happened in this level
         LevelProgressData.LastLevelId = levelId;
         LevelProgressData.LastLevelSceneName = SceneManager.GetActiveScene().name;
-        LevelProgressData.LastLevelStars = starsThisRun;
+        LevelProgressData.LastLevelStars = diamondsThisRun;
 
-        // Use YOUR navigation system
         SceneNavigator.LoadScene(sceneName, markAsNextLevel);
     }
 }

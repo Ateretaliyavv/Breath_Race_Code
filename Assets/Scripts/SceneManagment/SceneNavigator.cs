@@ -18,27 +18,26 @@ public static class SceneNavigator
             return;
         }
 
-        // Mark that the transition was to the next level
         if (markAsNextLevel)
         {
             IsNextLevel = true;
         }
 
-        // When going back to Home (OpenScene) we reset checkpoints
+        // When going back to Home (OpenScene) we reset checkpoints AND run data
         if (sceneName == "OpenScene")
         {
-            // Clear checkpoint of the current open level
             string currentScene = SceneManager.GetActiveScene().name;
             CheckpointManagment.ClearCheckpoint(currentScene);
 
-            // Clear checkpoint of the last played level (in case we came from GameOver)
             if (!string.IsNullOrEmpty(LevelProgressData.LastLevelSceneName))
             {
                 CheckpointManagment.ClearCheckpoint(LevelProgressData.LastLevelSceneName);
             }
+
+            //THIS is where retries & diamonds are reset for a new run
+            LevelProgressData.ResetRunData();
         }
 
-        // Load requested scene
         SceneManager.LoadScene(sceneName);
     }
 
