@@ -28,16 +28,6 @@ public class ExitConfirmation : MonoBehaviour
         }
     }
 
-    // Call this from the 'Yes' button
-    //public void ConfirmExit()
-   // {
-        // Always unpause before leaving
-     //   Time.timeScale = 1f;
-
-        // markAsNextLevel is 'false' because we are quitting the level
-     //   SceneNavigator.LoadScene(sceneToLoad, true);
-    //}
-
     // Call this from the 'No' button
     public void CancelExit()
     {
