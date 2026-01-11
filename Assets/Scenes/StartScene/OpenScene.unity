@@ -201,7 +201,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1912499371}
   m_HandleRect: {fileID: 1912499370}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -4790,18 +4790,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1199526542}
-  m_LocalRotation: {x: -0, y: -0, z: 0.1776271, w: 0.9840979}
+  m_LocalRotation: {x: -0, y: -0, z: 0.2657923, w: 0.9640303}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 900678492}
   - {fileID: 882422998}
-  m_Father: {fileID: 1998187112}
+  m_Father: {fileID: 1205804244}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 20.463}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 3.9999695, y: 1.0000153}
+  m_AnchoredPosition: {x: -264.7855, y: 37.70335}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1199526544
@@ -4899,6 +4899,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainMenuStatsButton
   statsButton: {fileID: 1199526544}
+  statsImage: {fileID: 1998187111}
   statsLoader: {fileID: 931528318}
 --- !u!1 &1205804240
 GameObject:
@@ -5000,6 +5001,7 @@ RectTransform:
   - {fileID: 1448835147}
   - {fileID: 871770071}
   - {fileID: 1998187112}
+  - {fileID: 1199526543}
   - {fileID: 1114750868}
   - {fileID: 1478206566}
   - {fileID: 1704298770}
@@ -5242,7 +5244,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1591173371}
   m_HandleRect: {fileID: 1591173370}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 1.0000001
   m_Size: 0.28451538
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -6939,7 +6941,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.0006421897, y: 0}
+  m_AnchoredPosition: {x: 0.000019073486, y: -0.000025173598}
   m_SizeDelta: {x: -0.00064087, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1666430694
@@ -8615,8 +8617,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1199526543}
+  m_Children: []
   m_Father: {fileID: 1205804244}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 10.365}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -8644,7 +8645,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b81e3c1fc5179bb49a0fe2203123fa21, type: 3}
+  m_Sprite: {fileID: 21300000, guid: afd666f5caf9e7c4792ebc5653d69d44, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -8708,7 +8709,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -0.00000667572, y: -0.000018363466}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1999324250

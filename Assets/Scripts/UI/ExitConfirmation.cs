@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class ExitConfirmation : MonoBehaviour
 {
@@ -13,40 +12,40 @@ public class ExitConfirmation : MonoBehaviour
 
     private void Start()
     {
-        // Ensure the confirmation window is hidden when the level starts
         if (confirmationPanel != null)
         {
             confirmationPanel.SetActive(false);
         }
     }
 
-    // 1. Call this method from your main 'Back' button in the game UI
+    // Call this from the in-game 'Back' button
     public void ShowConfirmation()
     {
         if (confirmationPanel != null)
         {
-            confirmationPanel.SetActive(true); // Show the window
-            Time.timeScale = 0f;               // Pause the game time (stops physics and movement)
+            confirmationPanel.SetActive(true);
+            Time.timeScale = 0f; // Pause game
         }
     }
 
-    // 2. Call this method from the 'Yes' button inside the confirmation panel
-    public void ConfirmExit()
-    {
-        // IMPORTANT: Always reset time scale to 1 before loading a new scene,
-        // otherwise the next scene might start paused.
-        Time.timeScale = 1f;
-        SceneManager.LoadScene(sceneToLoad);
-    }
+    // Call this from the 'Yes' button
+    //public void ConfirmExit()
+   // {
+        // Always unpause before leaving
+     //   Time.timeScale = 1f;
 
-    // 3. Call this method from the 'No' button inside the confirmation panel
+        // markAsNextLevel is 'false' because we are quitting the level
+     //   SceneNavigator.LoadScene(sceneToLoad, true);
+    //}
+
+    // Call this from the 'No' button
     public void CancelExit()
     {
-        Time.timeScale = 1f; // Resume game time (unpause)
+        Time.timeScale = 1f; // Resume game
 
         if (confirmationPanel != null)
         {
-            confirmationPanel.SetActive(false); // Hide the window and return to game
+            confirmationPanel.SetActive(false);
         }
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class MainMenuStatsButton : MonoBehaviour
 {
     [SerializeField] private Button statsButton;
+    [SerializeField] private GameObject statsImage;
     [SerializeField] private PlayerStatsLoader statsLoader;
 
     private void Start()
@@ -27,5 +28,7 @@ public class MainMenuStatsButton : MonoBehaviour
 
         if (statsButton != null)
             statsButton.gameObject.SetActive(isLoggedIn);
+        if (statsImage != null)
+            statsImage.SetActive(isLoggedIn);
     }
 }
