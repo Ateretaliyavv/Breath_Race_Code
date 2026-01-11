@@ -10,15 +10,6 @@ public class SoundManager : MonoBehaviour
 
     void Start()
     {
-        if (AudioListener.volume == 0)
-        {
-            isMuted = true;
-        }
-        else
-        {
-            isMuted = false;
-        }
-
         UpdateIcon();
     }
 
