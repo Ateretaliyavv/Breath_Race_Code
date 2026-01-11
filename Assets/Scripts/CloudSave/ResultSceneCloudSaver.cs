@@ -96,7 +96,7 @@ public class ResultSceneCloudSaver : MonoBehaviour
             catch (Exception e)
             {
                 Debug.LogError("Cloud save failed: " + e.Message);
-                if (statusText) statusText.text = "Save failed.";
+                if (statusText) statusText.text = $"Diamonds this run: {runDiamonds}\n" + "Guest - The information is not saved";
                 return;
             }
         }
