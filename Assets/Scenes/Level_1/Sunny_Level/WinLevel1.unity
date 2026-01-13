@@ -542,8 +542,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 35
-  m_fontSizeBase: 35
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -610,8 +610,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.8847, y: 54}
-  m_SizeDelta: {x: 568.83, y: 62.0501}
+  m_AnchoredPosition: {x: 8, y: 49}
+  m_SizeDelta: {x: 593.6756, y: 62.0501}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &310790543
 GameObject:
@@ -1149,10 +1149,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   statusText: {fileID: 301908707}
-  cloudUsernameKey: username
-  bestStarsKeyPrefix: bestStars_
-  lastLevelIdKey: lastLevelId
-  lastLevelSceneKey: lastLevelScene
 --- !u!4 &744355201
 Transform:
   m_ObjectHideFlags: 0

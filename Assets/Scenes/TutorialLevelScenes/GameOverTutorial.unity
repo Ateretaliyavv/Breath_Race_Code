@@ -528,15 +528,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 481279993f555ac4c85198a11aa07b18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GoToSceneByClick
-  useInputModeScene: 0
+  useInputModeScene: 1
   useRandomScene: 0
   sceneToLoad: Tutorial
   randomSceneNames: []
-  keyboardSceneToLoad: 
-  breathSceneToLoad: 
+  keyboardSceneToLoad: TutorialKeybord
+  breathSceneToLoad: Tutorial
   baseSceneName: 
-  keyboardVariantSceneName: 
-  breathVariantSceneName: 
+  keyboardVariantSceneName: TutorialKeybord
+  breathVariantSceneName: Tutorial
   resetRunData: 1
 --- !u!1 &315170082
 GameObject:

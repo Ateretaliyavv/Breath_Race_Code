@@ -729,7 +729,7 @@ MonoBehaviour:
   target: {fileID: 906930549}
   offset: {x: 0, y: 1.2, z: 0}
   verticalSmoothTime: 0.2
-  cameraSpeedX: 5
+  cameraSpeedX: 4.9
   playerAnimator: {fileID: 906930547}
   idleStateName: Idle
   bridgeStartTag: BridgeStart
