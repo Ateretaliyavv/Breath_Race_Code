@@ -135,8 +135,8 @@ public class LoginManager : MonoBehaviour
         }
         catch (AuthenticationException e)
         {
-            Debug.LogError("Login failed: " + e.Message);
-            SetStatus("Login failed: " + e.Message);
+            Debug.LogError("Login failed: Invalid username");
+            SetStatus("Login failed: Invalid username");
         }
         catch (RequestFailedException e)
         {
