@@ -13,24 +13,15 @@ mergeInto(LibraryManager.library, {
       return;
     }
 
-    // Use window as a stable global store across scene loads.
     if (!window.__webSerialUnity) window.__webSerialUnity = {};
     var S = window.__webSerialUnity;
 
-    // Update receiver target every time (scene can change).
     S.goName = goName;
     S.onData = onData;
     S.onStatus = onStatus;
 
-    // Optional hard fallback receiver name (use ONLY if you guarantee it exists).
-    // If you use DontDestroyOnLoad and keep the receiver object named "BreathUSB",
-    // this helps when Unity temporarily unloads objects during scene switches.
     S.fallbackGoName = "BreathUSB";
 
-    // Safe SendMessage:
-    // - Try current receiver
-    // - If missing, try fallback receiver
-    // - Never throw (keep the serial loop alive)
     function safeSend(method, message) {
       try {
         SendMessage(S.goName, method, message);
@@ -44,7 +35,6 @@ mergeInto(LibraryManager.library, {
 
     (async function () {
       try {
-        // Prevent double-connect: close previous session if exists.
         if (S.port || S.reader) {
           S.keepReading = false;
 
@@ -64,15 +54,20 @@ mergeInto(LibraryManager.library, {
 
         safeSend(S.onStatus, "Requesting serial port...");
 
-        // Must be called from a user gesture (button click).
         S.port = await navigator.serial.requestPort();
 
-        // Match ESP32 Serial.begin(115200).
         await S.port.open({ baudRate: 115200 });
+
+        // NEW: detect physical USB disconnect as an event (more reliable than waiting for read error)
+        try {
+          S.port.addEventListener("disconnect", () => {
+            try { S.keepReading = false; } catch (e) {}
+            safeSend(S.onStatus, "USB disconnected.");
+          });
+        } catch (e) {}
 
         safeSend(S.onStatus, "Serial connected (115200).");
 
-        // Read loop: accumulate chunks and split by newline.
         const decoder = new TextDecoder();
         S.reader = S.port.readable.getReader();
 

@@ -37,6 +37,7 @@ public class BreathDisconnectPopupManager : MonoBehaviour
 
     private void Awake()
     {
+<<<<<<< HEAD
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -47,10 +48,14 @@ public class BreathDisconnectPopupManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         SceneManager.sceneLoaded += OnSceneLoaded;
+=======
+
+>>>>>>> 2d507f9b24a84ca9be4d2627da0d416c8ab971f7
     }
 
     private void OnDestroy()
     {
+<<<<<<< HEAD
         if (Instance == this)
             SceneManager.sceneLoaded -= OnSceneLoaded;
 
@@ -192,5 +197,8 @@ public class BreathDisconnectPopupManager : MonoBehaviour
     {
         if (popupInstance != null)
             popupInstance.SetActive(false);
+=======
+
+>>>>>>> 2d507f9b24a84ca9be4d2627da0d416c8ab971f7
     }
 }
