@@ -4969,6 +4969,60 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1729620552}
   m_CullTransparentMesh: 1
+--- !u!1 &1787842647
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1787842649}
+  - component: {fileID: 1787842648}
+  m_Layer: 0
+  m_Name: 'BreathDisconnectPopupManager '
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1787842648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1787842647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aa8a225e26d73446990489b5e064055, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  popupPrefab: {fileID: 7586460430995251911, guid: f8a39a06ede9c7146af8fbb7339b248a, type: 3}
+  excludedSceneNames:
+  - EnterScene
+  - KeybordOrBlow
+  - TutorialKeybord
+  - BalloonKeybord
+  popupMessage: 'The breath device was disconnected.
+
+    Please reconnect the USB
+    device to continue in Breath mode.'
+--- !u!4 &1787842649
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1787842647}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 967.78656, y: 545.191, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1802961374
 GameObject:
   m_ObjectHideFlags: 0
@@ -5943,3 +5997,4 @@ SceneRoots:
   - {fileID: 1298719112}
   - {fileID: 1426824551}
   - {fileID: 584120310}
+  - {fileID: 1787842649}

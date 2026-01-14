@@ -1,4 +1,3 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -11,6 +10,7 @@ using UnityEngine.UI;
  * NOTE:
  * - Assign the popup prefab in the Inspector (no Resources folder needed).
  * - This manager must exist once (e.g., in your Boot/Entry scene) and uses DontDestroyOnLoad.
+ * - Popup text is NOT changed by code (use your prefab text).
  */
 public class BreathDisconnectPopupManager : MonoBehaviour
 {
@@ -20,16 +20,9 @@ public class BreathDisconnectPopupManager : MonoBehaviour
     [SerializeField] private GameObject popupPrefab;
 
     [Header("Excluded Scenes (no popup here)")]
-    [SerializeField] private string[] excludedSceneNames = { "Entry", "Connect", "BreathConnect", "OpenScene" };
-
-    [Header("Popup Text")]
-    [TextArea]
-    [SerializeField]
-    private string popupMessage =
-        "The breath device was disconnected.\nPlease reconnect the USB device to continue in Breath mode.";
+    [SerializeField] private string[] excludedSceneNames = { "EnterScene", "KeybordOrBlow", "TutorialKeybord", "BalloonKeybord" };
 
     private GameObject popupInstance;
-    private TextMeshProUGUI popupText;
     private Button closeButton;
 
     private bool lastConnected = true;
@@ -37,7 +30,6 @@ public class BreathDisconnectPopupManager : MonoBehaviour
 
     private void Awake()
     {
-<<<<<<< HEAD
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -48,14 +40,10 @@ public class BreathDisconnectPopupManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         SceneManager.sceneLoaded += OnSceneLoaded;
-=======
-
->>>>>>> 2d507f9b24a84ca9be4d2627da0d416c8ab971f7
     }
 
     private void OnDestroy()
     {
-<<<<<<< HEAD
         if (Instance == this)
             SceneManager.sceneLoaded -= OnSceneLoaded;
 
@@ -69,7 +57,6 @@ public class BreathDisconnectPopupManager : MonoBehaviour
 
         SubscribeUsbIfPossible();
 
-        // Baseline if receiver already exists
         if (WebSerialPressureReceiver.Instance != null)
             lastConnected = WebSerialPressureReceiver.Instance.IsConnected;
     }
@@ -78,10 +65,8 @@ public class BreathDisconnectPopupManager : MonoBehaviour
     {
         EnsurePopupLoaded();
 
-        // Re-try subscribing after scene switches (receiver may appear later)
         SubscribeUsbIfPossible();
 
-        // Never show popup in excluded scenes
         if (IsExcludedScene(scene.name))
             HidePopup();
     }
@@ -98,7 +83,6 @@ public class BreathDisconnectPopupManager : MonoBehaviour
             subscribed = true;
         }
 
-        // Keep baseline updated
         lastConnected = receiver.IsConnected;
     }
 
@@ -127,17 +111,17 @@ public class BreathDisconnectPopupManager : MonoBehaviour
 
     private void TryShowDisconnectPopup()
     {
-        // 1) Only if we're in Breath mode
+        // Only if we're in Breath mode
         if (GlobalInputModeManager.Instance == null || !GlobalInputModeManager.Instance.UseBreath)
             return;
 
-        // 2) Suppress in excluded scenes (intro/connect scenes)
+        // Suppress in excluded scenes (intro/connect scenes)
         string sceneName = SceneManager.GetActiveScene().name;
         if (IsExcludedScene(sceneName))
             return;
 
         EnsurePopupLoaded();
-        ShowPopup(popupMessage);
+        ShowPopup();
     }
 
     private bool IsExcludedScene(string sceneName)
@@ -167,8 +151,6 @@ public class BreathDisconnectPopupManager : MonoBehaviour
         popupInstance = Instantiate(popupPrefab);
         DontDestroyOnLoad(popupInstance);
 
-        // Auto-find components
-        popupText = popupInstance.GetComponentInChildren<TextMeshProUGUI>(true);
         closeButton = popupInstance.GetComponentInChildren<Button>(true);
 
         if (closeButton != null)
@@ -182,23 +164,17 @@ public class BreathDisconnectPopupManager : MonoBehaviour
         }
     }
 
-    private void ShowPopup(string msg)
+    private void ShowPopup()
     {
         if (popupInstance == null)
             return;
 
         popupInstance.SetActive(true);
-
-        if (popupText != null)
-            popupText.text = msg;
     }
 
     private void HidePopup()
     {
         if (popupInstance != null)
             popupInstance.SetActive(false);
-=======
-
->>>>>>> 2d507f9b24a84ca9be4d2627da0d416c8ab971f7
     }
 }
