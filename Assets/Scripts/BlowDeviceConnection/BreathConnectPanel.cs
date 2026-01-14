@@ -51,6 +51,7 @@ public class BreathConnectPanel : MonoBehaviour
 
     private void OnEnable()
     {
+        BreathIntroSequence.HasCompletedBreathCheck = false;
         usb = WebSerialPressureReceiver.Instance;
 
         if (usb != null)
