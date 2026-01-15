@@ -6109,7 +6109,7 @@ GameObject:
   - component: {fileID: 1483664382}
   - component: {fileID: 1483664381}
   - component: {fileID: 1483664380}
-  - component: {fileID: 1483664379}
+  - component: {fileID: 1483664383}
   m_Layer: 5
   m_Name: Back
   m_TagString: Untagged
@@ -6137,20 +6137,6 @@ RectTransform:
   m_AnchoredPosition: {x: -716, y: -57}
   m_SizeDelta: {x: 80, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1483664379
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1483664377}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1708703252047054ea18852d16d1ad40, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ExitConfirmation
-  confirmationPanel: {fileID: 553503491}
-  sceneToLoad: KeybordOrBlow
 --- !u!114 &1483664380
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6195,9 +6181,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1483664379}
-        m_TargetAssemblyTypeName: ExitConfirmation, Assembly-CSharp
-        m_MethodName: ShowConfirmation
+      - m_Target: {fileID: 1483664383}
+        m_TargetAssemblyTypeName: GoToSceneByClick, Assembly-CSharp
+        m_MethodName: LoadGameScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6245,6 +6231,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1483664377}
   m_CullTransparentMesh: 1
+--- !u!114 &1483664383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1483664377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 481279993f555ac4c85198a11aa07b18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GoToSceneByClick
+  useInputModeScene: 0
+  useRandomScene: 0
+  sceneToLoad: KeybordOrBlow
+  randomSceneNames: []
+  keyboardSceneToLoad: 
+  breathSceneToLoad: 
+  baseSceneName: 
+  keyboardVariantSceneName: 
+  breathVariantSceneName: 
+  resetRunData: 0
 --- !u!1 &1495460229
 GameObject:
   m_ObjectHideFlags: 0

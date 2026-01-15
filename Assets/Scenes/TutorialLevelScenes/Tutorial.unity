@@ -610,7 +610,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 66, y: -173}
+  m_AnchoredPosition: {x: 66, y: -178}
   m_SizeDelta: {x: 252.6279, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &78954576
@@ -642,8 +642,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4279900698
-  m_fontColor: {r: 0.1, g: 0.1, b: 0.1, a: 1}
+    rgba: 4282137745
+  m_fontColor: {r: 0.5698112, g: 0.23545028, b: 0.23545028, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -660,8 +660,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 70
-  m_fontSizeBase: 70
+  m_fontSize: 75
+  m_fontSizeBase: 75
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -698,7 +698,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -27.911987, y: 0, z: -231.21118, w: -262.7641}
+  m_margin: {x: -352.72083, y: -99.38165, z: -231.21118, w: 20.837524}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1804,8 +1804,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4280183250
-  m_fontColor: {r: 0.8235295, g: 0.4117647, b: 0.1176471, a: 1}
+    rgba: 4278226175
+  m_fontColor: {r: 1, g: 0.5490196, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -4705,7 +4705,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -37.063, y: 0.000015259}
+  m_AnchoredPosition: {x: 21, y: -44}
   m_SizeDelta: {x: 107.3724, y: 427.87}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &889921321
@@ -14848,8 +14848,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4280183250
-  m_fontColor: {r: 0.8235295, g: 0.4117647, b: 0.1176471, a: 1}
+    rgba: 4278226175
+  m_fontColor: {r: 1, g: 0.5490196, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -15401,12 +15401,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   introPanel: {fileID: 1859694481}
   instructionsText: {fileID: 78954576}
-  startTextObject: {fileID: 78954574}
   sceneGaugeRoot: {fileID: 118133703}
-  sceneGaugeScriptsToDisable: []
   stage1Target: 1
   stage2Target: 3
   stage3Target: 5
+  releaseThresholdKPa: 0.3
+  successCloseDelay: 3
+  stage1Text: Blow with strength 1
+  stage2Text: Blow with strength 3
+  stage3Text: Blow with strength 5
+  successText: Good Job!
   moveScript: {fileID: 906930551}
   jumpScript: {fileID: 906930550}
   blowUpScript: {fileID: 906930557}
