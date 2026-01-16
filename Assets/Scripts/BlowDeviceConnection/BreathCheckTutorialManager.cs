@@ -32,15 +32,18 @@ public class BreathCheckTutorialManager : MonoBehaviour
     [SerializeField] private float successCloseDelay = 3f;
 
     [Header("Hebrew UI Text")]
-    [SerializeField] private string stage1Text = "Blow with strength 1";
-    [SerializeField] private string stage2Text = "Blow with strength 3";
-    [SerializeField] private string stage3Text = "Blow with strength 5";
+    [SerializeField] private string stage1Text = "Blow with strength\n1";
+    [SerializeField] private string stage2Text = "Blow with strength\n3";
+    [SerializeField] private string stage3Text = "Blow with strength\n5";
     [SerializeField] private string successText = "Good Job!";
 
     [Header("Player Scripts to Lock")]
     [SerializeField] private Move moveScript;
     [SerializeField] private Jump jumpScript;
     [SerializeField] private BlowUpBalloons blowUpScript;
+
+    [Header("Start with ENTER text")]
+    [SerializeField] private GameObject startTextObject;
 
     private int currentStage = 1;
     private bool closingStarted = false;
@@ -55,6 +58,8 @@ public class BreathCheckTutorialManager : MonoBehaviour
             return;
         }
 
+        if (startTextObject != null)
+            startTextObject.SetActive(false);
         StartSequence();
     }
 
@@ -148,6 +153,8 @@ public class BreathCheckTutorialManager : MonoBehaviour
 
         if (sceneGaugeRoot != null)
             sceneGaugeRoot.SetActive(true);
+        if (startTextObject != null)
+            startTextObject.SetActive(true);
 
         LockPlayer(false);
     }
