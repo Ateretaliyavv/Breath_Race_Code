@@ -57,6 +57,7 @@ public class BreathDisconnectPopupManager : MonoBehaviour
 
         SubscribeUsbIfPossible();
 
+
         if (WebSerialPressureReceiver.Instance != null)
             lastConnected = WebSerialPressureReceiver.Instance.IsConnected;
     }
