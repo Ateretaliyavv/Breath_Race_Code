@@ -10,6 +10,9 @@ public class ExitConfirmation : MonoBehaviour
     [Tooltip("The name of the scene to load when the user confirms exit (e.g., 'OpenScene').")]
     [SerializeField] private string sceneToLoad = "OpenScene";
 
+    // Stores the timeScale that was active before showing the confirmation panel.
+    private float previousTimeScale = 1f;
+
     private void Start()
     {
         if (confirmationPanel != null)
@@ -31,6 +34,7 @@ public class ExitConfirmation : MonoBehaviour
         // If Logged In, show the warning panel
         if (confirmationPanel != null)
         {
+            previousTimeScale = Time.timeScale; // Save current state (paused or running)
             confirmationPanel.SetActive(true);
             Time.timeScale = 0f; // Pause game
         }
@@ -39,7 +43,7 @@ public class ExitConfirmation : MonoBehaviour
     // Call this from the 'Yes' button (or automatically for guests)
     public void ConfirmExit()
     {
-        Time.timeScale = 1f; // Always unpause
+        Time.timeScale = 1f; // Always unpause before leaving the scene
 
         // Use SceneNavigator to clean up checkpoints/data and load the menu
         SceneNavigator.LoadScene(sceneToLoad, false);
@@ -48,7 +52,7 @@ public class ExitConfirmation : MonoBehaviour
     // Call this from the 'No' button
     public void CancelExit()
     {
-        Time.timeScale = 1f; // Resume game
+        Time.timeScale = previousTimeScale; // Restore previous state (paused or running)
 
         if (confirmationPanel != null)
         {

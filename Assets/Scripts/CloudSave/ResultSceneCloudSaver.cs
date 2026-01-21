@@ -16,6 +16,7 @@ public class ResultSceneCloudSaver : MonoBehaviour
 
     private async void Start()
     {
+        if (statusText) statusText.text = "Loading..."; // Default text until cloud result is ready
         await SaveAndShowAsync();
     }
 
