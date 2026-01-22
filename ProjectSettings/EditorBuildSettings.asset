@@ -60,7 +60,7 @@ EditorBuildSettings:
     path: Assets/Scenes/SurpriseScene/ExpandBalloon.unity
     guid: 05a892fe8c44b804fa6fd1d5dacb53dc
   - enabled: 1
-    path: Assets/Scenes/Level_1/Ice_Level/GameOver1_Ice.unity
+    path: Assets/Scenes/Level_1/Ice_Level/GameOver1_Ice_temp.unity
     guid: 896992f2953ccca43bbdbc33ef9239ef
   - enabled: 1
     path: Assets/Scenes/Level_1/Ice_Level/WinLevel1_Ice.unity
@@ -77,6 +77,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SurpriseScene/BalloonsKeybord.unity
     guid: 00fb969187ac95848b689c88fce793f4
+  - enabled: 0
+    path: Assets/Scenes/Level_1/Ice_Level/WinLevel1_Ice_temp.unity
+    guid: 74785c42630f07146b7ac3baf4d1af45
+  - enabled: 1
+    path: Assets/Scenes/Level_1/Ice_Level/GameOver1_Ice.unity
+    guid: 42f515364a15a5742896564346f2c9ef
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

@@ -23327,7 +23327,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   levelId: 1
-  winSceneName: WinLevel1_Ice
+  winSceneName: WinLevel1
   loseSceneName: GameOver1_Ice
   starsCounter: {fileID: 11106656}
 --- !u!1 &521411093
@@ -30597,7 +30597,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GotoNextScene
   triggeringTag: Finish
-  sceneName: WinLevel1_Ice
+  sceneName: WinLevel1
 --- !u!114 &906930557
 MonoBehaviour:
   m_ObjectHideFlags: 0
