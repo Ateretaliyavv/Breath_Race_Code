@@ -154,7 +154,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 37, y: -39}
+  m_AnchoredPosition: {x: 95.9, y: -88.8}
   m_SizeDelta: {x: 20.0583, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &11106656
@@ -23307,8 +23307,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 520314820}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -276, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -23327,7 +23327,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   levelId: 1
-  winSceneName: WinLevel1
+  winSceneName: WinLevel1_Ice
   loseSceneName: GameOver1_Ice
   starsCounter: {fileID: 11106656}
 --- !u!1 &521411093
@@ -28054,7 +28054,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6832100066c36e041bc9d640d08c3d08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  scoreText: {fileID: 11106657}
+  scoreText: {fileID: 0}
   diamonds:
   - greyObject: {fileID: 570152572}
     purpleObject: {fileID: 956735297}
@@ -44312,8 +44312,8 @@ Transform:
   - {fileID: 1750053427}
   - {fileID: 838950823}
   - {fileID: 1811872340}
-  - {fileID: 520314821}
   - {fileID: 2010430964}
+  - {fileID: 520314821}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1667349281 stripped
