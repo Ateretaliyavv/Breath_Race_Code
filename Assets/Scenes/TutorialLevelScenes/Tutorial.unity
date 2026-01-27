@@ -700,8 +700,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 325, y: -393.10168}
-  m_SizeDelta: {x: 382.6512, y: 144.5337}
+  m_AnchoredPosition: {x: 325, y: -398.984}
+  m_SizeDelta: {x: 439.5437, y: 144.5337}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &78954576
 MonoBehaviour:
@@ -723,7 +723,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New text
+  m_text: New Text
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 859e6a6304886164a8035be7d3874ce6, type: 2}
   m_sharedMaterial: {fileID: -5023436480827124546, guid: 859e6a6304886164a8035be7d3874ce6, type: 2}
@@ -16212,9 +16212,9 @@ MonoBehaviour:
   stage3Target: 5
   releaseThresholdKPa: 0.3
   successCloseDelay: 3
-  stage1Text: Exhale with strength 1
-  stage2Text: Exhale with strength 3
-  stage3Text: Exhale with strength 5
+  stage1Text: Exhale with strength     1
+  stage2Text: Exhale with strength     3
+  stage3Text: Exhale with strength     5
   successText: Good Job!
   moveScript: {fileID: 906930551}
   jumpScript: {fileID: 906930550}
