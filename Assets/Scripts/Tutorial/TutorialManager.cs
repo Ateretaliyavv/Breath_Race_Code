@@ -91,7 +91,28 @@ public class TutorialManager : MonoBehaviour
 
         // 3. Update the UI Text
         if (tutorialText != null)
-            tutorialText.text = message;
+        {
+            bool isHebrew = (LocalizationManager.I != null && LocalizationManager.I.CurrentLang == Lang.HE);
+
+            tutorialText.text = isHebrew
+                ? RtlTextHelper.FixForceRTL(message, fixTags: true, preserveNumbers: true)
+                : message;
+
+            tutorialText.isRightToLeftText = isHebrew;
+
+            // אם את רוצה: ליישר Right/Left רק אם הטקסט מוגדר כרגע Left/Right (לא לשבור Center)
+            if (tutorialText.alignment == TMPro.TextAlignmentOptions.Left ||
+                tutorialText.alignment == TMPro.TextAlignmentOptions.TopLeft ||
+                tutorialText.alignment == TMPro.TextAlignmentOptions.BottomLeft ||
+                tutorialText.alignment == TMPro.TextAlignmentOptions.Right ||
+                tutorialText.alignment == TMPro.TextAlignmentOptions.TopRight ||
+                tutorialText.alignment == TMPro.TextAlignmentOptions.BottomRight)
+            {
+                tutorialText.alignment = isHebrew
+                    ? TMPro.TextAlignmentOptions.Right
+                    : TMPro.TextAlignmentOptions.Left;
+            }
+        }
 
         if (promptText != null)
             promptText.text = "Press " + keyToWaitFor.ToString() + " to continue";

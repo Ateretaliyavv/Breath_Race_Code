@@ -1,20 +1,27 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-/*
- * Script that chose random massage from list and show it on panel
- */
 
+/*
+ * Chooses a random localization key and shows the translated text via LocalizedTMP.
+ */
 public class SurpriseMessageUI : MonoBehaviour
 {
     [Header("UI References")]
     [SerializeField] private GameObject messagePanel;
-    [SerializeField] private TextMeshProUGUI messageText;
+    [SerializeField] private TMP_Text messageText;
     [SerializeField] private Button actionButton;
 
-    [Header("Messages")]
-    [TextArea]
-    [SerializeField] private string[] messages;
+    [Header("Message Keys (CSV)")]
+    [SerializeField] private string[] messageKeys;
+
+    private LocalizedTMP localized;
+
+    private void Awake()
+    {
+        if (messageText != null)
+            localized = messageText.GetComponent<LocalizedTMP>();
+    }
 
     private void Start()
     {
@@ -24,20 +31,25 @@ public class SurpriseMessageUI : MonoBehaviour
         ShowRandomMessage();
     }
 
-    // Chose random massage and show it on the panel
+    // Choose a random key and let LocalizedTMP handle translation + RTL.
     private void ShowRandomMessage()
     {
-        if (messages == null || messages.Length == 0)
+        if (messageKeys == null || messageKeys.Length == 0)
         {
-            Debug.LogWarning("SurpriseMessageUI: No messages defined.");
+            Debug.LogWarning("SurpriseMessageUI: No message keys defined.");
             return;
         }
 
-        int index = Random.Range(0, messages.Length);
-        string chosenMessage = messages[index];
+        if (localized == null)
+        {
+            Debug.LogError("SurpriseMessageUI: MessageText is missing LocalizedTMP component.");
+            return;
+        }
 
-        if (messageText != null)
-            messageText.text = chosenMessage;
+        int index = Random.Range(0, messageKeys.Length);
+        string chosenKey = messageKeys[index];
+
+        localized.SetKey(chosenKey);
 
         if (messagePanel != null)
             messagePanel.SetActive(true);

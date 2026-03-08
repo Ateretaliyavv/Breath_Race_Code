@@ -4,7 +4,7 @@ public class TutorialTrigger : MonoBehaviour
 {
     [Header("Tutorial Settings")]
     [TextArea]
-    public string instructions;
+    public string instructionsKey;
     public TutorialType tutorialType;
 
     public Sprite tutorialImage;
@@ -24,7 +24,8 @@ public class TutorialTrigger : MonoBehaviour
 
             if (manager != null)
             {
-                manager.TriggerTutorial(instructions, tutorialType, tutorialImage);
+                string text = LocalizationManager.I.Tr(instructionsKey);
+                manager.TriggerTutorial(text, tutorialType, tutorialImage);
             }
             else
             {

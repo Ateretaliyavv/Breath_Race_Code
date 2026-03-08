@@ -10,53 +10,57 @@ public class ExitConfirmation : MonoBehaviour
     [Tooltip("The name of the scene to load when the user confirms exit (e.g., 'OpenScene').")]
     [SerializeField] private string sceneToLoad = "OpenScene";
 
-    // Stores the timeScale that was active before showing the confirmation panel.
+    [Header("Run Reset Options")]
+    [Tooltip("If true, resets run data before leaving (same as GoToSceneByClick).")]
+    [SerializeField] private bool resetRunDataForGuest = true;
+
     private float previousTimeScale = 1f;
 
     private void Start()
     {
         if (confirmationPanel != null)
-        {
             confirmationPanel.SetActive(false);
-        }
     }
 
     // Call this from the in-game 'Back' button
     public void ShowConfirmation()
     {
-        // if user is a Guest (no username), exit immediately without asking.
+        // Guest: exit immediately + reset run data if enabled.
         if (string.IsNullOrEmpty(LevelProgressData.Username))
         {
+            if (resetRunDataForGuest)
+                DiamondRunKeeper.ClearAll(); // Same reset as GoToSceneByClick
+
             ConfirmExit();
             return;
         }
 
-        // If Logged In, show the warning panel
+        // Logged-in: show confirmation panel
         if (confirmationPanel != null)
         {
-            previousTimeScale = Time.timeScale; // Save current state (paused or running)
+            previousTimeScale = Time.timeScale; // Save current state
             confirmationPanel.SetActive(true);
             Time.timeScale = 0f; // Pause game
+        }
+        else
+        {
+            // Fallback if panel is missing
+            ConfirmExit();
         }
     }
 
     // Call this from the 'Yes' button (or automatically for guests)
     public void ConfirmExit()
     {
-        Time.timeScale = 1f; // Always unpause before leaving the scene
-
-        // Use SceneNavigator to clean up checkpoints/data and load the menu
-        SceneNavigator.LoadScene(sceneToLoad, false);
+        Time.timeScale = 1f; // Always unpause before leaving
+        SceneNavigator.LoadScene(sceneToLoad, markAsNextLevel: false);
     }
 
     // Call this from the 'No' button
     public void CancelExit()
     {
-        Time.timeScale = previousTimeScale; // Restore previous state (paused or running)
-
+        Time.timeScale = previousTimeScale; // Restore previous state
         if (confirmationPanel != null)
-        {
             confirmationPanel.SetActive(false);
-        }
     }
 }

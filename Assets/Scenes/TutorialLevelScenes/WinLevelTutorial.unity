@@ -280,8 +280,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 18.372, y: -81}
-  m_SizeDelta: {x: 568.8325, y: 101.6277}
+  m_AnchoredPosition: {x: 18.372, y: -45.786}
+  m_SizeDelta: {x: 568.8325, y: 31.199}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &125431439
 MonoBehaviour:
@@ -368,7 +368,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -39.33264, y: 0, z: 0, w: 45.891243}
+  m_margin: {x: -39.33264, y: 0, z: 0, w: 0.8492546}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1086,6 +1086,7 @@ GameObject:
   - component: {fileID: 315170085}
   - component: {fileID: 315170084}
   - component: {fileID: 315170086}
+  - component: {fileID: 315170087}
   m_Layer: 5
   m_Name: Text (TMP) (1)
   m_TagString: Untagged
@@ -1225,6 +1226,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameOverStars
   starsText: {fileID: 125431439}
+--- !u!114 &315170087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 315170082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee8a966452976084fb8abe0e44816210, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedTMP
+  key: TUT_WIN
 --- !u!1 &413444837
 GameObject:
   m_ObjectHideFlags: 0
@@ -1236,6 +1250,7 @@ GameObject:
   - component: {fileID: 413444838}
   - component: {fileID: 413444840}
   - component: {fileID: 413444839}
+  - component: {fileID: 413444841}
   m_Layer: 4
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -1259,8 +1274,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -1}
-  m_SizeDelta: {x: 0, y: 3}
+  m_AnchoredPosition: {x: 0, y: -2}
+  m_SizeDelta: {x: 0, y: -18.898}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &413444839
 MonoBehaviour:
@@ -1350,7 +1365,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &413444840
@@ -1361,6 +1376,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 413444837}
   m_CullTransparentMesh: 1
+--- !u!114 &413444841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 413444837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee8a966452976084fb8abe0e44816210, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedTMP
+  key: SNOWY
 --- !u!1 &439887832
 GameObject:
   m_ObjectHideFlags: 0
@@ -1447,6 +1475,7 @@ GameObject:
   - component: {fileID: 456632167}
   - component: {fileID: 456632169}
   - component: {fileID: 456632168}
+  - component: {fileID: 456632170}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -1471,7 +1500,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -1}
-  m_SizeDelta: {x: 0, y: 2.5}
+  m_SizeDelta: {x: 0, y: -34.3875}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &456632168
 MonoBehaviour:
@@ -1572,6 +1601,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 456632166}
   m_CullTransparentMesh: 1
+--- !u!114 &456632170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 456632166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee8a966452976084fb8abe0e44816210, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedTMP
+  key: HOME
 --- !u!1 &575145552
 GameObject:
   m_ObjectHideFlags: 0
@@ -1583,6 +1625,7 @@ GameObject:
   - component: {fileID: 575145553}
   - component: {fileID: 575145555}
   - component: {fileID: 575145554}
+  - component: {fileID: 575145556}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -1604,10 +1647,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1205804244}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.8862, y: 113}
-  m_SizeDelta: {x: 568.8325, y: 101.6277}
+  m_AnchorMin: {x: 0.50750005, y: 0.8813399}
+  m_AnchorMax: {x: 0.50750005, y: 0.8813399}
+  m_AnchoredPosition: {x: -3.1138, y: 11.789902}
+  m_SizeDelta: {x: 568.8325, y: 18.0479}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &575145554
 MonoBehaviour:
@@ -1629,7 +1672,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'YOu Win!
+  m_text: 'You Win!
 
 '
   m_isRightToLeft: 0
@@ -1696,7 +1739,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 3.818573, y: 0, z: 0, w: -19.38881}
+  m_margin: {x: 3.818573, y: 0, z: 0, w: 1.0075397}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1710,6 +1753,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 575145552}
   m_CullTransparentMesh: 1
+--- !u!114 &575145556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 575145552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee8a966452976084fb8abe0e44816210, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedTMP
+  key: YOU_WIN
 --- !u!1 &721695641
 GameObject:
   m_ObjectHideFlags: 0
@@ -1871,6 +1927,7 @@ GameObject:
   - component: {fileID: 969317334}
   - component: {fileID: 969317336}
   - component: {fileID: 969317335}
+  - component: {fileID: 969317337}
   m_Layer: 5
   m_Name: Text (TMP) (1)
   m_TagString: Untagged
@@ -1894,8 +1951,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.92, y: 22.8}
-  m_SizeDelta: {x: 555.585, y: 76.152}
+  m_AnchoredPosition: {x: 8.5, y: 51.4577}
+  m_SizeDelta: {x: 187.8704, y: 18.8365}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &969317335
 MonoBehaviour:
@@ -1917,7 +1974,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Select Word
+  m_text: Select World
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 859e6a6304886164a8035be7d3874ce6, type: 2}
   m_sharedMaterial: {fileID: -5023436480827124546, guid: 859e6a6304886164a8035be7d3874ce6, type: 2}
@@ -1982,7 +2039,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: -19.38881}
+  m_margin: {x: 0, y: 0, z: 0, w: -1.2583885}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1996,6 +2053,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 969317333}
   m_CullTransparentMesh: 1
+--- !u!114 &969317337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 969317333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee8a966452976084fb8abe0e44816210, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedTMP
+  key: SELECT_WORLD
 --- !u!1 &1205804240
 GameObject:
   m_ObjectHideFlags: 0
@@ -3183,6 +3253,7 @@ GameObject:
   - component: {fileID: 1725090022}
   - component: {fileID: 1725090024}
   - component: {fileID: 1725090023}
+  - component: {fileID: 1725090025}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -3206,8 +3277,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0}
-  m_SizeDelta: {x: 0, y: 2.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: -31.8139}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1725090023
 MonoBehaviour:
@@ -3308,6 +3379,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1725090021}
   m_CullTransparentMesh: 1
+--- !u!114 &1725090025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1725090021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee8a966452976084fb8abe0e44816210, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedTMP
+  key: NEXT_LEVEL
 --- !u!1 &1740902126
 GameObject:
   m_ObjectHideFlags: 0
@@ -3557,6 +3641,7 @@ GameObject:
   - component: {fileID: 1884476507}
   - component: {fileID: 1884476509}
   - component: {fileID: 1884476508}
+  - component: {fileID: 1884476510}
   m_Layer: 4
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -3581,7 +3666,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -1}
-  m_SizeDelta: {x: 0, y: 3}
+  m_SizeDelta: {x: 0, y: -17.6584}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1884476508
 MonoBehaviour:
@@ -3671,7 +3756,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1884476509
@@ -3682,6 +3767,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1884476506}
   m_CullTransparentMesh: 1
+--- !u!114 &1884476510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1884476506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee8a966452976084fb8abe0e44816210, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedTMP
+  key: SUNNY
 --- !u!1 &2009906353
 GameObject:
   m_ObjectHideFlags: 0
@@ -3693,6 +3791,7 @@ GameObject:
   - component: {fileID: 2009906354}
   - component: {fileID: 2009906356}
   - component: {fileID: 2009906355}
+  - component: {fileID: 2009906357}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -3716,8 +3815,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.7}
-  m_SizeDelta: {x: 0, y: 2.5}
+  m_AnchoredPosition: {x: 0, y: -1.1}
+  m_SizeDelta: {x: 0, y: -14.8531}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2009906355
 MonoBehaviour:
@@ -3807,7 +3906,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &2009906356
@@ -3818,6 +3917,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2009906353}
   m_CullTransparentMesh: 1
+--- !u!114 &2009906357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2009906353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee8a966452976084fb8abe0e44816210, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedTMP
+  key: HOME
 --- !u!1 &2088189264
 GameObject:
   m_ObjectHideFlags: 0

@@ -607,6 +607,7 @@ GameObject:
   - component: {fileID: 355220077}
   - component: {fileID: 355220078}
   - component: {fileID: 355220076}
+  - component: {fileID: 355220079}
   m_Layer: 5
   m_Name: Text (TMP) (1)
   m_TagString: Untagged
@@ -747,6 +748,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &355220079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 355220074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee8a966452976084fb8abe0e44816210, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedTMP
+  key: 
 --- !u!1 &370233651
 GameObject:
   m_ObjectHideFlags: 0
@@ -1032,10 +1046,10 @@ MonoBehaviour:
   messagePanel: {fileID: 904266435}
   messageText: {fileID: 355220078}
   actionButton: {fileID: 370233652}
-  messages:
-  - You got a surprise from the doctor!!
-  - You got a chocolate!!
-  - You got one more game!!
+  messageKeys:
+  - SURPRISE_DOCTOR
+  - SURPRISE_CHOCOLATE
+  - SURPRISE_ONE_MORE_GAME
 --- !u!1 &702694917
 GameObject:
   m_ObjectHideFlags: 0

@@ -8215,7 +8215,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: eecb3c6f50f506449b5b9bce088eba3a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -8620,8 +8620,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02ef09e33ac44384ab784165162ad558, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TutorialTrigger
-  instructions: For blowing up the balloons and collect dimond press  'Space' on
-    keybord
+  instructionsKey: 
   tutorialType: 2
   tutorialImage: {fileID: 0}
   manager: {fileID: 0}
@@ -11089,6 +11088,7 @@ GameObject:
   - component: {fileID: 684855992}
   - component: {fileID: 684855994}
   - component: {fileID: 684855993}
+  - component: {fileID: 684855995}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -11214,6 +11214,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 684855991}
   m_CullTransparentMesh: 1
+--- !u!114 &684855995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 684855991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee8a966452976084fb8abe0e44816210, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedTMP
+  key: LEAVE_WINDOW
 --- !u!1001 &706828142
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11606,6 +11619,7 @@ GameObject:
   - component: {fileID: 721838814}
   - component: {fileID: 721838816}
   - component: {fileID: 721838815}
+  - component: {fileID: 721838817}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -11629,8 +11643,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 1}
+  m_SizeDelta: {x: 0, y: -43.1648}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &721838815
 MonoBehaviour:
@@ -11731,6 +11745,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 721838813}
   m_CullTransparentMesh: 1
+--- !u!114 &721838817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 721838813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee8a966452976084fb8abe0e44816210, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedTMP
+  key: YES_LEAVE
 --- !u!1 &737498092
 GameObject:
   m_ObjectHideFlags: 0
@@ -12090,6 +12117,7 @@ GameObject:
   - component: {fileID: 765348733}
   - component: {fileID: 765348735}
   - component: {fileID: 765348734}
+  - component: {fileID: 765348736}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -12114,7 +12142,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: -41.2464}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &765348734
 MonoBehaviour:
@@ -12215,6 +12243,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 765348732}
   m_CullTransparentMesh: 1
+--- !u!114 &765348736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 765348732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee8a966452976084fb8abe0e44816210, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedTMP
+  key: CANCEL
 --- !u!1001 &778894520
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12465,6 +12506,7 @@ GameObject:
   - component: {fileID: 826132870}
   - component: {fileID: 826132872}
   - component: {fileID: 826132871}
+  - component: {fileID: 826132873}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -12488,8 +12530,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 15.3, y: -6.7}
-  m_SizeDelta: {x: 92.9252, y: 50}
+  m_AnchoredPosition: {x: 15.3, y: 1.4534}
+  m_SizeDelta: {x: 92.9252, y: 33.6933}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &826132871
 MonoBehaviour:
@@ -12590,6 +12632,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 826132869}
   m_CullTransparentMesh: 1
+--- !u!114 &826132873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 826132869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee8a966452976084fb8abe0e44816210, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedTMP
+  key: PAUSE
 --- !u!1 &830484391
 GameObject:
   m_ObjectHideFlags: 0
@@ -25263,6 +25318,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ExitConfirmation
   confirmationPanel: {fileID: 1862598345}
   sceneToLoad: OpenScene
+  resetRunDataForGuest: 1
 --- !u!95 &1728000959
 Animator:
   serializedVersion: 7
@@ -32367,6 +32423,7 @@ GameObject:
   - component: {fileID: 1820885772}
   - component: {fileID: 1820885771}
   - component: {fileID: 1820885770}
+  - component: {fileID: 1820885773}
   m_Layer: 0
   m_Name: StartText
   m_TagString: Untagged
@@ -32537,6 +32594,19 @@ RectTransform:
   m_AnchoredPosition: {x: -821.0294, y: 14.430317}
   m_SizeDelta: {x: 4.2322, y: 1.5857}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1820885773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1820885769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee8a966452976084fb8abe0e44816210, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedTMP
+  key: LEVEL_START_TEXT
 --- !u!1 &1835697688
 GameObject:
   m_ObjectHideFlags: 0

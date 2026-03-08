@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Localization-String-Tables-Hebrew (Israel) (he-IL)
+  m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
+  m_GroupName: Localization-String-Tables-Hebrew (Israel) (he-IL)
+  m_GUID: a517716678332704c81649b7bd11cc89
+  m_SerializeEntries:
+  - m_GUID: d2855e8e993a223479d1cb62329d29c5
+    m_Address: Tutorial_he-IL
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-he-IL
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 1
+  m_Settings: {fileID: 11400000, guid: 5ece005cefe68f64681892f61d2185a5, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 9ee0dc02d9b5e7549bb3dcf541a39621, type: 2}
+    - {fileID: 11400000, guid: 767e3529ce2324743b313ba2b37fe425, type: 2}

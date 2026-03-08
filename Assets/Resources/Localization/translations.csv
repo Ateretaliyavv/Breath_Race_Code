@@ -1,0 +1,84 @@
+﻿KEY,EN,HE
+TUT_BLOW_BALLOONS,"Exhale  for  blowing  up  the  balloons  and  collect  dimond.\n\nTo  continue,  press  'Enter'",נשוף להפרחת הבלונים ואסוף את היהלום המסתתר מאחוריהם. \nלהמשך לחץ 'Enter'
+TUT_BOARD_BALLOONS,"For  blowing  up  the  balloons  and  collect  dimond,  press  'SPACE'  on  keyboard","להפרחת הבלונים ואיסוף היהלום שמתחתיהם, לחץ 'רווח' במקלדת"
+TUT_BOARD_ABYSS,For  passing  the  abyss  press  continuously  'SPACE'  on  keyboard,"לחציית התהום, לחץ באופן ממושך על 'רווח' במקלדת"
+TUT_BOARD_WALL,"For  jumping  over  the  wall, press  continuously  'UP'  arrow  on  keyboard","לקפיצה ומעבר הקיר, לחץ 'למעלה' בחצי המקלדת"
+TUT_BOARD_BOX,"For  pushing  the  box  into  the  pit,  press  continuously  'SPACE'  on  keyboard","לדחיפת הקופסא לתוך הבור, לחץ באופן ממושך על 'רווח' במקלדת"
+BALLOONS_BOARD_SUP,"Scatter  the  balloons  off  the  screen  by  
+pressing  'Space'   
+on  keyboard",פזרו את הבלונים מהמסך \nעל ידי לחיצה ממושכת \nעל 'רווח' במקלדת.
+EXPAND_BALLOON_SUP,Inflate the balloon to explode,נפח את הבלון לגודל שבו יתפוצץ
+LEVEL_START_TEXT,"To start  
+press ENTER",להתחלת השלב \nלחץ 'ENTER'
+TUT_BUTTON,Tutorial,הדרכה
+LEVEL1_BUTTON,Level 1,שלב 1
+LEVEL2_BUTTON,Level 2,שלב 2
+LEVEL3_BUTTON,Level 3,שלב 3
+SURPRISE_BUTTON,surprise!,הפתעה!
+LEVEL,Level,שלב
+RETRIES,Retries,    נסיונות
+GOOD_JOB,Good Job♥,כל הכבוד♥
+SURPRISE_DOCTOR,You got a surprise from the doctor!!,זכית בהפתעה מהרופא!!
+SURPRISE_CHOCOLATE,You got a chocolate!!,זכית בשוקולד!!
+SURPRISE_ONE_MORE_GAME,You got one more game!!,זכית במשחק נוסף!!
+KEYBOARD,Keyboard,מקלדת
+BREATH_DEVICE,Breath trainer,מכשיר נשיפה
+WELCOME,Welcome\nChoose how to play:,ברוך הבא\nבחר דרך משחק:
+CONNECT_DEVICE,Press to connect device,לחץ לחיבור המכשיר
+CONNECT_DEVICE_BUTTON,Connect Breath Device (USB),חבר מכשיר נשיפה (USB)
+INFORMATION,Information,מידע
+GOAL,Goal:  Collect  5  lost  diamonds  and  return  them  to  the  treasure.,מטרה: לאסוף 5 יהלומים אבודים ולהחזיר אותם לתיבת האוצר
+OBSTACLES,Overcoming  obstacles  along  the  way:,                          מעבר מכשולים בדרך:
+JUMP,Jump - Press 'Up' / Blow strongly,            קפיצה- לחץ 'UP' \ נשוף בעצמה
+BUILD_BRIDGE,Build Bridge - Press 'Space' / Blow softly,בנית גשר - לחץ 'Space' \ נשוף חלש
+PUSH_BOX,Push Box - Press 'Space' / Blow softly,דחיפת קופסא - לחץ 'Space' \ נשוף חלש
+BLOW_BALLOONS,Blow balloons - Press 'Space' / Blow softly,הפרחת בלונים - לחץ 'Space' \ נשוף חלש
+GOOD_LUCK,Good Luck!♥,בהצלחה!♥
+HOME,Home,בית
+NEXT_LEVEL,Next Level,שלב הבא
+YOU_WIN,You Win!,ניצחת!
+TUT_WIN,"You crossed 1 bridge - 2 sc
+     pushed 1 cube - 2 sc
+      went over 1 wall - 4 power
+       collect        diamonds",חצית גשר 1 - 2 שניות  דחפת קובייה 1 - 2 שניות  עברת מעל קיר 1 - עצמה 4 \n  אספת          יהלומים
+TRY_AGAIN,try again♥,נסה שוב♥
+TUT_GAME_OVER,You collect        diamonds,אספת        יהלומים
+LEAVE_WINDOW,"Are  you  sure?
+ Level  progress  will  be  lost",אתה בטוח?\n נתוני  התקדמותך  בשלב  לא  ישמרו
+YES_LEAVE,Yes leave,"כן, צא"
+CANCEL,Cancel,בטל
+PAUSE,Pause,    עצור
+BLOW_STAGE_1,Exhale with strength    1,נשוף בעצמה                                                1
+BLOW_STAGE_3,Exhale with strength    3,נשוף בעצמה                                                3
+BLOW_STAGE_5,Exhale with strength    5,נשוף בעצמה                                                5
+TUT_BLOW_WALL,Exhale  strongly  for  jumping  over  the  wall\n\n\nTo  continue  press  'Enter',נשוף בעצמה לקפיצה מעל הקיר \n \n \n להמשך לחץ 'Enter'
+TUT_BLOW_ABYSS,"Exhale  for  passing  the  abyss, and  build  a  bridge\n\nTo  continue  press  'Enter'",נשוף נשיפה ארוכה למעבר התהום \n\n\n להמשך לחץ 'Enter'
+TUT_BLOW_BOX,Exhale  for  pushing  the  box  into  the  pit\n\n\nTo  continue  press  'Enter',נשוף נשיפה ארוכה לדחיפת הקופסא לבור \n\n להמשך לחץ 'Enter'
+NOT_BAD,Not Bad!,לא רע!♥
+CLOUD_LOADING,Loading…,טוען...
+CLOUD_INIT_FAILED,Cloud init failed,אתחול ענן נכשל
+CLOUD_GUEST_NOT_SAVED,Guest - The information is not saved,אורח/ת - המידע לא נשמר
+RESULT_DIAMONDS_RUN,Diamonds this run: {0},יהלומים בריצה הזו: {0}
+RESULT_BEST_DIAMONDS_LEVEL,Best diamonds (this level): {0},שיא יהלומים בשלב הזה: {0}
+LEVEL1_WIN,"You crossed 8 abyss - 2 sc
+      pushed 2 cubes - 2 sc
+                       went over 1 wall - 6 power","עברת 8 תהומות - 2 שניות, דחפת 2 קוביות - 2 שניות,\n קפצת מעל קיר 1 - עוצמה 6"
+LEVEL2_WIN,"You crossed 7 abyss - 5 sc
+    pushed 3 cubes - 5 sc
+                    went over 1 wall - 6 power","עברת 7 תהומות - 5 שניות, דחפת 3 קוביות - 5 שניות, \nקפצת מעל קיר 1 - עוצמה 6"
+YOU_CAN_DO_MORE,You can do more!,את\ה יכול יותר♥
+LEVEL3_WIN,"You crossed  4 abyss and pushed 4 cubes - 2 sc
+                10 abyss and 2 cubes - 4 sc
+               6 abyss and 2 cubes - 5 sc
+               7 abyss and 1 cube - 1.5 sc
+  went over 4 wall - 6 power
+                             4 wall - 8 power
+                             2 wall - 4 power","עברת 4 תהומות ודחפת 4 קוביות - 2 שניות, 10תהומות ו 2 קוביות - 4 שניות, 6 תהומות\n ו 2 קוביות - 5 שניות, 7 תהומות וקוביה - 1.5 שניות, קפצת מעל 4 קירות - \nעוצמה 6 , 4 קירות - עוצמה 8 , 2 קירות - עוצמה 4"
+VERY_CLOSE,very close!,קרוב מאוד♥
+BALLOONS_BLOW_SUP,Scatter  the  balloons  off  the  screen  by  gently  blowing,פזרו את הבלונים מהמסך\nעל ידי נשיפה עדינה
+SELECT_WORLD,Select World,בחר\י עולם
+SNOWY,Snowy,שלג
+SUNNY,Sunny,שמש
+,,
+START_GAME,Start game,התחל משחק
+START,Start,התחל

@@ -495,6 +495,7 @@ GameObject:
   - component: {fileID: 315170083}
   - component: {fileID: 315170085}
   - component: {fileID: 315170084}
+  - component: {fileID: 315170086}
   m_Layer: 5
   m_Name: Text (TMP) (1)
   m_TagString: Untagged
@@ -541,7 +542,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "You crossed 10 bridge - 5 sc\n    pushed 3 cubes - 5 sc\n                   
+  m_text: "You crossed 7 abyss - 5 sc\n    pushed 3 cubes - 5 sc\n                   
     went over 1 wall - 6 power\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 859e6a6304886164a8035be7d3874ce6, type: 2}
@@ -621,6 +622,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 315170082}
   m_CullTransparentMesh: 1
+--- !u!114 &315170086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 315170082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee8a966452976084fb8abe0e44816210, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedTMP
+  key: LEVEL2_WIN
 --- !u!1 &575145552
 GameObject:
   m_ObjectHideFlags: 0
@@ -632,6 +646,7 @@ GameObject:
   - component: {fileID: 575145553}
   - component: {fileID: 575145555}
   - component: {fileID: 575145554}
+  - component: {fileID: 575145556}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -653,10 +668,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1205804244}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.8862, y: 124}
-  m_SizeDelta: {x: 568.8325, y: 101.6277}
+  m_AnchorMin: {x: 0.5, y: 0.924}
+  m_AnchorMax: {x: 0.5, y: 0.924}
+  m_AnchoredPosition: {x: 2.8862, y: 0.89331055}
+  m_SizeDelta: {x: 568.8325, y: 29.841}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &575145554
 MonoBehaviour:
@@ -745,7 +760,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 3.818573, y: 0, z: 0, w: -19.38881}
+  m_margin: {x: 3.818573, y: 0, z: 0, w: 0.41440967}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -759,6 +774,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 575145552}
   m_CullTransparentMesh: 1
+--- !u!114 &575145556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 575145552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee8a966452976084fb8abe0e44816210, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedTMP
+  key: YOU_WIN
 --- !u!1 &576783865
 GameObject:
   m_ObjectHideFlags: 0
@@ -1008,6 +1036,7 @@ GameObject:
   - component: {fileID: 881123612}
   - component: {fileID: 881123611}
   - component: {fileID: 881123610}
+  - component: {fileID: 881123613}
   m_Layer: 5
   m_Name: CloudResults
   m_TagString: Untagged
@@ -1133,6 +1162,19 @@ RectTransform:
   m_AnchoredPosition: {x: 2.8849, y: 71}
   m_SizeDelta: {x: 568.83, y: 54.8798}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &881123613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 881123609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee8a966452976084fb8abe0e44816210, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedTMP
+  key: 
 --- !u!1 &886953609
 GameObject:
   m_ObjectHideFlags: 0
@@ -2046,6 +2088,7 @@ GameObject:
   - component: {fileID: 1703222909}
   - component: {fileID: 1703222911}
   - component: {fileID: 1703222910}
+  - component: {fileID: 1703222912}
   m_Layer: 4
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -2069,8 +2112,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -3}
-  m_SizeDelta: {x: 0, y: 8}
+  m_AnchoredPosition: {x: 0, y: -1}
+  m_SizeDelta: {x: 0, y: -34.0819}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1703222910
 MonoBehaviour:
@@ -2171,6 +2214,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1703222908}
   m_CullTransparentMesh: 1
+--- !u!114 &1703222912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1703222908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee8a966452976084fb8abe0e44816210, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedTMP
+  key: HOME
 --- !u!1 &1721749529
 GameObject:
   m_ObjectHideFlags: 0
@@ -2257,6 +2313,7 @@ GameObject:
   - component: {fileID: 1725090022}
   - component: {fileID: 1725090024}
   - component: {fileID: 1725090023}
+  - component: {fileID: 1725090025}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -2280,8 +2337,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0}
-  m_SizeDelta: {x: 0, y: 2.5}
+  m_AnchoredPosition: {x: 0, y: -1}
+  m_SizeDelta: {x: 0, y: -35.4561}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1725090023
 MonoBehaviour:
@@ -2382,6 +2439,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1725090021}
   m_CullTransparentMesh: 1
+--- !u!114 &1725090025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1725090021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee8a966452976084fb8abe0e44816210, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedTMP
+  key: NEXT_LEVEL
 --- !u!1 &2088189264
 GameObject:
   m_ObjectHideFlags: 0

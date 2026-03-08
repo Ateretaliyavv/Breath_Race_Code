@@ -677,6 +677,7 @@ GameObject:
   - component: {fileID: 78954575}
   - component: {fileID: 78954577}
   - component: {fileID: 78954576}
+  - component: {fileID: 78954578}
   m_Layer: 5
   m_Name: Explanation
   m_TagString: Untagged
@@ -802,6 +803,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 78954574}
   m_CullTransparentMesh: 1
+--- !u!114 &78954578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 78954574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee8a966452976084fb8abe0e44816210, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedTMP
+  key: 
 --- !u!1 &79572137
 GameObject:
   m_ObjectHideFlags: 0
@@ -1839,6 +1853,7 @@ GameObject:
   - component: {fileID: 371703434}
   - component: {fileID: 371703436}
   - component: {fileID: 371703435}
+  - component: {fileID: 371703437}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -1862,8 +1877,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -0}
+  m_SizeDelta: {x: 0, y: -45.12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &371703435
 MonoBehaviour:
@@ -1964,6 +1979,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 371703433}
   m_CullTransparentMesh: 1
+--- !u!114 &371703437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 371703433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee8a966452976084fb8abe0e44816210, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedTMP
+  key: YES_LEAVE
 --- !u!1 &373004902
 GameObject:
   m_ObjectHideFlags: 0
@@ -2010,11 +2038,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02ef09e33ac44384ab784165162ad558, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TutorialTrigger
-  instructions: 'Exhale  for  blowing  up  the  balloons  and  collect  dimond.
-
-
-    To 
-    continue,  press  ''Enter'''
+  instructionsKey: TUT_BLOW_BALLOONS
   tutorialType: 2
   tutorialImage: {fileID: 21300000, guid: e83c98fed5bdd454992beb7059f78d5a, type: 3}
   manager: {fileID: 7098816}
@@ -2637,6 +2661,7 @@ GameObject:
   - component: {fileID: 451164036}
   - component: {fileID: 451164038}
   - component: {fileID: 451164037}
+  - component: {fileID: 451164039}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -2660,8 +2685,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 15.3, y: -6.7}
-  m_SizeDelta: {x: 92.9252, y: 50}
+  m_AnchoredPosition: {x: 15.3, y: 0.4114}
+  m_SizeDelta: {x: 92.9252, y: 35.7773}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &451164037
 MonoBehaviour:
@@ -2762,6 +2787,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 451164035}
   m_CullTransparentMesh: 1
+--- !u!114 &451164039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 451164035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee8a966452976084fb8abe0e44816210, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedTMP
+  key: PAUSE
 --- !u!1 &457226042
 GameObject:
   m_ObjectHideFlags: 0
@@ -3094,6 +3132,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ExitConfirmation
   confirmationPanel: {fileID: 1175315081}
   sceneToLoad: OpenScene
+  resetRunDataForGuest: 1
 --- !u!114 &521362070
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3925,11 +3964,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02ef09e33ac44384ab784165162ad558, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TutorialTrigger
-  instructions: 'Exhale  for  passing  the  abyss, and  bild  a  bridge
-
-
-    To 
-    continue,  press  ''Enter'''
+  instructionsKey: TUT_BLOW_ABYSS
   tutorialType: 1
   tutorialImage: {fileID: 21300000, guid: e83c98fed5bdd454992beb7059f78d5a, type: 3}
   manager: {fileID: 7098816}
@@ -5642,11 +5677,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02ef09e33ac44384ab784165162ad558, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  instructions: 'Exhale  strongly  for  jumping  over  the  wall
-
-
-    To  continue, 
-    press  ''Enter'''
+  instructionsKey: TUT_BLOW_WALL
   tutorialType: 0
   tutorialImage: {fileID: 21300000, guid: e83c98fed5bdd454992beb7059f78d5a, type: 3}
   manager: {fileID: 7098816}
@@ -5969,11 +6000,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02ef09e33ac44384ab784165162ad558, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TutorialTrigger
-  instructions: 'Exhale  for  pushing  the  box  into  the  pit
-
-
-    To  continue, 
-    press  ''Enter'''
+  instructionsKey: TUT_BLOW_BOX
   tutorialType: 3
   tutorialImage: {fileID: 21300000, guid: e83c98fed5bdd454992beb7059f78d5a, type: 3}
   manager: {fileID: 7098816}
@@ -6106,6 +6133,7 @@ GameObject:
   - component: {fileID: 1137690527}
   - component: {fileID: 1137690529}
   - component: {fileID: 1137690528}
+  - component: {fileID: 1137690530}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -6231,6 +6259,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1137690526}
   m_CullTransparentMesh: 1
+--- !u!114 &1137690530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1137690526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee8a966452976084fb8abe0e44816210, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedTMP
+  key: LEAVE_WINDOW
 --- !u!1 &1158950575
 GameObject:
   m_ObjectHideFlags: 0
@@ -15161,6 +15202,7 @@ GameObject:
   - component: {fileID: 1858671181}
   - component: {fileID: 1858671180}
   - component: {fileID: 1858671179}
+  - component: {fileID: 1858671182}
   m_Layer: 0
   m_Name: StartText
   m_TagString: Untagged
@@ -15329,6 +15371,19 @@ RectTransform:
   m_AnchoredPosition: {x: -452.0631, y: -202.72942}
   m_SizeDelta: {x: 4.2322, y: 1.5857}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1858671182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1858671178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee8a966452976084fb8abe0e44816210, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedTMP
+  key: LEVEL_START_TEXT
 --- !u!1 &1859694481
 GameObject:
   m_ObjectHideFlags: 0
@@ -15598,6 +15653,7 @@ GameObject:
   - component: {fileID: 1984102470}
   - component: {fileID: 1984102472}
   - component: {fileID: 1984102471}
+  - component: {fileID: 1984102473}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -15621,8 +15677,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 1}
+  m_SizeDelta: {x: 0, y: -40.516}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1984102471
 MonoBehaviour:
@@ -15723,6 +15779,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1984102469}
   m_CullTransparentMesh: 1
+--- !u!114 &1984102473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1984102469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee8a966452976084fb8abe0e44816210, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedTMP
+  key: CANCEL
 --- !u!1 &1984586126
 GameObject:
   m_ObjectHideFlags: 0
@@ -16212,10 +16281,10 @@ MonoBehaviour:
   stage3Target: 5
   releaseThresholdKPa: 0.3
   successCloseDelay: 3
-  stage1Text: Exhale with strength     1
-  stage2Text: Exhale with strength     3
-  stage3Text: Exhale with strength     5
-  successText: Good Job!
+  stage1Key: BLOW_STAGE_1
+  stage2Key: BLOW_STAGE_3
+  stage3Key: BLOW_STAGE_5
+  successKey: GOOD_JOB
   moveScript: {fileID: 906930551}
   jumpScript: {fileID: 906930550}
   blowUpScript: {fileID: 906930557}

@@ -84,5 +84,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Level_1/Ice_Level/GameOver1_Ice.unity
     guid: 42f515364a15a5742896564346f2c9ef
   m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: b65b32d9e551af246892e015c1c7cb3b, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+    com.unity.localization.settings: {fileID: 11400000, guid: a243de782bf876e448a87559f5ded523, type: 2}
   m_UseUCBPForAssetBundles: 0

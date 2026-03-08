@@ -16,7 +16,7 @@ public class ResultSceneCloudSaver : MonoBehaviour
 
     private async void Start()
     {
-        if (statusText) statusText.text = "Loading..."; // Default text until cloud result is ready
+        if (statusText) statusText.text = TrFixed("CLOUD_LOADING");
         await SaveAndShowAsync();
     }
 
@@ -30,7 +30,7 @@ public class ResultSceneCloudSaver : MonoBehaviour
         catch (Exception e)
         {
             Debug.LogError("UnityServices init failed: " + e.Message);
-            if (statusText) statusText.text = "Cloud init failed.";
+            if (statusText) statusText.text = TrFixed("CLOUD_INIT_FAILED");
             return;
         }
 
@@ -83,7 +83,6 @@ public class ResultSceneCloudSaver : MonoBehaviour
 
         if (shouldSave)
         {
-            // Save as strings to match LoadAsync(Dictionary<string,string>)
             var data = new Dictionary<string, object>
             {
                 { bestDiamondsKey, finalBestDiamonds.ToString() },
@@ -97,7 +96,14 @@ public class ResultSceneCloudSaver : MonoBehaviour
             catch (Exception e)
             {
                 Debug.LogError("Cloud save failed: " + e.Message);
-                if (statusText) statusText.text = $"Diamonds this run: {runDiamonds}\n" + "Guest - The information is not saved";
+
+                if (statusText)
+                {
+                    // Show run result + guest notice via CSV templates.
+                    string line1 = TrFormat("RESULT_DIAMONDS_RUN", runDiamonds);
+                    string line2 = TrFixed("CLOUD_GUEST_NOT_SAVED");
+                    statusText.text = FixIfHebrew($"{line1}\n{line2}");
+                }
                 return;
             }
         }
@@ -106,10 +112,33 @@ public class ResultSceneCloudSaver : MonoBehaviour
 
         if (statusText)
         {
-            statusText.text =
-                $"Diamonds this run: {runDiamonds}\n" +
-                $"Best diamonds (this level): {bestDiamondsToShow}";
+            // Build message via CSV templates.
+            string line1 = TrFormat("RESULT_DIAMONDS_RUN", runDiamonds);
+            string line2 = TrFormat("RESULT_BEST_DIAMONDS_LEVEL", bestDiamondsToShow);
+            statusText.text = FixIfHebrew($"{line1}\n{line2}");
         }
+    }
+
+    // Format a localized template with args.
+    private string TrFormat(string key, params object[] args)
+    {
+        string template = (LocalizationManager.I != null) ? LocalizationManager.I.Tr(key) : $"#{key}";
+        string raw = string.Format(template, args);
+        return FixIfHebrew(raw);
+    }
+
+    // Get localized text and apply RTL fix if needed.
+    private string TrFixed(string key)
+    {
+        string raw = (LocalizationManager.I != null) ? LocalizationManager.I.Tr(key) : $"#{key}";
+        return FixIfHebrew(raw);
+    }
+
+    // Apply RTL fix only when Hebrew is selected.
+    private string FixIfHebrew(string raw)
+    {
+        bool isHebrew = (LocalizationManager.I != null && LocalizationManager.I.CurrentLang == Lang.HE);
+        return isHebrew ? RtlTextHelper.FixForceRTL(raw, fixTags: true, preserveNumbers: true) : raw;
     }
 
     private int GetInt(Dictionary<string, string> loaded, string key, int defaultValue)

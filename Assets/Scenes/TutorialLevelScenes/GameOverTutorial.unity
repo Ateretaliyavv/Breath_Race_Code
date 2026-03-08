@@ -632,6 +632,7 @@ GameObject:
   - component: {fileID: 315170085}
   - component: {fileID: 315170084}
   - component: {fileID: 315170086}
+  - component: {fileID: 315170087}
   m_Layer: 5
   m_Name: Text (TMP) (1)
   m_TagString: Untagged
@@ -653,10 +654,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1205804244}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 23.292, y: 0.0000019073}
-  m_SizeDelta: {x: 669.5188, y: 101.6277}
+  m_AnchorMin: {x: 0.5275001, y: 0.64133996}
+  m_AnchorMax: {x: 0.5275001, y: 0.64133996}
+  m_AnchoredPosition: {x: 1.2919998, y: -6.5438004}
+  m_SizeDelta: {x: 669.5188, y: 8.7153}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &315170084
 MonoBehaviour:
@@ -743,7 +744,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -39.33264, y: 0, z: -24.341888, w: -19.38881}
+  m_margin: {x: -39.33264, y: 0, z: -24.341888, w: 1.7995796}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -770,6 +771,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameOverStars
   starsText: {fileID: 125431439}
+--- !u!114 &315170087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 315170082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee8a966452976084fb8abe0e44816210, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedTMP
+  key: TUT_GAME_OVER
 --- !u!1 &575145552
 GameObject:
   m_ObjectHideFlags: 0
@@ -781,6 +795,7 @@ GameObject:
   - component: {fileID: 575145553}
   - component: {fileID: 575145555}
   - component: {fileID: 575145554}
+  - component: {fileID: 575145556}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -804,8 +819,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.8862, y: 113}
-  m_SizeDelta: {x: 568.8325, y: 101.6277}
+  m_AnchoredPosition: {x: 2.8862, y: 130.157}
+  m_SizeDelta: {x: 568.8325, y: 67.3137}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &575145554
 MonoBehaviour:
@@ -906,6 +921,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 575145552}
   m_CullTransparentMesh: 1
+--- !u!114 &575145556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 575145552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee8a966452976084fb8abe0e44816210, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedTMP
+  key: TRY_AGAIN
 --- !u!1 &576783865
 GameObject:
   m_ObjectHideFlags: 0
@@ -1987,6 +2015,7 @@ GameObject:
   - component: {fileID: 1703222909}
   - component: {fileID: 1703222911}
   - component: {fileID: 1703222910}
+  - component: {fileID: 1703222912}
   m_Layer: 4
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -2011,7 +2040,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -1}
-  m_SizeDelta: {x: 0, y: 8}
+  m_SizeDelta: {x: 0, y: -34.0346}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1703222910
 MonoBehaviour:
@@ -2112,6 +2141,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1703222908}
   m_CullTransparentMesh: 1
+--- !u!114 &1703222912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1703222908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee8a966452976084fb8abe0e44816210, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedTMP
+  key: HOME
 --- !u!1 &1725090021
 GameObject:
   m_ObjectHideFlags: 0
@@ -2123,6 +2165,7 @@ GameObject:
   - component: {fileID: 1725090022}
   - component: {fileID: 1725090024}
   - component: {fileID: 1725090023}
+  - component: {fileID: 1725090025}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -2146,8 +2189,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -1}
-  m_SizeDelta: {x: 0, y: 2.5}
+  m_AnchoredPosition: {x: 0, y: 1}
+  m_SizeDelta: {x: 0, y: -35.2454}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1725090023
 MonoBehaviour:
@@ -2248,6 +2291,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1725090021}
   m_CullTransparentMesh: 1
+--- !u!114 &1725090025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1725090021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee8a966452976084fb8abe0e44816210, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedTMP
+  key: TRY_AGAIN
 --- !u!1 &2113735289
 GameObject:
   m_ObjectHideFlags: 0
@@ -2282,8 +2338,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 123, y: -12.96}
-  m_SizeDelta: {x: 95.8098, y: 96.85}
+  m_AnchoredPosition: {x: 115.475, y: -20.0889}
+  m_SizeDelta: {x: 80.7598, y: 82.5922}
   m_Pivot: {x: 0.50000006, y: 0.5}
 --- !u!114 &2113735291
 MonoBehaviour:
