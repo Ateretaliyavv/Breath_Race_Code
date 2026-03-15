@@ -1,29 +1,29 @@
 using TMPro;
 using UnityEngine;
 
+// Passes the player name as a dynamic argument to the localized welcome text.
 public class DisplayPlayerName : MonoBehaviour
 {
-    // Reference to the TextMeshPro component where the message will be displayed
     [SerializeField] private TextMeshProUGUI welcomeText;
 
-    void Start()
+    private LocalizedTMP localizedTmp;
+
+    // Caches the LocalizedTMP component from the target text object.
+    private void Awake()
     {
-        // Retrieve the username saved during the login process
-        // (The LoginManager script stored this in the static LevelProgressData class)
+        if (welcomeText != null)
+            localizedTmp = welcomeText.GetComponent<LocalizedTMP>();
+    }
+
+    // Reads the saved player name and sends it to the localized text component.
+    private void Start()
+    {
         string name = LevelProgressData.Username;
 
-        // Check if the name is empty or null (e.g., if you started this scene directly without logging in)
-        // If so, default to "Player"
         if (string.IsNullOrEmpty(name))
-        {
             name = "";
-        }
 
-        // Update the text on the screen
-        // "\n" creates a new line to match your design layout
-        if (welcomeText != null)
-        {
-            welcomeText.text = $"WELCOME {name}\nCHOOSE HOW TO PLAY:";
-        }
+        if (localizedTmp != null)
+            localizedTmp.SetArgs(name);
     }
 }

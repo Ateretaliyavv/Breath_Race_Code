@@ -23,16 +23,16 @@ SURPRISE_CHOCOLATE,You got a chocolate!!,זכית בשוקולד!!
 SURPRISE_ONE_MORE_GAME,You got one more game!!,זכית במשחק נוסף!!
 KEYBOARD,Keyboard,מקלדת
 BREATH_DEVICE,Breath trainer,מכשיר נשיפה
-WELCOME,Welcome\nChoose how to play:,ברוך הבא\nבחר דרך משחק:
+WELCOME,Welcome {0}\nChoose how to play:,ברוך הבא {0}\nבחר דרך משחק:
 CONNECT_DEVICE,Press to connect device,לחץ לחיבור המכשיר
 CONNECT_DEVICE_BUTTON,Connect Breath Device (USB),חבר מכשיר נשיפה (USB)
 INFORMATION,Information,מידע
 GOAL,Goal:  Collect  5  lost  diamonds  and  return  them  to  the  treasure.,מטרה: לאסוף 5 יהלומים אבודים ולהחזיר אותם לתיבת האוצר
 OBSTACLES,Overcoming  obstacles  along  the  way:,                          מעבר מכשולים בדרך:
-JUMP,Jump - Press 'Up' / Blow strongly,            קפיצה- לחץ 'UP' \ נשוף בעצמה
-BUILD_BRIDGE,Build Bridge - Press 'Space' / Blow softly,בנית גשר - לחץ 'Space' \ נשוף חלש
-PUSH_BOX,Push Box - Press 'Space' / Blow softly,דחיפת קופסא - לחץ 'Space' \ נשוף חלש
-BLOW_BALLOONS,Blow balloons - Press 'Space' / Blow softly,הפרחת בלונים - לחץ 'Space' \ נשוף חלש
+JUMP,Jump - Press 'Up' / Blow strongly,        קפיצה- לחץ 'חץ למעלה' \ נשוף בעצמה
+BUILD_BRIDGE,Build Bridge - Press 'Space' / Blow softly,בנית גשר - לחץ 'רווח' \ נשוף חלש
+PUSH_BOX,Push Box - Press 'Space' / Blow softly,דחיפת קופסא - לחץ 'רווח' \ נשוף חלש
+BLOW_BALLOONS,Blow balloons - Press 'Space' / Blow softly,הפרחת בלונים - לחץ 'רווח' \ נשוף חלש
 GOOD_LUCK,Good Luck!♥,בהצלחה!♥
 HOME,Home,בית
 NEXT_LEVEL,Next Level,שלב הבא
@@ -82,3 +82,7 @@ SUNNY,Sunny,שמש
 ,,
 START_GAME,Start game,התחל משחק
 START,Start,התחל
+REGISTER,Register,הרשמה
+LOGIN,Log in,כניסה
+GUEST,Guest,אורח
+USER_NAME,User name,שם משתמש
