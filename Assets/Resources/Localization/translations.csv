@@ -86,3 +86,5 @@ REGISTER,Register,הרשמה
 LOGIN,Log in,כניסה
 GUEST,Guest,אורח
 USER_NAME,User name,שם משתמש
+TUT_BLOW_FLAG,"Flag - Obstacle  reached,  Start  exhalin. \nTo  continue,  press  'Enter'","דגל - הגעת למכשול, התחל לנשוף. \nלהמשך לחץ 'Enter'"
+TUT_BOARD_FLAG,"Flag - Obstacle  reached,  Start  pressing. \nTo  continue,  press  'Space'","דגל - הגעת למכשול, התחל ללחוץ. \nלהמשך לחץ 'Space'"

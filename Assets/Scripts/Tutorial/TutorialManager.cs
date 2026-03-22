@@ -27,6 +27,8 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private Key bridgeKey = Key.Space;
     [SerializeField] private Key blowUpKey = Key.Space;
     [SerializeField] private Key pushKey = Key.Space;
+    [SerializeField] private Key FlagKey = Key.Space;
+
 
     // Internal state variables
     private MonoBehaviour scriptToUnlock;
@@ -71,6 +73,11 @@ public class TutorialManager : MonoBehaviour
         // 2. Configure the key to wait for and the script to unlock
         switch (type)
         {
+            case TutorialType.Flag:
+                scriptToUnlock = null;
+                keyToWaitFor = FlagKey;
+                break;
+
             case TutorialType.Jump:
                 scriptToUnlock = jumpScript;
                 keyToWaitFor = jumpKey;
@@ -170,5 +177,6 @@ public enum TutorialType
     Jump,
     Bridge,
     BlowUp,
-    PushBox
+    PushBox,
+    Flag
 }
