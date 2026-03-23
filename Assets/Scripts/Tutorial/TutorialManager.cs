@@ -15,11 +15,7 @@ public class TutorialManager : MonoBehaviour
     [Header("UI References")]
     [SerializeField] private GameObject tutorialPanel;
     [SerializeField] private TextMeshProUGUI tutorialText;
-
-    // Drag your UI Image object from the Canvas here
     [SerializeField] private Image tutorialImageDisplay;
-
-    [SerializeField] private Button confirmButton;
     [SerializeField] private TextMeshProUGUI promptText;
 
     [Header("Input Settings (New System)")]
@@ -27,57 +23,115 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private Key bridgeKey = Key.Space;
     [SerializeField] private Key blowUpKey = Key.Space;
     [SerializeField] private Key pushKey = Key.Space;
-    [SerializeField] private Key FlagKey = Key.Space;
+    [SerializeField] private Key nextKey = Key.Space;
 
-
-    // Internal state variables
+    private string[] currentMessages;
+    private int currentStep = 0;
     private MonoBehaviour scriptToUnlock;
-    private Key keyToWaitFor;
     private bool isTutorialActive = false;
+    private Key keyToWaitFor;
 
     private void Start()
     {
         if (tutorialPanel != null)
             tutorialPanel.SetActive(false);
-
-        if (confirmButton != null)
-            confirmButton.gameObject.SetActive(false);
     }
 
     private void Update()
     {
         if (isTutorialActive)
         {
-            // Check if Keyboard is connected to prevent errors
             if (Keyboard.current == null) return;
 
-            // Check if the specific key was pressed in this frame
             if (Keyboard.current[keyToWaitFor].wasPressedThisFrame)
             {
-                CloseTutorial();
+                ShowNextStep();
             }
         }
     }
 
-    // Updated method signature to accept the Sprite image
-    public void TriggerTutorial(string message, TutorialType type, Sprite image)
+    public void TriggerTutorial(string[] messages, TutorialType type, Sprite image)
     {
-        // 1. Disable player controls
-        // Added null checks to prevent errors if a script is missing
-        if (moveScript) moveScript.enabled = false;
-        if (jumpScript) jumpScript.enabled = false;
-        if (blowUpScript) blowUpScript.enabled = false;
-        if (bridgeScript) bridgeScript.enabled = false;
-        if (pushBox) pushBox.enabled = false;
+        currentMessages = messages;
+        currentStep = 0;
 
-        // 2. Configure the key to wait for and the script to unlock
+        TogglePlayerControl(false);
+        ConfigureTutorialType(type);
+        DisplayCurrentStep(image);
+
+        if (tutorialPanel != null)
+            tutorialPanel.SetActive(true);
+
+        isTutorialActive = true;
+    }
+
+    private void DisplayCurrentStep(Sprite image)
+    {
+        if (currentMessages == null || currentStep >= currentMessages.Length) return;
+
+        string message = currentMessages[currentStep];
+        bool isHebrew = (LocalizationManager.I != null && LocalizationManager.I.CurrentLang == Lang.HE);
+
+        tutorialText.text = isHebrew
+            ? RtlTextHelper.FixForceRTL(message, fixTags: true, preserveNumbers: true)
+            : message;
+
+        tutorialText.isRightToLeftText = isHebrew;
+
+        if (tutorialImageDisplay != null)
+        {
+            tutorialImageDisplay.sprite = image;
+            tutorialImageDisplay.gameObject.SetActive(image != null);
+        }
+
+        if (promptText != null)
+
+        {
+            string nextAction = (currentStep < currentMessages.Length - 1) ? "Next" : "Finish";
+            promptText.text = $"Press {nextKey} to {nextAction}";
+        }
+    }
+
+    private void ShowNextStep()
+    {
+        currentStep++;
+
+        if (currentStep < currentMessages.Length)
+        {
+            DisplayCurrentStep(tutorialImageDisplay.sprite);
+        }
+        else
+        {
+            CloseTutorial();
+        }
+    }
+
+    private void CloseTutorial()
+    {
+        isTutorialActive = false;
+
+        if (tutorialPanel != null)
+            tutorialPanel.SetActive(false);
+
+        TogglePlayerControl(true);
+
+        if (scriptToUnlock != null)
+            scriptToUnlock.enabled = true;
+    }
+
+    private void TogglePlayerControl(bool state)
+    {
+        if (moveScript) { moveScript.enabled = state; if (state) moveScript.isPressedUI = true; }
+        if (jumpScript) jumpScript.enabled = state;
+        if (blowUpScript) blowUpScript.enabled = state;
+        if (bridgeScript) bridgeScript.enabled = state;
+        if (pushBox) pushBox.enabled = state;
+    }
+
+    private void ConfigureTutorialType(TutorialType type)
+    {
         switch (type)
         {
-            case TutorialType.Flag:
-                scriptToUnlock = null;
-                keyToWaitFor = FlagKey;
-                break;
-
             case TutorialType.Jump:
                 scriptToUnlock = jumpScript;
                 keyToWaitFor = jumpKey;
@@ -94,84 +148,15 @@ public class TutorialManager : MonoBehaviour
                 scriptToUnlock = pushBox;
                 keyToWaitFor = pushKey;
                 break;
-        }
-
-        // 3. Update the UI Text
-        if (tutorialText != null)
-        {
-            bool isHebrew = (LocalizationManager.I != null && LocalizationManager.I.CurrentLang == Lang.HE);
-
-            tutorialText.text = isHebrew
-                ? RtlTextHelper.FixForceRTL(message, fixTags: true, preserveNumbers: true)
-                : message;
-
-            tutorialText.isRightToLeftText = isHebrew;
-
-            // אם את רוצה: ליישר Right/Left רק אם הטקסט מוגדר כרגע Left/Right (לא לשבור Center)
-            if (tutorialText.alignment == TMPro.TextAlignmentOptions.Left ||
-                tutorialText.alignment == TMPro.TextAlignmentOptions.TopLeft ||
-                tutorialText.alignment == TMPro.TextAlignmentOptions.BottomLeft ||
-                tutorialText.alignment == TMPro.TextAlignmentOptions.Right ||
-                tutorialText.alignment == TMPro.TextAlignmentOptions.TopRight ||
-                tutorialText.alignment == TMPro.TextAlignmentOptions.BottomRight)
-            {
-                tutorialText.alignment = isHebrew
-                    ? TMPro.TextAlignmentOptions.Right
-                    : TMPro.TextAlignmentOptions.Left;
-            }
-        }
-
-        if (promptText != null)
-            promptText.text = "Press " + keyToWaitFor.ToString() + " to continue";
-
-        // --- New Logic: Handle the Image ---
-        if (tutorialImageDisplay != null)
-        {
-            if (image != null)
-            {
-                // If an image was provided, assign it and show the UI element
-                tutorialImageDisplay.sprite = image;
-                tutorialImageDisplay.gameObject.SetActive(true);
-
-                // Optional: Preserves aspect ratio so the image doesn't look stretched
-                tutorialImageDisplay.preserveAspect = true;
-            }
-            else
-            {
-                // If no image is provided, hide the Image UI component
-                tutorialImageDisplay.gameObject.SetActive(false);
-            }
-        }
-
-        // 4. Show the panel
-        if (tutorialPanel != null)
-            tutorialPanel.SetActive(true);
-
-        isTutorialActive = true;
-    }
-
-    private void CloseTutorial()
-    {
-        isTutorialActive = false;
-
-        if (tutorialPanel != null)
-            tutorialPanel.SetActive(false);
-
-        // Return control to the player
-        if (moveScript)
-        {
-            moveScript.isPressedUI = true;
-            moveScript.enabled = true;
-        }
-
-        if (scriptToUnlock != null)
-        {
-            scriptToUnlock.enabled = true;
+            default:
+                scriptToUnlock = null;
+                keyToWaitFor = nextKey;
+                break;
         }
     }
 }
 
-// Enum to easily select the tutorial type in the Inspector
+// KEEP THIS HERE, BUT DELETE IT FROM OTHER SCRIPTS
 public enum TutorialType
 {
     Jump,

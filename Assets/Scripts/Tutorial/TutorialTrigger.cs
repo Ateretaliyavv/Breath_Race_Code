@@ -3,10 +3,8 @@ using UnityEngine;
 public class TutorialTrigger : MonoBehaviour
 {
     [Header("Tutorial Settings")]
-    [TextArea]
-    public string instructionsKey;
+    public string[] instructionsKeys;
     public TutorialType tutorialType;
-
     public Sprite tutorialImage;
 
     [Header("Manager Reference")]
@@ -20,12 +18,18 @@ public class TutorialTrigger : MonoBehaviour
 
         if (other.CompareTag("Player"))
         {
-            hasTriggered = true;
-
             if (manager != null)
             {
-                string text = LocalizationManager.I.Tr(instructionsKey);
-                manager.TriggerTutorial(text, tutorialType, tutorialImage);
+                hasTriggered = true;
+
+                string[] translatedMessages = new string[instructionsKeys.Length];
+
+                for (int i = 0; i < instructionsKeys.Length; i++)
+                {
+                    translatedMessages[i] = LocalizationManager.I.Tr(instructionsKeys[i]);
+                }
+
+                manager.TriggerTutorial(translatedMessages, tutorialType, tutorialImage);
             }
             else
             {
