@@ -390,4 +390,9 @@ public class BridgeBuilder : MonoBehaviour
 
         pieces.Clear();
     }
+
+    public void SetBreathThreshold(float value)
+    {
+        breathThresholdKPa = value;
+    }
 }

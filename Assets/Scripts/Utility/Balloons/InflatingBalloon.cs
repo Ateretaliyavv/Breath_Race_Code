@@ -199,4 +199,10 @@ public class InflatingBalloon : MonoBehaviour
         if (audioSource != null && audioSource.isPlaying)
             audioSource.Stop();
     }
+
+    // Called by the settings system to update the breath threshold at runtime.
+    public void SetBreathThreshold(float value)
+    {
+        breathThresholdKPa = value;
+    }
 }

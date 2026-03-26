@@ -171,4 +171,10 @@ public class SimpleBlow : MonoBehaviour
         else if (!breathStrong && isBlowing)
             StopBlow();
     }
+
+    // Called by the settings system to update the breath threshold at runtime.
+    public void SetBreathThreshold(float value)
+    {
+        breathThresholdKPa = value;
+    }
 }

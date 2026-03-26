@@ -207,4 +207,9 @@ public class PushBox : MonoBehaviour
             currentBoxRb = null;
         }
     }
+
+    public void SetBreathThreshold(float value)
+    {
+        breathThresholdKPa = value;
+    }
 }

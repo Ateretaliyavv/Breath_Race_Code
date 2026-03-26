@@ -315,4 +315,9 @@ public class BlowUpBalloons : MonoBehaviour
 
         return false;
     }
+
+    public void SetBreathThreshold(float value)
+    {
+        breathThresholdKPa = value;
+    }
 }
